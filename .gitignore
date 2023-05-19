@@ -1,0 +1,5 @@
+/vendor/
+/*.cache
+/.vscode
+/coverage
+/composer.lock

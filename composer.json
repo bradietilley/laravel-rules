@@ -1,0 +1,39 @@
+{
+    "name": "bradietilley/skeleton",
+    "description": "Blank skeleton repo",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "BradieTilley\\Skeleton\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Bradie Tilley",
+            "homepage": "https://github.com/bradietilley"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "illuminate/support": "^10.0",
+        "illuminate/container": "^10.0"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^6.1.5",
+        "laravel/pint": "^1.0",
+        "pestphp/pest": "^2.0",
+        "phpstan/phpstan": "^1.8"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
