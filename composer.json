@@ -1,11 +1,11 @@
 {
-    "name": "bradietilley/skeleton",
-    "description": "Blank skeleton repo",
+    "name": "bradietilley/rules",
+    "description": "Laravel Rules",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "BradieTilley\\Skeleton\\": "src/"
+            "BradieTilley\\Rules\\": "src/"
         }
     },
     "autoload-dev": {
@@ -29,7 +29,8 @@
         "symfony/var-dumper": "^6.1.5",
         "laravel/pint": "^1.0",
         "pestphp/pest": "^2.0",
-        "phpstan/phpstan": "^1.8"
+        "phpstan/phpstan": "^1.8",
+        "orchestra/testbench": "^8.5"
     },
     "config": {
         "allow-plugins": {

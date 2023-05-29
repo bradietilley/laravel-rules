@@ -1,26 +1,26 @@
 # Pest Stories
 
-Skeleton
+Rules
 
-![Static Analysis](https://github.com/bradietilley/skeleton/actions/workflows/static.yml/badge.svg)
-![Tests](https://github.com/bradietilley/skeleton/actions/workflows/tests.yml/badge.svg)
+![Static Analysis](https://github.com/bradietilley/rules/actions/workflows/static.yml/badge.svg)
+![Tests](https://github.com/bradietilley/rules/actions/workflows/tests.yml/badge.svg)
 
 
 ## Introduction
 
-Skeleton
+Rules
 
 
 ## Installation
 
 ```
-composer require bradietilley/skeleton
+composer require bradietilley/rules
 ```
 
 
 ## Documentation
 
-Skeleton
+Rules
 
 
 ## Author
