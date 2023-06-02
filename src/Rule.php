@@ -6,14 +6,17 @@ use DateTimeInterface;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Validation\Rule as RuleContract;
 use Illuminate\Contracts\Validation\ValidationRule as ValidationRuleContract;
+use Illuminate\Support\Traits\Conditionable;
+use Illuminate\Support\Traits\Macroable;
 use Iterator;
 
 class Rule implements Iterator, Arrayable
 {
-    use Concerns\AssertsRules;
     use Concerns\CoreRules;
     use Concerns\CreatesRules;
     use Concerns\IteratesRules;
+    use Conditionable;
+    use Macroable;
 
     /**
      * @var array<string|ValidationRuleContract|RuleContract>
@@ -72,16 +75,15 @@ class Rule implements Iterator, Arrayable
 
     /**
      * Add a rule
-     * 
+     *
      * @return $this
      */
-    protected function rule(string|ValidationRuleContract|RuleContract|null $rule): self
+    public function rule(string|ValidationRuleContract|RuleContract|null $rule): self
     {
         if ($rule === null) {
             return $this;
         }
 
-        self::pushHistory($this, $rule);
         $this->rules[] = $rule;
 
         return $this;
