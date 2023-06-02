@@ -14,6 +14,7 @@ use BradieTilley\Rules\Rule as Base;
  * @method static Base nullable(string $field = null)
  * @method static Base required(string $field = null)
  * @method static Base sometimes(string $field = null)
+ * @method static void assertApplied(string $field, string $rule = null, Closure $callback = null)
  *
  * @see Base
  */
