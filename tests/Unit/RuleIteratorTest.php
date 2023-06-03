@@ -1,10 +1,24 @@
 <?php
 
 use BradieTilley\Rules\Facades\Rule;
+use Tests\Fixtures\AnExampleRuleImplementsInvokableRule;
+use Tests\Fixtures\AnExampleRuleImplementsRule;
+use Tests\Fixtures\AnExampleRuleImplementsValidationRule;
 
 test('rules can be iterated', function () {
     $rule = Rule::make();
-    $rule->required()->string()->min(5)->max(255);
+
+    $testValidationRule = new AnExampleRuleImplementsValidationRule();
+    $testInvokableRule = new AnExampleRuleImplementsInvokableRule();
+    $testRule = new AnExampleRuleImplementsRule();
+
+    $rule->required()
+        ->string()
+        ->min(5)
+        ->max(255)
+        ->rule($testValidationRule)
+        ->rule($testInvokableRule)
+        ->rule($testRule);
 
     $actual = [];
 
@@ -17,5 +31,8 @@ test('rules can be iterated', function () {
         'string',
         'min:5',
         'max:255',
+        $testValidationRule,
+        $testInvokableRule,
+        $testRule,
     ]);
 });

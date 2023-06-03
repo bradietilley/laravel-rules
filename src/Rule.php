@@ -4,6 +4,7 @@ namespace BradieTilley\Rules;
 
 use DateTimeInterface;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Validation\InvokableRule as InvokableRuleContract;
 use Illuminate\Contracts\Validation\Rule as RuleContract;
 use Illuminate\Contracts\Validation\ValidationRule as ValidationRuleContract;
 use Illuminate\Support\Traits\Macroable;
@@ -18,7 +19,7 @@ class Rule implements Iterator, Arrayable
     use Macroable;
 
     /**
-     * @var array<string|ValidationRuleContract|RuleContract>
+     * @var array<string|InvokableRuleContract|RuleContract|ValidationRuleContract>
      */
     protected array $rules = [];
 
@@ -77,10 +78,14 @@ class Rule implements Iterator, Arrayable
      *
      * @return $this
      */
-    public function rule(string|ValidationRuleContract|RuleContract|null $rule): self
+    public function rule(string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|null $rule): self
     {
         if ($rule === null) {
             return $this;
+        }
+
+        if ($rule instanceof Rule) {
+            return $this->merge($rule);
         }
 
         $this->rules[] = $rule;
@@ -126,7 +131,7 @@ class Rule implements Iterator, Arrayable
     /**
      * Cast the rule to array form, returning the underling rules
      *
-     * @return array<string|ValidationRuleContract|RuleContract>
+     * @return array<string|InvokableRuleContract|RuleContract|ValidationRuleContract>
      */
     public function toArray(): array
     {
