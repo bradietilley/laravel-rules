@@ -8,8 +8,8 @@ test('you can add conditionable logic to the rule class', function (string $meth
         ->string()
         ->{$method}(
             $condition,
-            fn (Rule $rule) => $rule->min(1)->max(10),
-            fn (Rule $rule) => $rule->min(2)->max(9),
+            Rule::make()->min(1)->max(10),
+            Rule::make()->min(2)->max(9),
         );
 
     expect($rule)->toBeInstanceOf(Rule::class)

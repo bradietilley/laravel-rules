@@ -6,7 +6,6 @@ use DateTimeInterface;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Validation\Rule as RuleContract;
 use Illuminate\Contracts\Validation\ValidationRule as ValidationRuleContract;
-use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
 use Iterator;
 
@@ -15,7 +14,7 @@ class Rule implements Iterator, Arrayable
     use Concerns\CoreRules;
     use Concerns\CreatesRules;
     use Concerns\IteratesRules;
-    use Conditionable;
+    use Concerns\ConditionableRules;
     use Macroable;
 
     /**
@@ -125,10 +124,26 @@ class Rule implements Iterator, Arrayable
     }
 
     /**
+     * Cast the rule to array form, returning the underling rules
+     *
      * @return array<string|ValidationRuleContract|RuleContract>
      */
     public function toArray(): array
     {
         return $this->rules;
+    }
+
+    /**
+     * Merge the given Rule's underlying rules with this Rule.
+     *
+     * @return $this
+     */
+    public function merge(?Rule $rule): self
+    {
+        if ($rule !== null) {
+            $this->rules = array_merge($this->rules, $rule->toArray());
+        }
+
+        return $this;
     }
 }
