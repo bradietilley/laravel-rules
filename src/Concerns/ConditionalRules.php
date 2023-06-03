@@ -7,7 +7,9 @@ use Closure;
 
 /**
  * Easily add conditional rules to the current rule object based
- * on a given condition.
+ * on a given condition. Matches a similar signature to Laravel's
+ * Conditionable trait except it accepts Rule objects instead of
+ * closures for the callback/default parameters.
  *
  * Example:
  *
