@@ -54,6 +54,8 @@ class Rule implements Iterator, Arrayable
     {
         if ($field !== null) {
             $this->field = $field;
+
+            return $this;
         }
 
         return $this->field;
