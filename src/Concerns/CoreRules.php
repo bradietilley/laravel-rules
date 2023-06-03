@@ -3,9 +3,12 @@
 namespace BradieTilley\Rules\Concerns;
 
 use BradieTilley\Rules\Rule;
+use Closure;
 use DateTimeInterface;
 use Illuminate\Validation\Rule as RuleClass;
 use Illuminate\Validation\Rules\Dimensions;
+use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rules\ExcludeIf;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rules\ProhibitedIf;
@@ -357,9 +360,9 @@ trait CoreRules
      * @return $this
      * @link https://laravel.com/docs/master/validation#rule-enum
      */
-    public function enum(string $enum): self
+    public function enum(string|Enum $enum): self
     {
-        return $this->rule(RuleClass::enum($enum));
+        return $this->rule($enum instanceof Enum ? $enum : RuleClass::enum($enum));
     }
 
     /**
@@ -377,13 +380,12 @@ trait CoreRules
     }
 
     /**
-     * @param  callable|bool  $condition
      * @return $this
      * @link https://laravel.com/docs/master/validation#rule-exclude-if
      */
-    public function excludeIf($condition): self
+    public function excludeIf(callable|bool|ExcludeIf $condition): self
     {
-        return $this->rule(RuleClass::excludeIf($condition));
+        return $this->rule($condition instanceof ExcludeIf ? $condition : RuleClass::excludeIf($condition));
     }
 
     /**
@@ -477,7 +479,7 @@ trait CoreRules
      * @return $this
      * @link https://laravel.com/docs/master/validation#rule-greater-than
      */
-    public function greaterThan(string $field): self
+    public function gt(string $field): self
     {
         return $this->rule('gt:'.$field);
     }
@@ -486,7 +488,7 @@ trait CoreRules
      * @return $this
      * @link https://laravel.com/docs/master/validation#rule-greater-than-or-equal
      */
-    public function greaterThanOrEqual(string $field): self
+    public function gte(string $field): self
     {
         return $this->rule('gte:'.$field);
     }
@@ -901,10 +903,10 @@ trait CoreRules
      * @link https://laravel.com/docs/master/validation#rule-required-if
      */
     public function requiredIf(
-        string|bool|RequiredIf $condition = null,
+        string|bool|RequiredIf|Closure $condition = null,
         string ...$fieldsAndValues
     ): self {
-        if (is_bool($condition)) {
+        if (is_bool($condition) || $condition instanceof Closure) {
             $condition = new RequiredIf($condition);
         }
 
@@ -924,9 +926,13 @@ trait CoreRules
      * @link https://laravel.com/docs/master/validation#rule-required-unless
      */
     public function requiredUnless(
-        string|bool $condition = null,
+        string|bool|Closure $condition = null,
         string ...$fieldsAndValues
     ): self {
+        if ($condition instanceof Closure) {
+            $condition = !! $condition();
+        }
+
         if (is_bool($condition)) {
             return $this->requiredIf(! $condition);
         }
