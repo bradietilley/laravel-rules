@@ -22,23 +22,13 @@ composer require bradietilley/rules
 
 Rules can be fairly performance friendly with an approximated 5-10% overhead compared to standard array-based validation rules.
 
-You can also use the `Rule` facade, however if performance is ideal then it'e recommended not to use it.
-
 ```php
 use BradieTilley\Rules\Rule;
 
 Rule::make()->required()->string();
 ```
 
-vs
-
-```
-use BradieTilley\Rules\Facades\Rule;
-
-Rule::required()->string();
-```
-
-Both produce a ruleset of:
+Which produces a ruleset of the following when passed to a `Validator` instance.
 
 ```php
 [

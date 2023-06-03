@@ -1,6 +1,6 @@
 <?php
 
-use BradieTilley\Rules\Facades\Rule;
+use BradieTilley\Rules\Rule;
 use Tests\Fixtures\AnExampleRuleImplementsInvokableRule;
 use Tests\Fixtures\AnExampleRuleImplementsRule;
 use Tests\Fixtures\AnExampleRuleImplementsValidationRule;
