@@ -8,7 +8,7 @@
 
 ## Introduction
 
-Rules
+Rules provides an elegant chainable OO approach to defining rules for Laravel Validation.
 
 
 ## Installation
@@ -20,8 +20,34 @@ composer require bradietilley/rules
 
 ## Documentation
 
-Rules
+Rules can be fairly performance friendly with an approximated 5-10% overhead compared to standard array-based validation rules.
 
+You can also use the `Rule` facade, however if performance is ideal then it'e recommended not to use it.
+
+```php
+use BradieTilley\Rules\Rule;
+
+Rule::make()->required()->string();
+```
+
+vs
+
+```
+use BradieTilley\Rules\Facades\Rule;
+
+Rule::required()->string();
+```
+
+Both produce a ruleset of:
+
+```php
+[
+    "required",
+    "string",
+]
+```
+
+...
 
 ## Author
 
