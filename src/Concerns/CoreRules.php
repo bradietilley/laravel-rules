@@ -10,6 +10,7 @@ use Illuminate\Validation\Rules\Dimensions;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\ExcludeIf;
 use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\Rules\ImageFile;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rules\ProhibitedIf;
 use Illuminate\Validation\Rules\RequiredIf;
@@ -497,9 +498,9 @@ trait CoreRules
      * @return $this
      * @link https://laravel.com/docs/master/validation#rule-image
      */
-    public function image(): self
+    public function image(ImageFile $image = null): self
     {
-        return $this->rule('image');
+        return $this->rule($image ?? 'image');
     }
 
     /**

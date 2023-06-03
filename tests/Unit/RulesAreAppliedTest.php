@@ -5,6 +5,8 @@ use Carbon\Carbon;
 use Illuminate\Validation\Rules\Dimensions;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\ExcludeIf;
+use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\Rules\ImageFile;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rules\RequiredIf;
 use Illuminate\Validation\Rules\Unique;
@@ -673,15 +675,24 @@ it('applies the `gte` rule', function () {
         ]);
 });
 
-// it('applies the `image` rule', function () {
-//     $rule = Rule::make('my_field')->image();
-//     expect($rule)
-//         ->toBeInstanceOf(Rule::class)
-//         ->toArray()
-//         ->toBe([
-//             'image',
-//         ]);
-// });
+it('applies the `image` rule', function (?ImageFile $image, string|ImageFile $expect) {
+    $rule = Rule::make('my_field')->image($image);
+    expect($rule)
+        ->toBeInstanceOf(Rule::class)
+        ->toArray()
+        ->toBe([
+            $expect,
+        ]);
+})->with([
+    'no argument' => [
+        null,
+        'image',
+    ],
+    'image object' => fn () => [
+        $image = File::image(),
+        $image,
+    ],
+]);
 
 it('applies the `in` rule', function (array $arguments, string $expect) {
     $rule = Rule::make('my_field')->in(...$arguments);
