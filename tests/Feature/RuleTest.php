@@ -16,7 +16,7 @@ test('multiple rules can be applied to a rule', function () {
 });
 
 test('a ruleset can be created using Rule objects', function () {
-    $ruleset = Rule::fieldset(
+    $ruleset = Rule::ruleset(
         Rule::make('a')->required(),
         Rule::make('b')->nullable(),
         Rule::make('c')->sometimes(),

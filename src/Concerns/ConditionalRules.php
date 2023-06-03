@@ -33,9 +33,12 @@ use Closure;
 trait ConditionalRules
 {
     /**
+     * Apply the given rule when the condition is met, if not, the default
+     * rule will be applied (if supplied).
+     *
      * @return $this
      */
-    public function when(bool|Closure $value, Rule $rule, ?Rule $default = null): static
+    public function when(bool|Closure $value, Rule $rule, ?Rule $default = null): self
     {
         $value = $value instanceof Closure ? $value($this) : $value;
 
@@ -43,9 +46,12 @@ trait ConditionalRules
     }
 
     /**
+     * Apply the given rule unless the condition is met, if met, the default
+     * rule will be applied (if supplied).
+     *
      * @return $this
      */
-    public function unless(bool|Closure $value, Rule $rule, ?Rule $default = null): static
+    public function unless(bool|Closure $value, Rule $rule, ?Rule $default = null): self
     {
         $value = $value instanceof Closure ? $value($this) : $value;
 

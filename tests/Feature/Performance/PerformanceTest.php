@@ -45,7 +45,7 @@ test('performance stress test', function () {
                     $rules = [];
 
                     if ($withRuleObjects) {
-                        $rules = Rule::fieldset(
+                        $rules = Rule::ruleset(
                             Rule::make('str')->required()->string()->min(10)->max(1000),
                             Rule::make('int')->required()->integer()->min(11)->max(999),
                         );

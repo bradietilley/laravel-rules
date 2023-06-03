@@ -32,7 +32,7 @@ class Rule implements Iterator, Arrayable
      *
      * @return array<string, Rule>
      */
-    public static function fieldset(Rule ...$rules): array
+    public static function ruleset(Rule ...$rules): array
     {
         $keyed = [];
 

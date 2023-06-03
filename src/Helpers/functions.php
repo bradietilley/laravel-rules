@@ -20,6 +20,6 @@ if (! function_exists('rules')) {
      */
     function rules(Rule ...$rules): array
     {
-        return Rule::fieldset(...$rules);
+        return Rule::ruleset(...$rules);
     }
 }
