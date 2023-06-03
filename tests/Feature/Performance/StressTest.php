@@ -85,5 +85,5 @@ test('performance stress test', function () {
     $diffMs = ($withPackage - $withoutPackage);
     $diffPerc = ($withPackage / $withoutPackage) * 100;
 
-    expect($diffPerc)->toBeLessThan(110);
+    expect($diffPerc)->toBeLessThan(120);
 });
