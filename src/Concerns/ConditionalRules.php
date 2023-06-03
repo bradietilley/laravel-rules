@@ -6,9 +6,29 @@ use BradieTilley\Rules\Rule;
 use Closure;
 
 /**
+ * Easily add conditional rules to the current rule object based
+ * on a given condition.
+ *
+ * Example:
+ *
+ *      public function rules(): array
+ *      {
+ *          return [
+ *              'name' => Rule::make()
+ *                  ->when(
+ *                      $this->method() === 'PUT',
+ *                      Rule::make()->sometimes(),
+ *                      Rule::make()->required()
+ *                  )
+ *                  ->string()
+ *                  ->min(1)
+ *                  ->min(10),
+ *          ];
+ *      }
+ *
  * @mixin Rule
  */
-trait ConditionableRules
+trait ConditionalRules
 {
     /**
      * @return $this

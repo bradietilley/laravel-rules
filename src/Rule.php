@@ -15,7 +15,7 @@ class Rule implements Iterator, Arrayable
     use Concerns\CoreRules;
     use Concerns\CreatesRules;
     use Concerns\IteratesRules;
-    use Concerns\ConditionableRules;
+    use Concerns\ConditionalRules;
     use Macroable;
 
     /**
