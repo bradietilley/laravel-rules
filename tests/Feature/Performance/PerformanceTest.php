@@ -49,10 +49,10 @@ test('performance stress test', function (int $max, int $threshold) {
                     $rules = [];
 
                     if ($withRuleObjects) {
-                        $rules = Rule::ruleset(
-                            Rule::make('str')->required()->string()->min(10)->max(1000),
-                            Rule::make('int')->required()->integer()->min(11)->max(999),
-                        );
+                        $rules = [
+                            'str' => Rule::make()->required()->string()->min(10)->max(1000),
+                            'int' => Rule::make()->required()->integer()->min(11)->max(999),
+                        ];
                     } else {
                         $rules = [
                             'str' => [
@@ -142,10 +142,10 @@ test('a single validator instance performance', function () {
         $rules = [];
 
         if ($withPackage) {
-            $rules = Rule::ruleset(
-                Rule::make('str')->required()->string()->min(10)->max(1000),
-                Rule::make('int')->required()->integer()->min(11)->max(999),
-            );
+            $rules = [
+                'str' => Rule::make()->required()->string()->min(10)->max(1000),
+                'int' => Rule::make()->required()->integer()->min(11)->max(999),
+            ];
         } else {
             $rules = [
                 'str' => [

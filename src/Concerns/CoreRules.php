@@ -120,11 +120,6 @@ trait CoreRules
      */
     public function bail(): self
     {
-        if (func_num_args() === 1) {
-            /** @phpstan-ignore-next-line */
-            $this->field(func_get_arg(0));
-        }
-
         return $this->rule('bail');
     }
 
@@ -374,11 +369,6 @@ trait CoreRules
      */
     public function exclude(): self
     {
-        if (func_num_args() === 1) {
-            /** @phpstan-ignore-next-line */
-            $this->field(func_get_arg(0));
-        }
-
         return $this->rule('exclude');
     }
 
@@ -472,11 +462,6 @@ trait CoreRules
      */
     public function filled(): self
     {
-        if (func_num_args() === 1) {
-            /** @phpstan-ignore-next-line */
-            $this->field(func_get_arg(0));
-        }
-
         return $this->rule('filled');
     }
 
@@ -666,11 +651,6 @@ trait CoreRules
      */
     public function missing(): self
     {
-        if (func_num_args() === 1) {
-            /** @phpstan-ignore-next-line */
-            $this->field(func_get_arg(0));
-        }
-
         return $this->rule('missing');
     }
 
@@ -743,11 +723,6 @@ trait CoreRules
      */
     public function nullable(): self
     {
-        if (func_num_args() === 1) {
-            /** @phpstan-ignore-next-line */
-            $this->field(func_get_arg(0));
-        }
-
         return $this->rule('nullable');
     }
 
@@ -895,11 +870,6 @@ trait CoreRules
      */
     public function required(): self
     {
-        if (func_num_args() === 1) {
-            /** @phpstan-ignore-next-line */
-            $this->field(func_get_arg(0));
-        }
-
         return $this->rule('required');
     }
 
@@ -1018,11 +988,6 @@ trait CoreRules
      */
     public function sometimes(): self
     {
-        if (func_num_args() === 1) {
-            /** @phpstan-ignore-next-line */
-            $this->field(func_get_arg(0));
-        }
-
         return $this->rule('sometimes');
     }
 

@@ -15,36 +15,6 @@ test('multiple rules can be applied to a rule', function () {
     ]);
 });
 
-test('a ruleset can be created using Rule objects', function () {
-    $ruleset = Rule::ruleset(
-        Rule::make('a')->required(),
-        Rule::make('b')->nullable(),
-        Rule::make('c')->sometimes(),
-        Rule::make('d')->missing(),
-    );
-
-    expect($ruleset)->toBeArray()->toHaveCount(4)->toHaveKeys([
-        'a',
-        'b',
-        'c',
-        'd',
-    ]);
-
-    $compiled = [];
-    foreach ($ruleset as $field => $rule) {
-        expect($rule)->toBeInstanceOf(Rule::class);
-
-        $compiled[$field] = $rule->toArray();
-    }
-
-    expect($compiled)->toBe([
-        'a' => ['required'],
-        'b' => ['nullable'],
-        'c' => ['sometimes'],
-        'd' => ['missing'],
-    ]);
-});
-
 test('you can modify the Rule class to use by swapping the binding', function () {
     Rule::using(Rule::class);
     expect(Rule::make())->toBeInstanceOf(Rule::class);

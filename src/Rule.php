@@ -25,56 +25,8 @@ class Rule implements Iterator, Arrayable
      */
     protected array $rules = [];
 
-    public function __construct(protected ?string $field = null)
+    public function __construct()
     {
-    }
-
-    /**
-     * Make a set of rules keyed by each rule's field.
-     *
-     * @return array<string, Rule>
-     */
-    public static function ruleset(Rule ...$rules): array
-    {
-        $keyed = [];
-
-        foreach ($rules as $rule) {
-            $keyed[$rule->requireFieldName()] = $rule;
-        }
-
-        return $keyed;
-    }
-
-    /**
-     * Set the field name for this Rule.
-     *
-     * This is only required if you're building a ruleset using
-     * the `Rule::fields()` method or if you're planning on
-     * running assertions against which fields have what rules.
-     */
-    public function field(?string $field = null): self|string|null
-    {
-        if ($field !== null) {
-            $this->field = $field;
-
-            return $this;
-        }
-
-        return $this->field;
-    }
-
-    /**
-     * Get the field name and abort if name not supplied
-     */
-    public function requireFieldName(): string
-    {
-        $field = $this->field;
-
-        if ($field === null) {
-            throw new \Exception('Rule must have a field in order to reference rule field');
-        }
-
-        return $field;
     }
 
     /**
