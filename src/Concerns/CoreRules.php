@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BradieTilley\Rules\Concerns;
 
 use BradieTilley\Rules\Rule;
@@ -309,7 +311,7 @@ trait CoreRules
             }
         }
 
-        return $this->rule($dimensions);
+        return $this->rule((string) $dimensions);
     }
 
     /**
@@ -386,7 +388,9 @@ trait CoreRules
      */
     public function excludeIf(callable|bool|ExcludeIf $condition): self
     {
-        return $this->rule($condition instanceof ExcludeIf ? $condition : RuleClass::excludeIf($condition));
+        $excludeIf = $condition instanceof ExcludeIf ? $condition : RuleClass::excludeIf($condition);
+
+        return $this->rule((string) $excludeIf);
     }
 
     /**
@@ -422,7 +426,7 @@ trait CoreRules
      */
     public function exists(string $table, string $column = null): self
     {
-        return $this->rule(RuleClass::exists($table, $column ?? 'NULL'));
+        return $this->rule((string) RuleClass::exists($table, $column ?? 'NULL'));
     }
 
     /**
@@ -838,7 +842,7 @@ trait CoreRules
         }
 
         if ($condition instanceof ProhibitedIf) {
-            return $this->rule($condition);
+            return $this->rule((string) $condition);
         }
 
         if (is_string($condition)) {
@@ -912,7 +916,7 @@ trait CoreRules
         }
 
         if ($condition instanceof RequiredIf) {
-            return $this->rule($condition);
+            return $this->rule((string) $condition);
         }
 
         if (is_string($condition)) {
@@ -1058,11 +1062,10 @@ trait CoreRules
     public function unique(string|Unique $table, string $column = null, mixed $ignore = null): self
     {
         if (is_string($table)) {
-            $table = (new Unique($table, $column ?? 'NULL'))
-                ->when($ignore !== null, fn (Unique $rule) => $rule->ignore($ignore));
+            $table = (new Unique($table, $column ?? 'NULL'))->ignore($ignore);
         }
 
-        return $this->rule($table);
+        return $this->rule((string) $table);
     }
 
     /**
