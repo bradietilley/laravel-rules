@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use BradieTilley\Rules\Rule;
 
 test('you can add conditionable logic to the rule class', function (string $method, bool $condition, array $expect) {

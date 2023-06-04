@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Fixtures\Binding;
 
 use BradieTilley\Rules\Rule;

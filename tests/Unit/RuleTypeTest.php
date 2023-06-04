@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use BradieTilley\Rules\Rule;
 use Tests\Fixtures\AnExampleRuleImplementsInvokableRule;
 use Tests\Fixtures\AnExampleRuleImplementsRule;

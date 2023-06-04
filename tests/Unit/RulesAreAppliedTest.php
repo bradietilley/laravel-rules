@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use BradieTilley\Rules\Rule;
 use Carbon\Carbon;
 use Illuminate\Validation\Rules\Dimensions;

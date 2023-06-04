@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use BradieTilley\Rules\Rule;
 
 test('you can add macros to the rule class', function () {

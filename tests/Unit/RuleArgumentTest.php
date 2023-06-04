@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use BradieTilley\Rules\Rule;
 
 test('rule arguments can be compiled to string', function (array $input, string $expect) {
