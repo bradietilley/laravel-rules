@@ -16,6 +16,10 @@ test('rules can be iterated', function () {
         ->string()
         ->min(5)
         ->max(255)
+        ->rule(null)
+        ->rule([
+            'email',
+        ])
         ->rule($testValidationRule)
         ->rule($testInvokableRule)
         ->rule($testRule);
@@ -31,6 +35,7 @@ test('rules can be iterated', function () {
         'string',
         'min:5',
         'max:255',
+        'email',
         $testValidationRule,
         $testInvokableRule,
         $testRule,

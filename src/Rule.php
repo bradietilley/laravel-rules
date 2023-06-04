@@ -78,11 +78,20 @@ class Rule implements Iterator, Arrayable
     /**
      * Add a rule
      *
+     * @param string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array<string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule>|null $rule
      * @return $this
      */
-    public function rule(string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|null $rule): self
+    public function rule(string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array|null $rule): self
     {
         if ($rule === null) {
+            return $this;
+        }
+
+        if (is_array($rule)) {
+            foreach ($rule as $ruleToAdd) {
+                $this->rule($ruleToAdd);
+            }
+
             return $this;
         }
 

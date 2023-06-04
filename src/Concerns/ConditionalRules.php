@@ -4,6 +4,9 @@ namespace BradieTilley\Rules\Concerns;
 
 use BradieTilley\Rules\Rule;
 use Closure;
+use Illuminate\Contracts\Validation\InvokableRule as InvokableRuleContract;
+use Illuminate\Contracts\Validation\Rule as RuleContract;
+use Illuminate\Contracts\Validation\ValidationRule as ValidationRuleContract;
 
 /**
  * Easily add conditional rules to the current rule object based
@@ -36,25 +39,35 @@ trait ConditionalRules
      * Apply the given rule when the condition is met, if not, the default
      * rule will be applied (if supplied).
      *
+     * @param string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array<string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule> $rule
+     * @param string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array<string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule>|null $default
      * @return $this
      */
-    public function when(bool|Closure $value, Rule $rule, ?Rule $default = null): self
-    {
+    public function when(
+        bool|Closure $value,
+        string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array $rule,
+        string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array|null $default = null
+    ): self {
         $value = $value instanceof Closure ? $value($this) : $value;
 
-        return $this->merge($value ? $rule : $default);
+        return $this->rule($value ? $rule : $default);
     }
 
     /**
      * Apply the given rule unless the condition is met, if met, the default
      * rule will be applied (if supplied).
      *
+     * @param string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array<string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule> $rule
+     * @param string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array<string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule>|null $default
      * @return $this
      */
-    public function unless(bool|Closure $value, Rule $rule, ?Rule $default = null): self
-    {
+    public function unless(
+        bool|Closure $value,
+        string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array $rule,
+        string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array|null $default = null
+    ): self {
         $value = $value instanceof Closure ? $value($this) : $value;
 
-        return $this->merge((! $value) ? $rule : $default);
+        return $this->rule((! $value) ? $rule : $default);
     }
 }
