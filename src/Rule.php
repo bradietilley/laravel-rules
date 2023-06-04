@@ -25,10 +25,6 @@ class Rule implements Iterator, Arrayable
      */
     protected array $rules = [];
 
-    public function __construct()
-    {
-    }
-
     /**
      * Add a rule
      *
@@ -90,7 +86,7 @@ class Rule implements Iterator, Arrayable
             $value = self::standardise($value);
         }
 
-        return ($value !== null && $value !== '') ? ($prefix.$value) : '';
+        return $value !== '' ? $prefix.$value : '';
     }
 
     /**

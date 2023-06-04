@@ -27,10 +27,21 @@
     },
     "require-dev": {
         "symfony/var-dumper": "^6.1.5",
-        "laravel/pint": "^1.0",
+        "laravel/pint": "^1.10",
         "pestphp/pest": "^2.0",
         "phpstan/phpstan": "^1.8",
         "orchestra/testbench": "^8.5"
+    },
+    "scripts": {
+        "lint": "pint --ansi",
+        "test:lint": "pint --test --ansi",
+        "test:types": "phpstan analyse --ansi --memory-limit=-1",
+        "test:unit": "pest --colors=always",
+        "test": [
+            "@test:lint",
+            "@test:types",
+            "@test:unit"
+        ]
     },
     "config": {
         "allow-plugins": {

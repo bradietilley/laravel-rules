@@ -8,16 +8,18 @@ use BradieTilley\Rules\Rule;
 
 /**
  * @mixin Rule
+ *
+ * @template TRule of Rule
  */
 trait CreatesRules
 {
     /**
-     * @var class-string
+     * @var class-string<TRule>
      */
     protected static string $using = Rule::class;
 
     /**
-     * @param class-string $class
+     * @param class-string<TRule> $class
      */
     public static function using(string $class): void
     {
@@ -33,7 +35,9 @@ trait CreatesRules
     }
 
     /**
-     * Make a new instance
+     * Make a new instance.
+     *
+     * @return TRule
      */
     public static function make(?string $field = null): Rule
     {
