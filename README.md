@@ -20,7 +20,7 @@ composer require bradietilley/rules
 
 ## Documentation
 
-The syntax looks quite similar to the syntax you're familiar with when writing migrations.
+Quick example:
 
 ```php
 use BradieTilley\Rules\Rule;
@@ -30,12 +30,14 @@ return [
 ];
 ```
 
-Which produces a ruleset of the following when passed to a `Validator` instance.
+This produces a ruleset of the following (when passed to a `Validator` instance or returned from a your `Request::rules()` method):
 
 ```php
 [
-    "required",
-    "string",
+    'my_field' => [
+        'required',
+        'string',
+    ],
 ]
 ```
 
@@ -68,8 +70,7 @@ Rule::make()
 
 ### Conditional Rules
 
-You may specify rules that are conditionally defined - however that condition is determined is up to you. For example,
-if you wish to make a field `required` on create, and `sometimes` on update, you may define something like:
+You may specify rules that are conditionally defined. For example, you may wish to make a field `required` on create, and `sometimes` on update. In this case you may define something like:
 
 ```php
 public function rules(): array
