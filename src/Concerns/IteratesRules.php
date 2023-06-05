@@ -8,6 +8,10 @@ use BradieTilley\Rules\Rule;
 use Iterator;
 
 /**
+ * This traits provides the necessary functionality required for the
+ * Iterator interface, which we use to allow this Rule object to be
+ * iterated inside a Validator as if it's an array.
+ *
  * @mixin Rule
  * @mixin Iterator
  */

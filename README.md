@@ -1,5 +1,7 @@
 # Laravel Rules
 
+Rules provides an elegant chainable object-oriented approach to defining rules for Laravel Validation.
+
 ![Static Analysis](https://github.com/bradietilley/rules/actions/workflows/static.yml/badge.svg)
 ![Tests](https://github.com/bradietilley/rules/actions/workflows/tests.yml/badge.svg)
 
@@ -34,12 +36,9 @@
 ```
 
 
-## Introduction
-
-Rules provides an elegant chainable object-oriented approach to defining rules for Laravel Validation.
-
-
 ## Installation
+
+Grab it via composer
 
 ```
 composer require bradietilley/rules
@@ -79,7 +78,7 @@ For example:
 
 ```php
 Rule::make()
-    /** You can use the methods provided*/
+    /** You can use the methods provided */
     ->required()
     /** Or you can pass in any raw string rule */
     ->rule('min:2')
