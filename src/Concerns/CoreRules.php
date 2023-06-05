@@ -20,13 +20,18 @@ use Illuminate\Validation\Rules\Unique;
 use ReflectionProperty;
 
 /**
+ * This trait represents every core validation rule found within
+ * Laravel, and has been abstracted out of the parent Rule class
+ * into a trait to maintain cleanliness.
+ *
  * @mixin Rule
+ * @link https://laravel.com/docs/master/validation#available-rules
  */
 trait CoreRules
 {
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-accepted
+     * @return $this
      */
     public function accepted(): self
     {
@@ -34,8 +39,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-accepted-if
+     * @return $this
      */
     public function acceptedIf(string ...$fieldsAndValues): self
     {
@@ -43,8 +48,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-active-url
+     * @return $this
      */
     public function activeUrl(): self
     {
@@ -52,8 +57,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-after
+     * @return $this
      */
     public function after(string|DateTimeInterface $date): self
     {
@@ -61,8 +66,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-after-or-equal
+     * @return $this
      */
     public function afterOrEqual(string|DateTimeInterface $date): self
     {
@@ -70,8 +75,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-alpha
+     * @return $this
      */
     public function alpha(string $range = null): self
     {
@@ -79,8 +84,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-alpha-dash
+     * @return $this
      */
     public function alphaDash(string $range = null): self
     {
@@ -88,8 +93,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-alpha-numeric
+     * @return $this
      */
     public function alphaNumeric(string $range = null): self
     {
@@ -97,8 +102,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-array
+     * @return $this
      */
     public function array(string ...$keys): self
     {
@@ -106,8 +111,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-ascii
+     * @return $this
      */
     public function ascii(): self
     {
@@ -115,8 +120,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-bail
+     * @return $this
      */
     public function bail(): self
     {
@@ -124,8 +129,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-before
+     * @return $this
      */
     public function before(string|DateTimeInterface $date): self
     {
@@ -133,8 +138,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-before-or-equal
+     * @return $this
      */
     public function beforeOrEqual(string|DateTimeInterface $date): self
     {
@@ -142,8 +147,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-between
+     * @return $this
      */
     public function between(int $min, int $max): self
     {
@@ -151,8 +156,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-boolean
+     * @return $this
      */
     public function boolean(): self
     {
@@ -160,8 +165,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-confirmed
+     * @return $this
      */
     public function confirmed(): self
     {
@@ -169,8 +174,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-current-password
+     * @return $this
      */
     public function currentPassword(string $guard = null): self
     {
@@ -178,8 +183,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-date
+     * @return $this
      */
     public function date(): self
     {
@@ -187,8 +192,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-date-equals
+     * @return $this
      */
     public function dateEquals(string|DateTimeInterface $date): self
     {
@@ -196,8 +201,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-date-format
+     * @return $this
      */
     public function dateFormat(string ...$format): self
     {
@@ -205,8 +210,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-decimal
+     * @return $this
      */
     public function decimal(int $min, int $max = null): self
     {
@@ -216,8 +221,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-declined
+     * @return $this
      */
     public function declined(): self
     {
@@ -225,8 +230,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-declined-if
+     * @return $this
      */
     public function declinedIf(string ...$fieldsAndValues): self
     {
@@ -234,8 +239,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-different
+     * @return $this
      */
     public function different(string $field): self
     {
@@ -243,8 +248,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-digits
+     * @return $this
      */
     public function digits(int $value): self
     {
@@ -252,8 +257,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-digits-between
+     * @return $this
      */
     public function digitsBetween(int $min, int $max): self
     {
@@ -261,8 +266,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-dimensions
+     * @return $this
      */
     public function dimensions(
         string|Dimensions $dimensions = null,
@@ -310,8 +315,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-distinct
+     * @return $this
      */
     public function distinct(string $mode = null): self
     {
@@ -319,8 +324,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-doesnt-start-with
+     * @return $this
      */
     public function doesntStartWith(string ...$prefixes): self
     {
@@ -328,8 +333,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-doesnt-end-with
+     * @return $this
      */
     public function doesntEndWith(string ...$prefixes): self
     {
@@ -337,8 +342,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-email
+     * @return $this
      */
     public function email(string ...$flags): self
     {
@@ -346,8 +351,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-ends-with
+     * @return $this
      */
     public function endsWith(string ...$prefixes): self
     {
@@ -355,8 +360,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-enum
+     * @return $this
      */
     public function enum(string|Enum $enum): self
     {
@@ -364,8 +369,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-exclude
+     * @return $this
      */
     public function exclude(): self
     {
@@ -373,8 +378,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-exclude-if
+     * @return $this
      */
     public function excludeIf(callable|bool|ExcludeIf $condition): self
     {
@@ -384,8 +389,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-exclude-unless
+     * @return $this
      */
     public function excludeUnless(string ...$fieldsAndValues): self
     {
@@ -393,8 +398,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-exclude-with
+     * @return $this
      */
     public function excludeWith(string $field): self
     {
@@ -402,8 +407,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-exclude-without
+     * @return $this
      */
     public function excludeWithout(string $field): self
     {
@@ -411,8 +416,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-exists
+     * @return $this
      */
     public function exists(string $table, string $column = null): self
     {
@@ -422,8 +427,8 @@ trait CoreRules
     /**
      * @param array<string> $allowedMimetypes
      * @param string|array<mixed> $customRules
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-file
+     * @return $this
      */
     public function file(
         ?File $file = null,
@@ -457,8 +462,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-filled
+     * @return $this
      */
     public function filled(): self
     {
@@ -466,8 +471,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-greater-than
+     * @return $this
      */
     public function gt(string $field): self
     {
@@ -475,8 +480,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-greater-than-or-equal
+     * @return $this
      */
     public function gte(string $field): self
     {
@@ -484,8 +489,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-image
+     * @return $this
      */
     public function image(ImageFile $image = null): self
     {
@@ -493,8 +498,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-in
+     * @return $this
      */
     public function in(string ...$values): self
     {
@@ -502,8 +507,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-in-array
+     * @return $this
      */
     public function inArray(string $field): self
     {
@@ -511,8 +516,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-integer
+     * @return $this
      */
     public function integer(): self
     {
@@ -520,8 +525,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-ip
+     * @return $this
      */
     public function ip(): self
     {
@@ -529,8 +534,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#ipv4
+     * @return $this
      */
     public function ipv4(): self
     {
@@ -538,8 +543,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#ipv6
+     * @return $this
      */
     public function ipv6(): self
     {
@@ -547,8 +552,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-json
+     * @return $this
      */
     public function json(): self
     {
@@ -556,8 +561,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-less-than
+     * @return $this
      */
     public function lt(string $field): self
     {
@@ -565,8 +570,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-less-than-or-equal
+     * @return $this
      */
     public function lte(string $field): self
     {
@@ -574,8 +579,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-lowercase
+     * @return $this
      */
     public function lowercase(): self
     {
@@ -583,8 +588,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-mac-address
+     * @return $this
      */
     public function macAddress(): self
     {
@@ -592,8 +597,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-max
+     * @return $this
      */
     public function max(int $value): self
     {
@@ -601,8 +606,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-max-digits
+     * @return $this
      */
     public function maxDigits(int $digits): self
     {
@@ -610,8 +615,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-mime-types
+     * @return $this
      */
     public function mimeTypes(string ...$types): self
     {
@@ -619,8 +624,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-mime-type-by-file-extension
+     * @return $this
      */
     public function mimes(string ...$extensions): self
     {
@@ -628,8 +633,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-min
+     * @return $this
      */
     public function min(int $value): self
     {
@@ -637,8 +642,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-min-digits
+     * @return $this
      */
     public function minDigits(int $value): self
     {
@@ -646,8 +651,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-missing
+     * @return $this
      */
     public function missing(): self
     {
@@ -655,8 +660,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-missing-if
+     * @return $this
      */
     public function missingIf(string ...$fieldsAndValues): self
     {
@@ -664,8 +669,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-missing-unless
+     * @return $this
      */
     public function missingUnless(string ...$fieldsAndValues): self
     {
@@ -673,8 +678,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-missing-with
+     * @return $this
      */
     public function missingWith(string ...$fields): self
     {
@@ -682,8 +687,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-missing-with-all
+     * @return $this
      */
     public function missingWithAll(string ...$fields): self
     {
@@ -691,8 +696,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-multiple-of
+     * @return $this
      */
     public function multipleOf(int $value): self
     {
@@ -700,8 +705,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-not-in
+     * @return $this
      */
     public function notIn(string ...$values): self
     {
@@ -709,8 +714,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-not-regex
+     * @return $this
      */
     public function notRegex(string $regex): self
     {
@@ -718,8 +723,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-nullable
+     * @return $this
      */
     public function nullable(): self
     {
@@ -727,8 +732,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-numeric
+     * @return $this
      */
     public function numeric(): self
     {
@@ -736,9 +741,9 @@ trait CoreRules
     }
 
     /**
+     * @link https://laravel.com/docs/master/validation#rule-password
      * @param string|array<mixed> $rules
      * @return $this
-     * @link https://laravel.com/docs/master/validation#rule-password
      */
     public function password(
         Password $password = null,
@@ -787,8 +792,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-present
+     * @return $this
      */
     public function present(): self
     {
@@ -796,8 +801,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-prohibited
+     * @return $this
      */
     public function prohibited(): self
     {
@@ -805,8 +810,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-prohibited-if
+     * @return $this
      */
     public function prohibitedIf(
         string|bool|ProhibitedIf $condition = null,
@@ -828,8 +833,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-prohibited-unless
+     * @return $this
      */
     public function prohibitedUnless(
         string|bool $condition = null,
@@ -847,8 +852,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-prohibits
+     * @return $this
      */
     public function prohibits(string ...$fields): self
     {
@@ -856,8 +861,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-regular-expression
+     * @return $this
      */
     public function regex(string $pattern): self
     {
@@ -865,8 +870,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-required
+     * @return $this
      */
     public function required(): self
     {
@@ -874,8 +879,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-required-if
+     * @return $this
      */
     public function requiredIf(
         string|bool|RequiredIf|Closure $condition = null,
@@ -897,8 +902,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-required-unless
+     * @return $this
      */
     public function requiredUnless(
         string|bool|Closure $condition = null,
@@ -920,8 +925,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-required-with
+     * @return $this
      */
     public function requiredWith(string ...$fields): self
     {
@@ -929,8 +934,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-required-with-all
+     * @return $this
      */
     public function requiredWithAll(string ...$fields): self
     {
@@ -938,8 +943,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-required-without
+     * @return $this
      */
     public function requiredWithout(string ...$fields): self
     {
@@ -947,8 +952,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-required-without-all
+     * @return $this
      */
     public function requiredWithoutAll(string ...$fields): self
     {
@@ -956,8 +961,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-required-array-keys
+     * @return $this
      */
     public function requiredArrayKeys(string ...$keys): self
     {
@@ -965,8 +970,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-same
+     * @return $this
      */
     public function same(string $field): self
     {
@@ -974,8 +979,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-size
+     * @return $this
      */
     public function size(string|int $value): self
     {
@@ -983,8 +988,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-sometimes
+     * @return $this
      */
     public function sometimes(): self
     {
@@ -992,8 +997,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-starts-with
+     * @return $this
      */
     public function startsWith(string ...$values): self
     {
@@ -1001,8 +1006,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-string
+     * @return $this
      */
     public function string(): self
     {
@@ -1010,8 +1015,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-timezone
+     * @return $this
      */
     public function timezone(?string $group = null, ?string $country = null): self
     {
@@ -1029,8 +1034,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-unique
+     * @return $this
      */
     public function unique(string|Unique $table, string $column = null, mixed $ignore = null): self
     {
@@ -1042,8 +1047,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-uppercase
+     * @return $this
      */
     public function uppercase(): self
     {
@@ -1051,8 +1056,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-url
+     * @return $this
      */
     public function url(): self
     {
@@ -1060,8 +1065,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-ulid
+     * @return $this
      */
     public function ulid(): self
     {
@@ -1069,8 +1074,8 @@ trait CoreRules
     }
 
     /**
-     * @return $this
      * @link https://laravel.com/docs/master/validation#rule-uuid
+     * @return $this
      */
     public function uuid(): self
     {
