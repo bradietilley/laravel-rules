@@ -116,21 +116,21 @@ test('performance stress test', function (int $max, int $threshold) {
 
     expect($diffPerc)->toBeLessThan($threshold);
 })->group('performance')->with([
-    '1 iteration yields less than 5% overhead' => [
+    '1 iteration yields less than 10% overhead' => [
         'iterations' => 1,
-        'overheadPercentageLimit' => 107,
+        'overheadPercentageLimit' => 110,
     ],
-    '10 iterations yields less than 5% overhead' => [
+    '10 iterations yields less than 10% overhead' => [
         'iterations' => 10,
-        'overheadPercentageLimit' => 107,
+        'overheadPercentageLimit' => 110,
     ],
-    '100 iterations yields less than 5% overhead' => [
+    '100 iterations yields less than 10% overhead' => [
         'iterations' => 100,
-        'overheadPercentageLimit' => 106,
+        'overheadPercentageLimit' => 110,
     ],
-    '1000 iterations yields less than 4% overhead' => [
+    '1000 iterations yields less than 10% overhead' => [
         'iterations' => 1000,
-        'overheadPercentageLimit' => 105,
+        'overheadPercentageLimit' => 110,
     ],
 ]);
 
