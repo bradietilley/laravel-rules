@@ -1,9 +1,37 @@
 # Laravel Rules
 
-![example usage](/docs/example-usage.png)
-
 ![Static Analysis](https://github.com/bradietilley/rules/actions/workflows/static.yml/badge.svg)
 ![Tests](https://github.com/bradietilley/rules/actions/workflows/tests.yml/badge.svg)
+
+```php
+    'email' => Rule::make()
+        ->bail()
+        ->when(
+            $this->method() === 'POST',
+            Rule::make()->required(),
+            Rule::make()->sometimes(),
+        )
+        ->string()
+        ->email()
+        ->unique(
+            table: User::class,
+            column: 'email',
+            ignore: $this->route('user')?->id,
+        ),
+    'password' => rule()
+        ->bail()
+        ->when(
+            $this->method() === 'POST',
+            rule()->required(),
+            rule()->sometimes(),
+        )
+        ->string()
+        ->password(
+            min: 8,
+            letters: true,
+            numbers: true,
+        ),
+```
 
 
 ## Introduction
