@@ -14,7 +14,10 @@ use Illuminate\Contracts\Validation\ValidationRule as ValidationRuleContract;
  * Easily add conditional rules to the current rule object based
  * on a given condition. Matches a similar signature to Laravel's
  * Conditionable trait except it accepts Rule objects instead of
- * closures for the callback/default parameters.
+ * closures for the callback/default parameters. It also accepts
+ * strings, like `"required"`, custom rule classes, and an array
+ * of any of the above.
+ *
  *
  * Example:
  *
@@ -41,6 +44,7 @@ trait ConditionalRules
      * Apply the given rule when the condition is met, if not, the default
      * rule will be applied (if supplied).
      *
+     * @param bool|(\Closure($this): bool) $value
      * @param string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array<string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule> $rule
      * @param string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array<string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule>|null $default
      * @return $this
@@ -59,6 +63,7 @@ trait ConditionalRules
      * Apply the given rule unless the condition is met, if met, the default
      * rule will be applied (if supplied).
      *
+     * @param bool|(\Closure($this): bool) $value
      * @param string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array<string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule> $rule
      * @param string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array<string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule>|null $default
      * @return $this
