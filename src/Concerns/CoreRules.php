@@ -1012,12 +1012,20 @@ trait CoreRules
     /**
      * @return $this
      * @link https://laravel.com/docs/master/validation#rule-timezone
-     *
-     * @todo support new timezone rule config
      */
-    public function timezone(): self
+    public function timezone(?string $group = null, ?string $country = null): self
     {
-        return $this->rule('timezone');
+        $arguments = [];
+
+        if ($group !== null) {
+            $arguments[] = $group;
+
+            if ($country !== null) {
+                $arguments[] = $country;
+            }
+        }
+
+        return $this->rule('timezone'.self::arguments($arguments));
     }
 
     /**

@@ -1504,7 +1504,20 @@ it('applies the `timezone` rule', function () {
         ->toBe([
             'timezone',
         ]);
-});
+})->with([
+    'no arguments' => [
+        [],
+        'timezone',
+    ],
+    'group argument' => [
+        [ 'PACIFIC' ],
+        'timezone:PACIFIC',
+    ],
+    'group + country arguments' => [
+        [ 'PER_COUNTRY', 'NZ', ],
+        'timezone:PACIFIC,NZ',
+    ],
+]);
 
 it('applies the `unique` rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->unique(...$arguments);
