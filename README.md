@@ -2,8 +2,8 @@
 
 Rules provides an elegant chainable object-oriented approach to defining rules for Laravel Validation.
 
-![Static Analysis](https://github.com/bradietilley/rules/actions/workflows/static.yml/badge.svg)
-![Tests](https://github.com/bradietilley/rules/actions/workflows/tests.yml/badge.svg)
+![Static Analysis](https://github.com/bradietilley/laravel-rules/actions/workflows/static.yml/badge.svg)
+![Tests](https://github.com/bradietilley/laravel-rules/actions/workflows/tests.yml/badge.svg)
 
 ```php
     'email' => Rule::make()
@@ -41,7 +41,7 @@ Rules provides an elegant chainable object-oriented approach to defining rules f
 Grab it via composer
 
 ```
-composer require bradietilley/rules
+composer require bradietilley/laravel-rules
 ```
 
 
