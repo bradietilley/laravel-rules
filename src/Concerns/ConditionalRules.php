@@ -47,13 +47,12 @@ trait ConditionalRules
      * @param bool|(\Closure($this): bool) $value
      * @param string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array<string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule> $rule
      * @param string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array<string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule>|null $default
-     * @return $this
      */
     public function when(
         bool|Closure $value,
         string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array $rule,
         string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array|null $default = null
-    ): self {
+    ): static {
         $value = $value instanceof Closure ? $value($this) : $value;
 
         return $this->rule($value ? $rule : $default);
@@ -66,13 +65,12 @@ trait ConditionalRules
      * @param bool|(\Closure($this): bool) $value
      * @param string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array<string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule> $rule
      * @param string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array<string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule>|null $default
-     * @return $this
      */
     public function unless(
         bool|Closure $value,
         string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array $rule,
         string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array|null $default = null
-    ): self {
+    ): static {
         $value = $value instanceof Closure ? $value($this) : $value;
 
         return $this->rule((! $value) ? $rule : $default);

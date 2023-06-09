@@ -8,7 +8,7 @@ use BradieTilley\Rules\Rule;
 
 class CustomRuleClass extends Rule
 {
-    public function someCustomRule(): self
+    public function someCustomRule(): static
     {
         return $this->push('some_custom_rule');
     }
