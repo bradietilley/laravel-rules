@@ -29,9 +29,8 @@ class Rule implements Iterator, Arrayable
      * Add a rule
      *
      * @param string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array<string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule>|null $rule
-     * @return $this
      */
-    public function rule(string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array|null $rule): self
+    public function rule(string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array|null $rule): static
     {
         if ($rule === null) {
             return $this;
@@ -101,10 +100,8 @@ class Rule implements Iterator, Arrayable
 
     /**
      * Merge the given Rule's underlying rules with this Rule.
-     *
-     * @return $this
      */
-    public function merge(?Rule $rule): self
+    public function merge(?Rule $rule): static
     {
         if ($rule !== null) {
             $this->rules = array_merge($this->rules, $rule->toArray());
