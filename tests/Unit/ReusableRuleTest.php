@@ -5,11 +5,11 @@ declare(strict_types=1);
 use BradieTilley\Rules\Rule;
 
 test('reuse rule with closure', function () {
-    $reuseRule = function (Rule $rule) {
+    $reusableRule = function (Rule $rule) {
         $rule->integer()->max(10)->min(5);
     };
 
-    $rule = Rule::make()->required()->with($reuseRule);
+    $rule = Rule::make()->required()->with($reusableRule);
     expect($rule->toArray())->toEqual([
         'required',
         'integer',
@@ -19,7 +19,7 @@ test('reuse rule with closure', function () {
 });
 
 test('reuse rule with traditional callable', function () {
-    $rule = Rule::make()->required()->with(Closure::fromCallable('reuseRule'));
+    $rule = Rule::make()->required()->with(Closure::fromCallable('reusableRule'));
     expect($rule->toArray())->toEqual([
         'required',
         'string',
@@ -28,7 +28,7 @@ test('reuse rule with traditional callable', function () {
 });
 
 test('reuse rule with first class callable', function () {
-    $rule = Rule::make()->required()->with(reuseRule(...));
+    $rule = Rule::make()->required()->with(reusableRule(...));
     expect($rule->toArray())->toEqual([
         'required',
         'string',
@@ -37,7 +37,7 @@ test('reuse rule with first class callable', function () {
 });
 
 test('reuse rule with invoke class', function () {
-    $rule = Rule::make()->required()->with(new ReuseRule());
+    $rule = Rule::make()->required()->with(new ReusableRule());
     expect($rule->toArray())->toEqual([
         'required',
         'array',
@@ -45,12 +45,12 @@ test('reuse rule with invoke class', function () {
     ]);
 });
 
-function reuseRule(Rule $rule): void
+function reusableRule(Rule $rule): void
 {
     $rule->string()->email();
 }
 
-class ReuseRule
+class ReusableRule
 {
     public function __invoke(Rule $rule): void
     {
