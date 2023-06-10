@@ -112,4 +112,16 @@ class Rule implements Iterator, Arrayable
 
         return $this;
     }
+
+    /**
+     * Merge the given callable with this Rule.
+     *
+     * @return $this
+     */
+    public function with(callable $callable): self
+    {
+        $callable($this);
+
+        return $this;
+    }
 }
