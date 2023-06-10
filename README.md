@@ -126,6 +126,69 @@ public function rules(): array
 
 ```
 
+### Reusable Rules
+
+The `->with(...)` method in a rule offers you the flexibility you need to specify rule logic that can be re-used wherever you need it.
+
+Here is an example:
+
+```php
+public function rules(): array
+{
+    $integerRule = function (Rule $rule) {
+        $rule->integer()->max(100);
+    }
+
+    return [
+        'percent' => Rule::make()
+            ->with($integerRule),
+    ];
+}
+
+// or
+
+function integerRule()
+{
+    $rule->integer()->max(100);
+}
+
+public function rules(): array
+{
+    return [
+        'percent' => Rule::make()
+            ->with(integerRule(...)),
+    ];
+}
+
+// or
+
+class IntegerRule
+{
+    public function __invoke(Rule $rule)
+    {
+        $rule->integer()->max(100);
+    }
+}
+
+public function rules(): array
+{
+    return [
+        'percent' => Rule::make()
+            ->with(new IntegerRule()),
+    ];
+}
+
+// returns:
+[
+    'percent' => [
+        'integer',
+        'max:100',
+    ],
+]
+
+```
+
+The `->with(...)` method accepts any form of callable i.e. closures, traditional callable notations (e.g. `[$this, 'methodName']`, first-class callable), `__invoke` magic method on an object (invokable class), etc.
 
 ### Benefits
 
