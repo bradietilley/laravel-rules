@@ -111,11 +111,11 @@ class Rule implements Iterator, Arrayable
     }
 
     /**
-     * Merge the given callable with this Rule.
-     *
-     * @return $this
+     * Merge the given callable with this Rule. The callable
+     * may be a Closure, function, method, or Invokable class
+     * and must accept this Rule instance as the only argument
      */
-    public function with(callable $callable): self
+    public function with(callable $callable): static
     {
         $callable($this);
 
