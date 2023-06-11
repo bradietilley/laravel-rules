@@ -205,8 +205,6 @@ Rule::macro('australianPhoneNumber', function () {
 Rule::make()->required()->string()->australianPhoneNumber(); // ['required', 'string', 'regex:/^\+614\d{8}$/']
 ```
 
-###
-
 ### Benefits
 
 **Better syntax**
