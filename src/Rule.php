@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BradieTilley\Rules;
 
+use Closure;
 use DateTimeInterface;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Validation\InvokableRule as InvokableRuleContract;
@@ -120,5 +121,16 @@ class Rule implements Iterator, Arrayable
         $callable($this);
 
         return $this;
+    }
+
+    /**
+     * Cache the given rules by the given key.
+     *
+     * @param Closure(): array<string, Rule> $generator
+     * @return array<string, Rule>
+     */
+    public static function cache(string $key, Closure $generator): array
+    {
+        return RuleCache::$cache[$key] ??= $generator();
     }
 }
