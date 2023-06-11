@@ -190,6 +190,23 @@ public function rules(): array
 
 The `->with(...)` method accepts any form of callable i.e. closures, traditional callable notations (e.g. `[$this, 'methodName']`, first-class callable), `__invoke` magic method on an object (invokable class), etc.
 
+### Macros
+
+This package allows you to define "macros" which can serve as a fluent to configure common rules.
+
+For example, the following code adds a `australianPhoneNumber` method to the `Rule` class:
+
+```php
+Rule::macro('australianPhoneNumber', function () {
+    /** @var Rule $this */
+    return $this->rule('regex:/^\+614\d{8}$/');
+});
+
+Rule::make()->required()->string()->australianPhoneNumber(); // ['required', 'string', 'regex:/^\+614\d{8}$/']
+```
+
+###
+
 ### Benefits
 
 **Better syntax**
