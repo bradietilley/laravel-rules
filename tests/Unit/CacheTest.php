@@ -149,44 +149,7 @@ test('rule cache test', function () {
         $runWith($iterations);
         $with = $timer->stop();
 
-        $printBar = function (string $title, array $times) {
-            output('');
-            output('');
-            output("==============================================");
-            output("========= {$title}");
-            output("==============================================");
-            output('');
-
-            $a = '▓';
-            $b = '░';
-
-            $max = collect($times)->max() * 1.01;
-
-            foreach ($times as $key => $time) {
-                $relative = ($time / $max) * 100;
-                $remain = (100 - $relative);
-
-                $keyFormatted = str_pad($key, 83);
-                $timeFormatted = str_pad(round($time), 5, ' ', STR_PAD_LEFT) . ' µs';
-                output("> {$keyFormatted} Time: {$timeFormatted}");
-
-                $bar = str_repeat($a, round($relative)).str_repeat($b, round($remain));
-                output($bar);
-            }
-        };
-
-        // output([
-        //     'iterations' => $iterations,
-        //     'withoutPackage' => $originalMs = $original->asMilliseconds(),
-        //     'withoutCaching' => $withoutMs = $without->asMilliseconds(),
-        //     'withCaching' => $withMs = $with->asMilliseconds(),
-        //     'msDifferenceCaching' => ($withoutMs - $withMs),
-        //     'msDifferenceLaravel' => ($originalMs - $withMs),
-        //     'pcDifferenceCaching' => ($withoutMs / $withMs),
-        //     'pcDifferenceLaravel' => ($originalMs / $withMs),
-        // ]);
-
-        $printBar("Iterations: {$iterations}", [
+        printBarGraphTiming("Iterations: {$iterations}", [
             'Original without Laravel Rules' => $original->asMicroseconds(),
             'Laravel Rules without Caching' => $without->asMicroseconds(),
             'Laravel Rules with Caching On' => $with->asMicroseconds(),
@@ -194,4 +157,4 @@ test('rule cache test', function () {
     }
 
     die('end');
-});
+})->group('performance');

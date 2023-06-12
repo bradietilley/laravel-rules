@@ -190,6 +190,29 @@ public function rules(): array
 
 The `->with(...)` method accepts any form of callable i.e. closures, traditional callable notations (e.g. `[$this, 'methodName']`, first-class callable), `__invoke` magic method on an object (invokable class), etc.
 
+### Caching of rulesets
+
+The overhead of this library on its own is quite low. But in some scenarios you may wish to cache one or many `Rule` objects so that they don't have to be redefined.
+
+**Use case:** If you're using the same rule logic (like `Rule::make()->required()->string()->min(5)`) within the same request life-cycle, such as in a `foreach` loop.
+
+**How it works:** The functionality of this is nothing extraordinary. It takes a `string` key and a `Closure` generator to either read from the in-memory cached rules or generates it and remembers it for next time. See below for an example:
+
+```php
+foreach ($files as $file) {
+    $json = json_decode(file_get_contents($file), true);
+
+    $rules = //
+
+    $validator = Validator::make($json, $rules);
+}
+```
+
+**Benefits**
+
+If you're invoking the same same rule logic more than 2-5 times you'll see a performance increase. You won't notice it though as we're talking microseconds optimisation.
+
+
 ### Benefits
 
 **Better syntax**

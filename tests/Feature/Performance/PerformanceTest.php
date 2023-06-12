@@ -85,11 +85,7 @@ test('performance stress test', function (int $max, int $threshold) {
                     }
 
                 }
-
-                // return $timer->stop()->asMicroseconds();
             }
-
-            // return $timer->stop()->asMicroseconds();
         }
 
         return $timer->stop()->asMicroseconds();
@@ -106,13 +102,10 @@ test('performance stress test', function (int $max, int $threshold) {
     $diffMs = ($withPackage - $withoutPackage);
     $diffPerc = ($withPackage / $withoutPackage) * 100;
 
-    // dd([
-    //     'iterations' => $iterations,
-    //     'withPackage' => $withPackage,
-    //     'withoutPackage' => $withoutPackage,
-    //     'microsecondsIncrease' => $diffMs,
-    //     'percentageIncrease' => $diffPerc,
-    // ]);
+    printBarGraphTiming("Iterations: {$iterations}", [
+        'Original without Laravel Rules' => $withoutPackage,
+        'Laravel Rules Package' => $withPackage,
+    ]);
 
     expect($diffPerc)->toBeLessThan($threshold);
 })->group('performance')->with([
