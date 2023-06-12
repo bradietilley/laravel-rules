@@ -29,7 +29,7 @@ function bool_rand(): bool
 /**
  * @param array<string, int|float> $times
  */
-function printBarGraphTiming(string $title, array $times): void
+function printBarGraphTiming(string $title, array $times, string $symbol = 'µ'): void
 {
     render(<<<HTML
 <div class="w-100 bg-green p-1 mt-3 mb-1">
@@ -45,7 +45,7 @@ HTML);
         $relative = ($time / $max) * 100;
         $remain = (100 - $relative);
 
-        $timeRounded = str_pad((string) round($time), 5, ' ', STR_PAD_LEFT);
+        $timeRounded = str_pad((string) number_format($time, 0), 5, ' ', STR_PAD_LEFT);
         $relativePercent = null;
 
         if ($base === null) {
@@ -66,7 +66,7 @@ HTML);
         render(<<<HTML
 <div class="w-100 flex">
     <span class="w-50 pl-1">{$key}</span>
-    <span class="w-30 pl-1 text-right">{$timeRounded} µs</span>
+    <span class="w-30 pl-1 text-right">{$timeRounded} {$symbol}s</span>
     <span class="w-20 pl-1 text-right">{$relativePercent}</span>
 </div>
 HTML);

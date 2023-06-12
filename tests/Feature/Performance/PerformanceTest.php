@@ -177,4 +177,4 @@ test('a single validator instance performance', function () {
     // ]);
 
     expect(true)->toBeTrue();
-});
+})->group('performance');
