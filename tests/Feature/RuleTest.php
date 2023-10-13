@@ -26,4 +26,10 @@ test('you can modify the Rule class to use by swapping the binding', function ()
 
     Rule::using(Rule::class);
     expect(Rule::make())->toBeInstanceOf(Rule::class);
+
+    Rule::using(CustomRuleClass::class);
+    expect(Rule::make())->toBeInstanceOf(CustomRuleClass::class);
+
+    Rule::usingDefault();
+    expect(Rule::make())->toBeInstanceOf(Rule::class);
 });
