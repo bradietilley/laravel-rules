@@ -11,6 +11,7 @@ use Illuminate\Validation\Rule as RuleClass;
 use Illuminate\Validation\Rules\Dimensions;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\ExcludeIf;
+use Illuminate\Validation\Rules\Exists;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rules\ImageFile;
 use Illuminate\Validation\Rules\Password;
@@ -356,8 +357,22 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-exclude-unless
      */
-    public function excludeUnless(string ...$fieldsAndValues): static
-    {
+    public function excludeUnless(
+        string|bool|Closure $condition = null,
+        string ...$fieldsAndValues
+    ): static {
+        if ($condition instanceof Closure) {
+            $condition = !! $condition();
+        }
+
+        if (is_bool($condition)) {
+            return $this->excludeIf(! $condition);
+        }
+
+        if (is_string($condition)) {
+            array_unshift($fieldsAndValues, $condition);
+        }
+
         return $this->rule('exclude_unless'.self::arguments($fieldsAndValues));
     }
 
@@ -380,9 +395,13 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-exists
      */
-    public function exists(string $table, string $column = null): static
+    public function exists(string|Exists $table, string $column = null): static
     {
-        return $this->rule((string) RuleClass::exists($table, $column ?? 'NULL'));
+        if (is_string($table)) {
+            $table = RuleClass::exists($table, $column ?? 'NULL');
+        }
+
+        return $this->rule((string) $table);
     }
 
     /**
