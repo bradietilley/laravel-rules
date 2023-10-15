@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Validation\Rules\Dimensions;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\ExcludeIf;
+use Illuminate\Validation\Rules\Exists;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rules\ImageFile;
 use Illuminate\Validation\Rules\Password;
@@ -597,55 +598,114 @@ it('applies the `exclude_if` rule', function (bool|Closure|ExcludeIf $condition,
     ],
 ]);
 
-// it('applies the `exclude_unless` rule', function () {
-//     $rule = Rule::make()->excludeUnless(string ...$fieldsAndValues);
-//     expect($rule)
-//         ->toBeInstanceOf(Rule::class)
-//         ->toArray()
-//         ->toBe([
-//             'exclude_unless',
-//         ]);
-// });
+it('applies the `exclude_unless` rule', function (array $arguments, string $expect) {
+    $rule = Rule::make()->excludeUnless(...$arguments);
+    expect($rule)
+        ->toBeInstanceOf(Rule::class)
+        ->toArray()
+        ->toBe([
+            $expect,
+        ]);
+})->with([
+    'boolean = true' => [
+        [ true ],
+        '',
+    ],
+    'boolean = false' => [
+        [ false ],
+        'exclude',
+    ],
+    'closure = true' => [
+        [ fn () => true ],
+        '',
+    ],
+    'closure = false' => [
+        [ fn () => false ],
+        'exclude',
+    ],
+    'single field/value' => [
+        [ 'foo', 'bar', ],
+        'exclude_unless:foo,bar',
+    ],
+    'multiple fields/values' => [
+        [ 'foo', 'bar', 'baz', 'biz', ],
+        'exclude_unless:foo,bar,baz,biz',
+    ],
+]);
 
-// it('applies the `exclude_with` rule', function () {
-//     $rule = Rule::make()->excludeWith(string $field);
-//     expect($rule)
-//         ->toBeInstanceOf(Rule::class)
-//         ->toArray()
-//         ->toBe([
-//             'exclude_with',
-//         ]);
-// });
+it('applies the `exclude_with` rule', function () {
+    $rule = Rule::make()->excludeWith('another_field');
+    expect($rule)
+        ->toBeInstanceOf(Rule::class)
+        ->toArray()
+        ->toBe([
+            'exclude_with:another_field',
+        ]);
+});
 
-// it('applies the `exclude_without` rule', function () {
-//     $rule = Rule::make()->excludeWithout(string $field);
-//     expect($rule)
-//         ->toBeInstanceOf(Rule::class)
-//         ->toArray()
-//         ->toBe([
-//             'exclude_without',
-//         ]);
-// });
+it('applies the `exclude_without` rule', function () {
+    $rule = Rule::make()->excludeWithout('example_field');
+    expect($rule)
+        ->toBeInstanceOf(Rule::class)
+        ->toArray()
+        ->toBe([
+            'exclude_without:example_field',
+        ]);
+});
 
-// it('applies the `exists` rule', function () {
-//     $rule = Rule::make()->exists(string $table, string $column = null);
-//     expect($rule)
-//         ->toBeInstanceOf(Rule::class)
-//         ->toArray()
-//         ->toBe([
-//             'exists',
-//         ]);
-// });
+it('applies the `exists` rule', function (array $arguments, string $expect) {
+    $rule = Rule::make()->exists(...$arguments);
+    expect($rule)
+        ->toBeInstanceOf(Rule::class)
+        ->toArray()
+        ->toBe([
+            $expect,
+        ]);
+})->with([
+    'table only' => [
+        [ 'products' ],
+        'exists:products,NULL',
+    ],
+    'table and column' => [
+        [ 'users', 'email', ],
+        'exists:users,email',
+    ],
+    'exists object' => fn () => [
+        [ $object = (new Exists('settings', 'id'))->withoutTrashed(), ],
+        (string) $object,
+    ],
+]);
 
-// it('applies the `file` rule', function () {
-//     $rule = Rule::make();
-//     expect($rule)
-//         ->toBeInstanceOf(Rule::class)
-//         ->toArray()
-//         ->toBe([
-//             'file',
-//         ]);
-// });
+it('applies the `file` rule', function (array $arguments, array $expect) {
+    $rule = Rule::make()->file(...$arguments);
+    expect($rule)
+        ->toBeInstanceOf(Rule::class)
+        ->toArray()
+        ->toHaveCount(1);
+
+    $file = $rule->toArray()[0];
+    $properties = getPropertiesFromObject($file, [
+        'allowedMimetypes',
+        'minimumFileSize',
+        'maximumFileSize',
+        'customRules',
+    ]);
+
+    expect($properties)->toBe($expect);
+})->with([
+    'allowed mimetypes only' => [
+        [ null, ['image/png', 'image/jpeg'], ],
+        [ 'allowedMimetypes' => ['image/png', 'image/jpeg'], 'minimumFileSize' => null, 'maximumFileSize' => null, 'customRules' => [], ],
+    ],
+    'all file arguments' => [
+        [ null, ['image/webp', 'image/jpeg'], 10, 100, [ 'ABC',] ],
+        [ 'allowedMimetypes' => ['image/webp', 'image/jpeg'], 'minimumFileSize' => 10, 'maximumFileSize' => 100, 'customRules' => [ 'ABC', ] ],
+    ],
+    'file argument' => [
+        [ File::types(['application/pdf'])->min(43)->max(74), ],
+        [ 'allowedMimetypes' => ['application/pdf'], 'minimumFileSize' => 43, 'maximumFileSize' => 74, 'customRules' => [] ],
+    ],
+]);
 
 it('applies the `filled` rule', function () {
     $rule = Rule::make()->filled();
