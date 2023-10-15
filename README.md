@@ -297,6 +297,53 @@ The more the package is utilised in a single request, the less relative overhead
 The overhead here is no more a concern than using Laravel itself. If you're itching for those few microseconds worth of savings then you're probably better off running a custom lightweight framework -- not Laravel.
 
 
+### Haltable Rules
+
+An optional, different approach to the `ValidationRule` which removes the horrible signature of the `Closure $fail` argument. To implement Haltable rules, simply add the `BradieTilley\Rules\Haltable\HaltableRule` trait to your `ValidationRule` class and replace your `validate` method with the `run` method.
+
+Instead of this:
+
+```php
+public function validate(string $attribute, mixed $value, Closure $fail): void
+{
+    if ($this->someCondition) {
+        return; // pass
+    }
+
+    if ($this->otherCondition) {
+        $fail('Some error message');
+
+        return;
+    }
+
+    // ...
+}
+```
+
+You would instead do:
+
+
+```php
+public function run(string $attribute, mixed $value): void
+{
+    if ($this->someCondition) {
+        $this->passed();
+    }
+
+    if ($this->otherCondition) {
+        $this->failed('Some error message');
+    }
+
+    // ...
+}
+```
+
+The `passed` and `failed` methods throw internal exceptions that are caught and halt the validation of the rule without having to `return`.
+
+If you're confident in the type of `$value` then you can type hint it as the primitive type that you expect it to be.
+
+
+
 ## Author
 
 - [Bradie Tilley](https://github.com/bradietilley)
