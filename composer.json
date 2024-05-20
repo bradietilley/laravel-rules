@@ -26,11 +26,11 @@
         "illuminate/container": "^10.0|^11.0"
     },
     "require-dev": {
-        "symfony/var-dumper": "^6.1.5",
+        "symfony/var-dumper": "^6.1.5|^7.0",
         "laravel/pint": "^1.10",
         "pestphp/pest": "^2.0",
         "phpstan/phpstan": "^1.8",
-        "orchestra/testbench": "^8.5"
+        "orchestra/testbench": "^8.5|^9.0"
     },
     "scripts": {
         "lint": "pint --ansi",

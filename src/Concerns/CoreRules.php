@@ -159,6 +159,14 @@ trait CoreRules
     }
 
     /**
+     * @link https://laravel.com/docs/master/validation#rule-contains
+     */
+    public function contains(mixed ...$values): static
+    {
+        return $this->rule('contains'.self::arguments($values));
+    }
+
+    /**
      * @link https://laravel.com/docs/master/validation#rule-current-password
      */
     public function currentPassword(string $guard = null): static
@@ -329,6 +337,8 @@ trait CoreRules
     }
 
     /**
+     * @param class-string|Enum $enum
+     *
      * @link https://laravel.com/docs/master/validation#rule-enum
      */
     public function enum(string|Enum $enum): static
@@ -550,6 +560,14 @@ trait CoreRules
     public function lowercase(): static
     {
         return $this->rule('lowercase');
+    }
+
+    /**
+     * @link https://laravel.com/docs/master/validation#rule-list
+     */
+    public function list(): static
+    {
+        return $this->rule('list');
     }
 
     /**
@@ -838,6 +856,22 @@ trait CoreRules
         }
 
         return $this->rule('required_if'.self::arguments($fieldsAndValues));
+    }
+
+    /**
+     * @link https://laravel.com/docs/master/validation#rule-required-if-accepted
+     */
+    public function requiredIfAccepted(string ...$fields): static
+    {
+        return $this->rule('required_if_accepted'.self::arguments($fields));
+    }
+
+    /**
+     * @link https://laravel.com/docs/master/validation#rule-required-if-declined
+     */
+    public function requiredIfDeclined(string ...$fields): static
+    {
+        return $this->rule('required_if_declined'.self::arguments($fields));
     }
 
     /**
