@@ -337,6 +337,8 @@ trait CoreRules
     }
 
     /**
+     * @param class-string|Enum $enum
+     *
      * @link https://laravel.com/docs/master/validation#rule-enum
      */
     public function enum(string|Enum $enum): static
