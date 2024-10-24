@@ -15,6 +15,9 @@ use Throwable;
  * and drop the redundant `$fail` argument.
  *
  * @mixin ValidationRule
+ *
+ * @deprecated
+ * @see BradieTilley\Rules\Validation\ValidationRule
  */
 trait HaltableRule
 {
