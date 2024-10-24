@@ -415,6 +415,14 @@ trait CoreRules
     }
 
     /**
+     * @link https://laravel.com/docs/master/validation#rule-extensions
+     */
+    public function extensions(string ...$extensions): static
+    {
+        return $this->rule('extensions'.self::arguments($extensions));
+    }
+
+    /**
      * @param array<string> $allowedMimetypes
      * @param string|array<mixed> $customRules
      * @link https://laravel.com/docs/master/validation#rule-file
@@ -472,6 +480,14 @@ trait CoreRules
     public function gte(string $field): static
     {
         return $this->rule('gte:'.$field);
+    }
+
+    /**
+     * @link https://laravel.com/docs/master/validation#rule-hex-color
+     */
+    public function hexColor(): static
+    {
+        return $this->rule('hex_color');
     }
 
     /**
@@ -762,6 +778,38 @@ trait CoreRules
     public function present(): static
     {
         return $this->rule('present');
+    }
+
+    /**
+     * @link https://laravel.com/docs/master/validation#rule-present-if
+     */
+    public function presentIf(string ...$fieldsAndValues): static
+    {
+        return $this->rule('present_if'.self::arguments($fieldsAndValues));
+    }
+
+    /**
+     * @link https://laravel.com/docs/master/validation#rule-present-unless
+     */
+    public function presentUnless(string ...$fieldsAndValues): static
+    {
+        return $this->rule('present_unless'.self::arguments($fieldsAndValues));
+    }
+
+    /**
+     * @link https://laravel.com/docs/master/validation#rule-present-with
+     */
+    public function presentWith(string ...$fields): static
+    {
+        return $this->rule('present_with'.self::arguments($fields));
+    }
+
+    /**
+     * @link https://laravel.com/docs/master/validation#rule-present-with-all
+     */
+    public function presentWithAll(string ...$fields): static
+    {
+        return $this->rule('present_with_all'.self::arguments($fields));
     }
 
     /**
