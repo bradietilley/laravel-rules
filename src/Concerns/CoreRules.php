@@ -1029,15 +1029,10 @@ trait CoreRules
      */
     public function timezone(?string $group = null, ?string $country = null): static
     {
-        $arguments = [];
-
-        if ($group !== null) {
-            $arguments[] = $group;
-
-            if ($country !== null) {
-                $arguments[] = $country;
-            }
-        }
+        $arguments = array_filter([
+            $group,
+            $country,
+        ]);
 
         return $this->rule('timezone'.self::arguments($arguments));
     }
