@@ -47,6 +47,10 @@ Grab it via composer
 composer require bradietilley/laravel-rules
 ```
 
+### Versions
+
+- PHP 8.1 and 8.2 @ Laravel 10 → v1.2.0
+- PHP 8.2 and 8.3 @ Laravel 11 → v1.3.0
 
 ## Documentation
 
