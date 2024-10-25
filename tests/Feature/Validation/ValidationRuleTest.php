@@ -1,6 +1,5 @@
 <?php
 
-use BradieTilley\Rules\Validation\FailMessage;
 use BradieTilley\Rules\Validation\ValidationRule;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,7 +12,7 @@ test('a ValidationRule rule', function () {
     ValidationRuleHelper::$history = [];
 
     $rule = new class () extends ValidationRule {
-        public function run(string $attribute, mixed $value): ?FailMessage
+        public function run(string $attribute, mixed $value): static
         {
             ValidationRuleHelper::$history[] = [$attribute, $value];
 

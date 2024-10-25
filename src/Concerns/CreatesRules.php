@@ -43,8 +43,7 @@ trait CreatesRules
     {
         $class = self::$using;
         $instance = new $class($field);
-
-        assert($instance instanceof Rule);
+        /** @var Rule $instance */
 
         return $instance;
     }
