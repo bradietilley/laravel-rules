@@ -747,50 +747,10 @@ trait CoreRules
 
     /**
      * @link https://laravel.com/docs/master/validation#rule-password
-     * @param string|array<mixed> $rules
      */
-    public function password(
-        Password $password = null,
-        bool $letters = false,
-        bool $mixedCase = false,
-        bool $numbers = false,
-        bool $symbols = false,
-        int|bool $uncompromised = null,
-        int $min = null,
-        string|array $rules = [],
-    ): static {
-        if ($password === null) {
-            $password = Password::default();
-
-            /** use `if` conditions over `Conditionable` for lightweight invocation */
-            if ($letters) {
-                $password->letters();
-            }
-
-            if ($mixedCase) {
-                $password->mixedCase();
-            }
-
-            if ($numbers) {
-                $password->numbers();
-            }
-
-            if ($symbols) {
-                $password->symbols();
-            }
-
-            if ($uncompromised !== null) {
-                $password->uncompromised(is_int($uncompromised) ? $uncompromised : 0);
-            }
-
-            if ($min !== null) {
-                $password->min($min);
-            }
-
-            if (! empty($rules)) {
-                $password->rules($rules);
-            }
-        }
+    public function password(?Password $password = null): static
+    {
+        $password ??= Password::default();
 
         return $this->rule($password);
     }

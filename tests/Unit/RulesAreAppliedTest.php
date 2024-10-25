@@ -11,11 +11,12 @@ use Illuminate\Validation\Rules\Exists;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rules\ImageFile;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rules\ProhibitedIf;
 use Illuminate\Validation\Rules\RequiredIf;
 use Illuminate\Validation\Rules\Unique;
 use Tests\Fixtures\AnExampleEnum;
 
-it('applies the `accepted` rule', function () {
+it('applies the accepted rule', function () {
     $rule = Rule::make()->accepted();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -25,26 +26,40 @@ it('applies the `accepted` rule', function () {
         ]);
 });
 
-it('applies the `accepted_if` rule', function (array $arguments, string $expect) {
+it('applies the accepted_if rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->acceptedIf(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
-        ->toBe([
-            $expect,
-        ]);
+        ->toBe($expect);
 })->with([
-    'one field/value' => [
-        [ 'foo', 'bar', ],
-        'accepted_if:foo,bar',
+    'boolean = true' => [
+        [ true ],
+        ['accepted'],
     ],
-    'two fields/values' => [
+    'boolean = false' => [
+        [ false ],
+        [],
+    ],
+    'closure = true' => [
+        [ fn () => true ],
+        ['accepted'],
+    ],
+    'closure = false' => [
+        [ fn () => false ],
+        [],
+    ],
+    'field + one value' => [
+        [ 'foo', 'bar', ],
+        ['accepted_if:foo,bar'],
+    ],
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
-        'accepted_if:foo,bar,baz,biz',
+        ['accepted_if:foo,bar,baz,biz'],
     ],
 ]);
 
-it('applies the `active_url` rule', function () {
+it('applies the active_url rule', function () {
     $rule = Rule::make()->activeUrl();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -54,7 +69,7 @@ it('applies the `active_url` rule', function () {
         ]);
 });
 
-it('applies the `after` rule', function (string|Carbon $date, string $expect) {
+it('applies the after rule', function (string|Carbon $date, string $expect) {
     $rule = Rule::make()->after($date);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -73,7 +88,7 @@ it('applies the `after` rule', function (string|Carbon $date, string $expect) {
     ],
 ]);
 
-it('applies the `after_or_equal` rule', function (string|Carbon $date, string $expect) {
+it('applies the after_or_equal rule', function (string|Carbon $date, string $expect) {
     $rule = Rule::make()->afterOrEqual($date);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -92,7 +107,7 @@ it('applies the `after_or_equal` rule', function (string|Carbon $date, string $e
     ],
 ]);
 
-it('applies the `alpha` rule', function (?string $range, string $expect) {
+it('applies the alpha rule', function (?string $range, string $expect) {
     $rule = Rule::make()->alpha($range);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -111,7 +126,7 @@ it('applies the `alpha` rule', function (?string $range, string $expect) {
     ],
 ]);
 
-it('applies the `alpha_dash` rule', function (?string $range, string $expect) {
+it('applies the alpha_dash rule', function (?string $range, string $expect) {
     $rule = Rule::make()->alphaDash($range);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -130,7 +145,7 @@ it('applies the `alpha_dash` rule', function (?string $range, string $expect) {
     ],
 ]);
 
-it('applies the `alpha_numeric` rule', function (?string $range, string $expect) {
+it('applies the alpha_numeric rule', function (?string $range, string $expect) {
     $rule = Rule::make()->alphaNumeric($range);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -149,7 +164,7 @@ it('applies the `alpha_numeric` rule', function (?string $range, string $expect)
     ],
 ]);
 
-it('applies the `array` rule', function (array $arguments, string $expect) {
+it('applies the array rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->array(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -172,7 +187,7 @@ it('applies the `array` rule', function (array $arguments, string $expect) {
     ],
 ]);
 
-it('applies the `ascii` rule', function () {
+it('applies the ascii rule', function () {
     $rule = Rule::make()->ascii();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -182,7 +197,7 @@ it('applies the `ascii` rule', function () {
         ]);
 });
 
-it('applies the `bail` rule', function () {
+it('applies the bail rule', function () {
     $rule = Rule::make()->bail();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -192,7 +207,7 @@ it('applies the `bail` rule', function () {
         ]);
 });
 
-it('applies the `before` rule', function (string|Carbon $date, string $expect) {
+it('applies the before rule', function (string|Carbon $date, string $expect) {
     $rule = Rule::make()->before($date);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -211,7 +226,7 @@ it('applies the `before` rule', function (string|Carbon $date, string $expect) {
     ],
 ]);
 
-it('applies the `before_or_equal` rule', function (string|Carbon $date, string $expect) {
+it('applies the before_or_equal rule', function (string|Carbon $date, string $expect) {
     $rule = Rule::make()->beforeOrEqual($date);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -230,7 +245,7 @@ it('applies the `before_or_equal` rule', function (string|Carbon $date, string $
     ],
 ]);
 
-it('applies the `between` rule', function () {
+it('applies the between rule', function () {
     $rule = Rule::make()->between(5, 28);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -240,7 +255,7 @@ it('applies the `between` rule', function () {
         ]);
 });
 
-it('applies the `boolean` rule', function () {
+it('applies the boolean rule', function () {
     $rule = Rule::make()->boolean();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -250,7 +265,7 @@ it('applies the `boolean` rule', function () {
         ]);
 });
 
-it('applies the `confirmed` rule', function () {
+it('applies the confirmed rule', function () {
     $rule = Rule::make()->confirmed();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -260,7 +275,7 @@ it('applies the `confirmed` rule', function () {
         ]);
 });
 
-it('applies the `contains` rule', function () {
+it('applies the contains rule', function () {
     $rule = Rule::make()->contains('foo', 'bar');
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -270,7 +285,7 @@ it('applies the `contains` rule', function () {
         ]);
 });
 
-it('applies the `current_password` rule', function (?string $guard, string $expect) {
+it('applies the current_password rule', function (?string $guard, string $expect) {
     $rule = Rule::make()->currentPassword($guard);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -289,7 +304,7 @@ it('applies the `current_password` rule', function (?string $guard, string $expe
     ],
 ]);
 
-it('applies the `date` rule', function () {
+it('applies the date rule', function () {
     $rule = Rule::make()->date();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -299,7 +314,7 @@ it('applies the `date` rule', function () {
         ]);
 });
 
-it('applies the `date_equals` rule', function (string|Carbon $date, string $expect) {
+it('applies the date_equals rule', function (string|Carbon $date, string $expect) {
     $rule = Rule::make()->dateEquals($date);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -318,7 +333,7 @@ it('applies the `date_equals` rule', function (string|Carbon $date, string $expe
     ],
 ]);
 
-it('applies the `date_format` rule', function (array $arguments, string $expect) {
+it('applies the date_format rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->dateFormat(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -337,7 +352,7 @@ it('applies the `date_format` rule', function (array $arguments, string $expect)
     ],
 ]);
 
-it('applies the `decimal` rule', function (array $arguments, string $expect) {
+it('applies the decimal rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->decimal(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -356,7 +371,7 @@ it('applies the `decimal` rule', function (array $arguments, string $expect) {
     ],
 ]);
 
-it('applies the `declined` rule', function () {
+it('applies the declined rule', function () {
     $rule = Rule::make()->declined();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -366,26 +381,40 @@ it('applies the `declined` rule', function () {
         ]);
 });
 
-it('applies the `declined_if` rule', function (array $arguments, string $expect) {
+it('applies the declined_if rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->declinedIf(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
-        ->toBe([
-            $expect,
-        ]);
+        ->toBe($expect);
 })->with([
-    'one field/value' => [
-        [ 'foo', 'bar', ],
-        'declined_if:foo,bar',
+    'boolean = true' => [
+        [ true ],
+        ['declined'],
     ],
-    'two fields/values' => [
+    'boolean = false' => [
+        [ false ],
+        [],
+    ],
+    'closure = true' => [
+        [ fn () => true ],
+        ['declined'],
+    ],
+    'closure = false' => [
+        [ fn () => false ],
+        [],
+    ],
+    'field + one value' => [
+        [ 'foo', 'bar', ],
+        ['declined_if:foo,bar'],
+    ],
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
-        'declined_if:foo,bar,baz,biz',
+        ['declined_if:foo,bar,baz,biz'],
     ],
 ]);
 
-it('applies the `different` rule', function () {
+it('applies the different rule', function () {
     $rule = Rule::make()->different('another_field');
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -395,7 +424,7 @@ it('applies the `different` rule', function () {
         ]);
 });
 
-it('applies the `digits` rule', function () {
+it('applies the digits rule', function () {
     $rule = Rule::make()->digits(10);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -405,7 +434,7 @@ it('applies the `digits` rule', function () {
         ]);
 });
 
-it('applies the `digits_between` rule', function () {
+it('applies the digits_between rule', function () {
     $rule = Rule::make()->digitsBetween(2, 8);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -415,7 +444,7 @@ it('applies the `digits_between` rule', function () {
         ]);
 });
 
-it('applies the `dimensions` rule', function (array $arguments, string $expect) {
+it('applies the dimensions rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->dimensions(...$arguments);
 
     expect($rule)->toBeInstanceOf(Rule::class);
@@ -448,7 +477,7 @@ it('applies the `dimensions` rule', function (array $arguments, string $expect) 
     ],
 ]);
 
-it('applies the `distinct` rule', function (?string $mode, string $expect) {
+it('applies the distinct rule', function (?string $mode, string $expect) {
     $rule = Rule::make()->distinct($mode);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -471,7 +500,7 @@ it('applies the `distinct` rule', function (?string $mode, string $expect) {
     ],
 ]);
 
-it('applies the `doesnt_start_with` rule', function (array $arguments, string $expect) {
+it('applies the doesnt_start_with rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->doesntStartWith(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -490,7 +519,7 @@ it('applies the `doesnt_start_with` rule', function (array $arguments, string $e
     ],
 ]);
 
-it('applies the `doesnt_end_with` rule', function (array $arguments, string $expect) {
+it('applies the doesnt_end_with rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->doesntEndWith(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -509,7 +538,7 @@ it('applies the `doesnt_end_with` rule', function (array $arguments, string $exp
     ],
 ]);
 
-it('applies the `email` rule', function (array $arguments, string $expect) {
+it('applies the email rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->email(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -532,7 +561,7 @@ it('applies the `email` rule', function (array $arguments, string $expect) {
     ],
 ]);
 
-it('applies the `ends_with` rule', function (array $arguments, string $expect) {
+it('applies the ends_with rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->endsWith(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -551,7 +580,7 @@ it('applies the `ends_with` rule', function (array $arguments, string $expect) {
     ],
 ]);
 
-it('applies the `enum` rule', function (string|Enum $enum, string $expect) {
+it('applies the enum rule', function (string|Enum $enum, string $expect) {
     $rule = Rule::make()->enum($enum);
 
     expect($rule)->toBeInstanceOf(Rule::class);
@@ -571,7 +600,7 @@ it('applies the `enum` rule', function (string|Enum $enum, string $expect) {
     ],
 ]);
 
-it('applies the `exclude` rule', function () {
+it('applies the exclude rule', function () {
     $rule = Rule::make()->exclude();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -581,7 +610,7 @@ it('applies the `exclude` rule', function () {
         ]);
 });
 
-it('applies the `exclude_if` rule', function (bool|Closure|ExcludeIf $condition, array $expect) {
+it('applies the exclude_if rule', function (bool|Closure|ExcludeIf $condition, array $expect) {
     $rule = Rule::make()->excludeIf($condition);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -606,7 +635,7 @@ it('applies the `exclude_if` rule', function (bool|Closure|ExcludeIf $condition,
     ],
 ]);
 
-it('applies the `exclude_unless` rule', function (array $arguments, array $expect) {
+it('applies the exclude_unless rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->excludeUnless(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -629,17 +658,17 @@ it('applies the `exclude_unless` rule', function (array $arguments, array $expec
         [ fn () => false ],
         ['exclude'],
     ],
-    'single field/value' => [
+    'field + one value' => [
         [ 'foo', 'bar', ],
         ['exclude_unless:foo,bar'],
     ],
-    'multiple fields/values' => [
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
         ['exclude_unless:foo,bar,baz,biz'],
     ],
 ]);
 
-it('applies the `exclude_with` rule', function () {
+it('applies the exclude_with rule', function () {
     $rule = Rule::make()->excludeWith('another_field');
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -649,7 +678,7 @@ it('applies the `exclude_with` rule', function () {
         ]);
 });
 
-it('applies the `exclude_without` rule', function () {
+it('applies the exclude_without rule', function () {
     $rule = Rule::make()->excludeWithout('example_field');
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -659,7 +688,7 @@ it('applies the `exclude_without` rule', function () {
         ]);
 });
 
-it('applies the `exists` rule', function (array $arguments, string $expect) {
+it('applies the exists rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->exists(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -683,7 +712,7 @@ it('applies the `exists` rule', function (array $arguments, string $expect) {
 ]);
 
 
-it('applies the `extensions` rule', function () {
+it('applies the extensions rule', function () {
     $rule = Rule::make()->extensions('jpg', 'jpeg', 'png');
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -693,7 +722,7 @@ it('applies the `extensions` rule', function () {
         ]);
 });
 
-it('applies the `file` rule', function (array $arguments, array $expect) {
+it('applies the file rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->file(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -724,7 +753,7 @@ it('applies the `file` rule', function (array $arguments, array $expect) {
     ],
 ]);
 
-it('applies the `filled` rule', function () {
+it('applies the filled rule', function () {
     $rule = Rule::make()->filled();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -734,7 +763,7 @@ it('applies the `filled` rule', function () {
         ]);
 });
 
-it('applies the `gt` rule', function () {
+it('applies the gt rule', function () {
     $rule = Rule::make()->gt('another_field');
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -744,7 +773,7 @@ it('applies the `gt` rule', function () {
         ]);
 });
 
-it('applies the `gte` rule', function () {
+it('applies the gte rule', function () {
     $rule = Rule::make()->gte('another_field');
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -754,7 +783,7 @@ it('applies the `gte` rule', function () {
         ]);
 });
 
-it('applies the `image` rule', function (?ImageFile $image, string|ImageFile $expect) {
+it('applies the image rule', function (?ImageFile $image, string|ImageFile $expect) {
     $rule = Rule::make()->image($image);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -783,7 +812,7 @@ it('apples the `hex_color` rule', function () {
         ]);
 });
 
-it('applies the `in` rule', function (array $arguments, string $expect) {
+it('applies the in rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->in(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -802,7 +831,7 @@ it('applies the `in` rule', function (array $arguments, string $expect) {
     ],
 ]);
 
-it('applies the `in_array` rule', function () {
+it('applies the in_array rule', function () {
     $rule = Rule::make()->inArray('foo');
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -812,7 +841,7 @@ it('applies the `in_array` rule', function () {
         ]);
 });
 
-it('applies the `integer` rule', function () {
+it('applies the integer rule', function () {
     $rule = Rule::make()->integer();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -822,7 +851,7 @@ it('applies the `integer` rule', function () {
         ]);
 });
 
-it('applies the `ip` rule', function () {
+it('applies the ip rule', function () {
     $rule = Rule::make()->ip();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -832,7 +861,7 @@ it('applies the `ip` rule', function () {
         ]);
 });
 
-it('applies the `ipv4` rule', function () {
+it('applies the ipv4 rule', function () {
     $rule = Rule::make()->ipv4();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -842,7 +871,7 @@ it('applies the `ipv4` rule', function () {
         ]);
 });
 
-it('applies the `ipv6` rule', function () {
+it('applies the ipv6 rule', function () {
     $rule = Rule::make()->ipv6();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -852,7 +881,7 @@ it('applies the `ipv6` rule', function () {
         ]);
 });
 
-it('applies the `json` rule', function () {
+it('applies the json rule', function () {
     $rule = Rule::make()->json();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -862,7 +891,7 @@ it('applies the `json` rule', function () {
         ]);
 });
 
-it('applies the `lt` rule', function () {
+it('applies the lt rule', function () {
     $rule = Rule::make()->lt('another_field');
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -872,7 +901,7 @@ it('applies the `lt` rule', function () {
         ]);
 });
 
-it('applies the `lte` rule', function () {
+it('applies the lte rule', function () {
     $rule = Rule::make()->lte('another_field');
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -882,7 +911,7 @@ it('applies the `lte` rule', function () {
         ]);
 });
 
-it('applies the `lowercase` rule', function () {
+it('applies the lowercase rule', function () {
     $rule = Rule::make()->lowercase();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -892,7 +921,7 @@ it('applies the `lowercase` rule', function () {
         ]);
 });
 
-it('applies the `list` rule', function () {
+it('applies the list rule', function () {
     $rule = Rule::make()->list();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -902,7 +931,7 @@ it('applies the `list` rule', function () {
         ]);
 });
 
-it('applies the `mac_address` rule', function () {
+it('applies the mac_address rule', function () {
     $rule = Rule::make()->macAddress();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -912,7 +941,7 @@ it('applies the `mac_address` rule', function () {
         ]);
 });
 
-it('applies the `max` rule', function () {
+it('applies the max rule', function () {
     $rule = Rule::make()->max(128);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -922,7 +951,7 @@ it('applies the `max` rule', function () {
         ]);
 });
 
-it('applies the `max_digits` rule', function () {
+it('applies the max_digits rule', function () {
     $rule = Rule::make()->maxDigits(9);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -932,7 +961,7 @@ it('applies the `max_digits` rule', function () {
         ]);
 });
 
-it('applies the `mime_types` rule', function (array $arguments, string $expect) {
+it('applies the mime_types rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->mimeTypes(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -951,7 +980,7 @@ it('applies the `mime_types` rule', function (array $arguments, string $expect) 
     ]
 ]);
 
-it('applies the `mimes` rule', function (array $arguments, string $expect) {
+it('applies the mimes rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->mimes(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -970,7 +999,7 @@ it('applies the `mimes` rule', function (array $arguments, string $expect) {
     ]
 ]);
 
-it('applies the `min` rule', function () {
+it('applies the min rule', function () {
     $rule = Rule::make()->min(345);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -980,7 +1009,7 @@ it('applies the `min` rule', function () {
         ]);
 });
 
-it('applies the `min_digits` rule', function () {
+it('applies the min_digits rule', function () {
     $rule = Rule::make()->minDigits(6);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -990,7 +1019,7 @@ it('applies the `min_digits` rule', function () {
         ]);
 });
 
-it('applies the `missing` rule', function () {
+it('applies the missing rule', function () {
     $rule = Rule::make()->missing();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1000,45 +1029,73 @@ it('applies the `missing` rule', function () {
         ]);
 });
 
-it('applies the `missing_if` rule', function (array $arguments, string $expect) {
+it('applies the missing_if rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->missingIf(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
-        ->toBe([
-            $expect,
-        ]);
+        ->toBe($expect);
 })->with([
-    'one field/value' => [
-        [ 'foo', 'bar', ],
-        'missing_if:foo,bar',
+    'boolean = true' => [
+        [ true ],
+        ['missing'],
     ],
-    'two fields/values' => [
+    'boolean = false' => [
+        [ false ],
+        [],
+    ],
+    'closure = true' => [
+        [ fn () => true ],
+        ['missing'],
+    ],
+    'closure = false' => [
+        [ fn () => false ],
+        [],
+    ],
+    'field + one value' => [
+        [ 'foo', 'bar', ],
+        ['missing_if:foo,bar'],
+    ],
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
-        'missing_if:foo,bar,baz,biz',
+        ['missing_if:foo,bar,baz,biz'],
     ],
 ]);
 
-it('applies the `missing_unless` rule', function (array $arguments, string $expect) {
+it('applies the missing_unless rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->missingUnless(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
-        ->toBe([
-            $expect,
-        ]);
+        ->toBe($expect);
 })->with([
-    'one field/value' => [
-        [ 'foo', 'bar', ],
-        'missing_unless:foo,bar',
+    'boolean = true' => [
+        [ true ],
+        [],
     ],
-    'two fields/values' => [
+    'boolean = false' => [
+        [ false ],
+        ['missing'],
+    ],
+    'closure = true' => [
+        [ fn () => true ],
+        [],
+    ],
+    'closure = false' => [
+        [ fn () => false ],
+        ['missing'],
+    ],
+    'field + one value' => [
+        [ 'foo', 'bar', ],
+        ['missing_unless:foo,bar'],
+    ],
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
-        'missing_unless:foo,bar,baz,biz',
+        ['missing_unless:foo,bar,baz,biz'],
     ],
 ]);
 
-it('applies the `missing_with` rule', function (array $arguments, string $expect) {
+it('applies the missing_with rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->missingWith(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1057,7 +1114,7 @@ it('applies the `missing_with` rule', function (array $arguments, string $expect
     ],
 ]);
 
-it('applies the `missing_with_all` rule', function (array $arguments, string $expect) {
+it('applies the missing_with_all rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->missingWithAll(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1076,7 +1133,7 @@ it('applies the `missing_with_all` rule', function (array $arguments, string $ex
     ],
 ]);
 
-it('applies the `multiple_of` rule', function () {
+it('applies the multiple_of rule', function () {
     $rule = Rule::make()->multipleOf(12);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1086,7 +1143,7 @@ it('applies the `multiple_of` rule', function () {
         ]);
 });
 
-it('applies the `not_in` rule', function (array $arguments, string $expect) {
+it('applies the not_in rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->notIn(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1105,7 +1162,7 @@ it('applies the `not_in` rule', function (array $arguments, string $expect) {
     ],
 ]);
 
-it('applies the `not_regex` rule', function () {
+it('applies the not_regex rule', function () {
     $rule = Rule::make()->notRegex('/^[abc]$/');
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1115,7 +1172,7 @@ it('applies the `not_regex` rule', function () {
         ]);
 });
 
-it('applies the `nullable` rule', function () {
+it('applies the nullable rule', function () {
     $rule = Rule::make()->nullable();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1125,7 +1182,7 @@ it('applies the `nullable` rule', function () {
         ]);
 });
 
-it('applies the `numeric` rule', function () {
+it('applies the numeric rule', function () {
     $rule = Rule::make()->numeric();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1135,8 +1192,20 @@ it('applies the `numeric` rule', function () {
         ]);
 });
 
-it('applies the `password` rule', function (array $arguments, array $expect) {
-    $rule = Rule::make()->password(...$arguments);
+it('applies the password rule', function () {
+    Password::defaults(function () {
+        return Password::min(8)
+            ->max(50)
+            ->symbols()
+            ->letters()
+            ->numbers();
+    });
+
+    /**
+     * A password object
+     */
+    $password = Password::min(10);
+    $rule = Rule::make()->password($password);
 
     expect($rule)->toBeInstanceOf(Rule::class);
     $rules = $rule->toArray();
@@ -1147,6 +1216,7 @@ it('applies the `password` rule', function (array $arguments, array $expect) {
 
     $properties = getPropertiesFromObject($password, [
         'min',
+        'max',
         'mixedCase',
         'letters',
         'numbers',
@@ -1155,99 +1225,55 @@ it('applies the `password` rule', function (array $arguments, array $expect) {
         'compromisedThreshold',
         'customRules',
     ]);
-    expect($properties)->toBe($expect);
-})->with([
-    'Password object' => fn () => [
-        [
-            Password::min(8),
-        ],
-        [
-            'min' => 8,
-            'mixedCase' => false,
-            'letters' => false,
-            'numbers' => false,
-            'symbols' => false,
-            'uncompromised' => false,
-            'compromisedThreshold' => 0,
-            'customRules' => [],
-        ],
-    ],
-    'letters parameter' => fn () => [
-        [
-            null, // password object
-            $letters = true,
-        ],
-        [
-            'min' => 8,
-            'mixedCase' => false,
-            'letters' => true,
-            'numbers' => false,
-            'symbols' => false,
-            'uncompromised' => false,
-            'compromisedThreshold' => 0,
-            'customRules' => [],
-        ],
-    ],
-    'mixedCase parameter' => fn () => [
-        [
-            null, // password object
-            $letters = false,
-            $mixedCase = true,
-        ],
-        [
-            'min' => 8,
-            'mixedCase' => true,
-            'letters' => false,
-            'numbers' => false,
-            'symbols' => false,
-            'uncompromised' => false,
-            'compromisedThreshold' => 0,
-            'customRules' => [],
-        ],
-    ],
-    'numbers parameter' => fn () => [
-        [
-            null, // password object
-            $letters = false,
-            $mixedCase = false,
-            $numbers = true,
-        ],
-        [
-            'min' => 8,
-            'mixedCase' => false,
-            'letters' => false,
-            'numbers' => true,
-            'symbols' => false,
-            'uncompromised' => false,
-            'compromisedThreshold' => 0,
-            'customRules' => [],
-        ],
-    ],
-    // 'constraint parameters' => fn () => [
-    //     [
-    //         null, // password object
-    //         $letters = bool_rand(),
-    //         $mixedCase = bool_rand(),
-    //         $numbers = bool_rand(),
-    //         $symbols = bool_rand(),
-    //         $uncompromised = bool_rand() ? bool_rand() : random_int(0, 9),
-    //         $min = (bool_rand() ? null : random_int(0, 20)),
-    //         $rules = [], // meh
-    //     ],
-    //     [
-    //         'min' => $min ?? 8,
-    //         'mixedCase' => $mixedCase,
-    //         'letters' => $letters,
-    //         'numbers' => $numbers,
-    //         'symbols' => $symbols,
-    //         'uncompromised' => ($uncompromised === true),
-    //         'compromisedThreshold' => is_int($uncompromised) ? $uncompromised : 0,
-    //         'customRules' => $rules,
-    //     ],
-    // ],
-]);
+    expect($properties)->toBe([
+        'min' => 10,
+        'max' => null,
+        'mixedCase' => false,
+        'letters' => false,
+        'numbers' => false,
+        'symbols' => false,
+        'uncompromised' => false,
+        'compromisedThreshold' => 0,
+        'customRules' => [],
+    ]);
 
-it('applies the `present` rule', function () {
+    /**
+     * Default password
+     */
+    $rule = Rule::make()->password();
+
+    expect($rule)->toBeInstanceOf(Rule::class);
+    $rules = $rule->toArray();
+    expect($rules)->toBeArray()->toHaveCount(1)->toHaveKey(0);
+
+    $password = $rules[0];
+    expect($password)->toBeInstanceOf(Password::class);
+
+    $properties = getPropertiesFromObject($password, [
+        'min',
+        'max',
+        'mixedCase',
+        'letters',
+        'numbers',
+        'symbols',
+        'uncompromised',
+        'compromisedThreshold',
+        'customRules',
+    ]);
+    expect($properties)->toBe([
+        'min' => 8,
+        'max' => 50,
+        'mixedCase' => false,
+        'letters' => true,
+        'numbers' => true,
+        'symbols' => true,
+        'uncompromised' => false,
+        'compromisedThreshold' => 0,
+        'customRules' => [],
+    ]);
+});
+
+it('applies the present rule', function () {
     $rule = Rule::make()->present();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1257,45 +1283,73 @@ it('applies the `present` rule', function () {
         ]);
 });
 
-it('applies the `present_if` rule', function (array $arguments, string $expect) {
+it('applies the present_if rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->presentIf(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
-        ->toBe([
-            $expect,
-        ]);
+        ->toBe($expect);
 })->with([
-    'single field/value' => [
-        [ 'foo', 'bar', ],
-        'present_if:foo,bar',
+    'boolean = true' => [
+        [ true ],
+        ['present'],
     ],
-    'multiple fields/values' => [
+    'boolean = false' => [
+        [ false ],
+        [],
+    ],
+    'closure = true' => [
+        [ fn () => true ],
+        ['present'],
+    ],
+    'closure = false' => [
+        [ fn () => false ],
+        [],
+    ],
+    'field + one value' => [
+        [ 'foo', 'bar', ],
+        ['present_if:foo,bar'],
+    ],
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
-        'present_if:foo,bar,baz,biz',
+        ['present_if:foo,bar,baz,biz'],
     ],
 ]);
 
-it('applies the `present_unless` rule', function (array $arguments, string $expect) {
+it('applies the present_unless rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->presentUnless(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
-        ->toBe([
-            $expect,
-        ]);
+        ->toBe($expect);
 })->with([
-    'single field/value' => [
-        [ 'foo', 'bar', ],
-        'present_unless:foo,bar',
+    'boolean = true' => [
+        [ true ],
+        [],
     ],
-    'multiple fields/values' => [
+    'boolean = false' => [
+        [ false ],
+        ['present'],
+    ],
+    'closure = true' => [
+        [ fn () => true ],
+        [],
+    ],
+    'closure = false' => [
+        [ fn () => false ],
+        ['present'],
+    ],
+    'field + one value' => [
+        [ 'foo', 'bar', ],
+        ['present_unless:foo,bar'],
+    ],
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
-        'present_unless:foo,bar,baz,biz',
+        ['present_unless:foo,bar,baz,biz'],
     ],
 ]);
 
-it('applies the `present_with` rule', function (array $arguments, string $expect) {
+it('applies the present_with rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->presentWith(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1314,7 +1368,7 @@ it('applies the `present_with` rule', function (array $arguments, string $expect
     ],
 ]);
 
-it('applies the `present_with_all` rule', function (array $arguments, string $expect) {
+it('applies the present_with_all rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->presentWithAll(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1333,7 +1387,7 @@ it('applies the `present_with_all` rule', function (array $arguments, string $ex
     ],
 ]);
 
-it('applies the `prohibited` rule', function () {
+it('applies the prohibited rule', function () {
     $rule = Rule::make()->prohibited();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1343,45 +1397,89 @@ it('applies the `prohibited` rule', function () {
         ]);
 });
 
-it('applies the `prohibited_if` rule', function (array $arguments, string $expect) {
+it('applies the prohibited_if rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->prohibitedIf(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
-        ->toBe([
-            $expect,
-        ]);
+        ->toBe($expect);
 })->with([
-    'one field/value' => [
-        [ 'foo', 'bar', ],
-        'prohibited_if:foo,bar',
+    'boolean = true' => [
+        [ true ],
+        ['prohibited'],
     ],
-    'two fields/values' => [
+    'boolean = false' => [
+        [ false ],
+        [],
+    ],
+    'closure = true' => [
+        [ fn () => true ],
+        ['prohibited'],
+    ],
+    'closure = false' => [
+        [ fn () => false ],
+        [],
+    ],
+    'ProhibitedIf object bool = true' => [
+        [ new ProhibitedIf(true) ],
+        ['prohibited'],
+    ],
+    'ProhibitedIf object bool = false' => [
+        [ new ProhibitedIf(false) ],
+        [],
+    ],
+    'ProhibitedIf object closure = true' => [
+        [ new ProhibitedIf(fn () => true) ],
+        ['prohibited'],
+    ],
+    'ProhibitedIf object closure = false' => [
+        [ new ProhibitedIf(fn () => false) ],
+        [],
+    ],
+    'field + one value' => [
+        [ 'foo', 'bar', ],
+        ['prohibited_if:foo,bar'],
+    ],
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
-        'prohibited_if:foo,bar,baz,biz',
+        ['prohibited_if:foo,bar,baz,biz'],
     ],
 ]);
 
-it('applies the `prohibited_unless` rule', function (array $arguments, string $expect) {
+it('applies the prohibited_unless rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->prohibitedUnless(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
-        ->toBe([
-            $expect,
-        ]);
+        ->toBe($expect);
 })->with([
-    'one field/value' => [
-        [ 'foo', 'bar', ],
-        'prohibited_unless:foo,bar',
+    'boolean = true' => [
+        [ true ],
+        [],
     ],
-    'two fields/values' => [
+    'boolean = false' => [
+        [ false ],
+        ['prohibited'],
+    ],
+    'closure = true' => [
+        [ fn () => true ],
+        [],
+    ],
+    'closure = false' => [
+        [ fn () => false ],
+        ['prohibited'],
+    ],
+    'field + one value' => [
+        [ 'foo', 'bar', ],
+        ['prohibited_unless:foo,bar'],
+    ],
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
-        'prohibited_unless:foo,bar,baz,biz',
+        ['prohibited_unless:foo,bar,baz,biz'],
     ],
 ]);
 
-it('applies the `prohibits` rule', function (array $arguments, string $expect) {
+it('applies the prohibits rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->prohibits(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1400,7 +1498,7 @@ it('applies the `prohibits` rule', function (array $arguments, string $expect) {
     ],
 ]);
 
-it('applies the `regex` rule', function () {
+it('applies the regex rule', function () {
     $rule = Rule::make()->regex('/^[abc]$/');
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1410,7 +1508,7 @@ it('applies the `regex` rule', function () {
         ]);
 });
 
-it('applies the `required` rule', function () {
+it('applies the required rule', function () {
     $rule = Rule::make()->required();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1420,7 +1518,7 @@ it('applies the `required` rule', function () {
         ]);
 });
 
-it('applies the `required_if` rule', function (array $arguments, array $expect) {
+it('applies the required_if rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->requiredIf(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1459,17 +1557,17 @@ it('applies the `required_if` rule', function (array $arguments, array $expect) 
         [ new RequiredIf(fn () => false) ],
         [],
     ],
-    'single field/value' => [
+    'field + one value' => [
         [ 'foo', 'bar', ],
         ['required_if:foo,bar'],
     ],
-    'multiple fields/values' => [
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
         ['required_if:foo,bar,baz,biz'],
     ],
 ]);
 
-it('applies the `required_if_accepted` rule', function (array $arguments, string $expect) {
+it('applies the required_if_accepted rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->requiredIfAccepted(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1493,7 +1591,7 @@ it('applies the `required_if_accepted` rule', function (array $arguments, string
     ],
 ]);
 
-it('applies the `required_if_declined` rule', function (array $arguments, string $expect) {
+it('applies the required_if_declined rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->requiredIfDeclined(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1517,7 +1615,7 @@ it('applies the `required_if_declined` rule', function (array $arguments, string
     ],
 ]);
 
-it('applies the `required_unless` rule', function (array $arguments, array $expect) {
+it('applies the required_unless rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->requiredUnless(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1540,17 +1638,17 @@ it('applies the `required_unless` rule', function (array $arguments, array $expe
         [ fn () => false ],
         ['required'],
     ],
-    'single field/value' => [
+    'field + one value' => [
         [ 'foo', 'bar', ],
         ['required_unless:foo,bar'],
     ],
-    'multiple fields/values' => [
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
         ['required_unless:foo,bar,baz,biz'],
     ],
 ]);
 
-it('applies the `required_with` rule', function (array $arguments, string $expect) {
+it('applies the required_with rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->requiredWith(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1559,17 +1657,17 @@ it('applies the `required_with` rule', function (array $arguments, string $expec
             $expect,
         ]);
 })->with([
-    'single field/value' => [
+    'field + one value' => [
         [ 'foo', 'bar', ],
         'required_with:foo,bar',
     ],
-    'multiple fields/values' => [
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
         'required_with:foo,bar,baz,biz',
     ],
 ]);
 
-it('applies the `required_with_all` rule', function (array $arguments, string $expect) {
+it('applies the required_with_all rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->requiredWithAll(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1578,17 +1676,17 @@ it('applies the `required_with_all` rule', function (array $arguments, string $e
             $expect,
         ]);
 })->with([
-    'single field/value' => [
+    'field + one value' => [
         [ 'foo', 'bar', ],
         'required_with_all:foo,bar',
     ],
-    'multiple fields/values' => [
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
         'required_with_all:foo,bar,baz,biz',
     ],
 ]);
 
-it('applies the `required_without` rule', function (array $arguments, string $expect) {
+it('applies the required_without rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->requiredWithout(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1597,17 +1695,17 @@ it('applies the `required_without` rule', function (array $arguments, string $ex
             $expect,
         ]);
 })->with([
-    'single field/value' => [
+    'field + one value' => [
         [ 'foo', 'bar', ],
         'required_without:foo,bar',
     ],
-    'multiple fields/values' => [
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
         'required_without:foo,bar,baz,biz',
     ],
 ]);
 
-it('applies the `required_without_all` rule', function (array $arguments, string $expect) {
+it('applies the required_without_all rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->requiredWithoutAll(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1616,17 +1714,17 @@ it('applies the `required_without_all` rule', function (array $arguments, string
             $expect,
         ]);
 })->with([
-    'single field/value' => [
+    'field + one value' => [
         [ 'foo', 'bar', ],
         'required_without_all:foo,bar',
     ],
-    'multiple fields/values' => [
+    'field + multiple values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
         'required_without_all:foo,bar,baz,biz',
     ],
 ]);
 
-it('applies the `required_array_keys` rule', function (array $arguments, string $expect) {
+it('applies the required_array_keys rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->requiredArrayKeys(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1645,7 +1743,7 @@ it('applies the `required_array_keys` rule', function (array $arguments, string 
     ],
 ]);
 
-it('applies the `same` rule', function () {
+it('applies the same rule', function () {
     $rule = Rule::make()->same('another_field');
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1655,7 +1753,7 @@ it('applies the `same` rule', function () {
         ]);
 });
 
-it('applies the `size` rule', function (string|int $value, string $expect) {
+it('applies the size rule', function (string|int $value, string $expect) {
     $rule = Rule::make()->size($value);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1674,7 +1772,7 @@ it('applies the `size` rule', function (string|int $value, string $expect) {
     ],
 ]);
 
-it('applies the `sometimes` rule', function () {
+it('applies the sometimes rule', function () {
     $rule = Rule::make()->sometimes();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1684,7 +1782,7 @@ it('applies the `sometimes` rule', function () {
         ]);
 });
 
-it('applies the `starts_with` rule', function (array $arguments, string $expect) {
+it('applies the starts_with rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->startsWith(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1703,7 +1801,7 @@ it('applies the `starts_with` rule', function (array $arguments, string $expect)
     ]
 ]);
 
-it('applies the `string` rule', function () {
+it('applies the string rule', function () {
     $rule = Rule::make()->string();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1713,7 +1811,7 @@ it('applies the `string` rule', function () {
         ]);
 });
 
-it('applies the `timezone` rule', function () {
+it('applies the timezone rule', function () {
     $rule = Rule::make()->timezone();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1736,7 +1834,7 @@ it('applies the `timezone` rule', function () {
     ],
 ]);
 
-it('applies the `unique` rule', function (array $arguments, string $expect) {
+it('applies the unique rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->unique(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1772,7 +1870,7 @@ it('applies the `unique` rule', function (array $arguments, string $expect) {
     ],
 ]);
 
-it('applies the `uppercase` rule', function () {
+it('applies the uppercase rule', function () {
     $rule = Rule::make()->uppercase();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1782,7 +1880,7 @@ it('applies the `uppercase` rule', function () {
         ]);
 });
 
-it('applies the `url` rule', function () {
+it('applies the url rule', function () {
     $rule = Rule::make()->url();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1792,7 +1890,7 @@ it('applies the `url` rule', function () {
         ]);
 });
 
-it('applies the `ulid` rule', function () {
+it('applies the ulid rule', function () {
     $rule = Rule::make()->ulid();
     expect($rule)
         ->toBeInstanceOf(Rule::class)
@@ -1802,7 +1900,7 @@ it('applies the `ulid` rule', function () {
         ]);
 });
 
-it('applies the `uuid` rule', function () {
+it('applies the uuid rule', function () {
     $rule = Rule::make()->uuid();
     expect($rule)
         ->toBeInstanceOf(Rule::class)

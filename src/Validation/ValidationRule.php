@@ -4,6 +4,7 @@ namespace BradieTilley\Rules\Validation;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule as ValidationRuleContract;
+use Illuminate\Support\Str;
 use RuntimeException;
 
 /**
@@ -15,7 +16,7 @@ abstract class ValidationRule implements ValidationRuleContract
 {
     public const UNKNOWN_ERROR = 'Unknown error';
 
-    protected ?bool $success = false;
+    protected ?bool $success = null;
 
     protected ?string $failureMessage = null;
 
@@ -29,9 +30,12 @@ abstract class ValidationRule implements ValidationRuleContract
         $this->run($attribute, $value);
 
         if ($this->success === null) {
-            throw new RuntimeException(
-                sprintf('No outcome was derived from rule class `%s`', static::class),
-            );
+            report(new RuntimeException(
+                $error = sprintf('No outcome was derived from rule class `%s`', Str::of(static::class)->before('@')->toString()),
+            ));
+
+            $this->success = false;
+            $this->failureMessage = $error;
         }
 
         if ($this->success === false) {

@@ -11,7 +11,7 @@ class ValidationRuleHelper
 test('a ValidationRule rule', function () {
     ValidationRuleHelper::$history = [];
 
-    $rule = new class () extends ValidationRule {
+    $newRule = fn () => new class () extends ValidationRule {
         public function run(string $attribute, mixed $value): static
         {
             ValidationRuleHelper::$history[] = [$attribute, $value];
@@ -24,6 +24,10 @@ test('a ValidationRule rule', function () {
                 return $this->fail('Test Message');
             }
 
+            if ($value === 125) {
+                return $this; // no result
+            }
+
             return $this->pass();
         }
     };
@@ -31,7 +35,7 @@ test('a ValidationRule rule', function () {
     $validator = Validator::make([
         'field' => 123,
     ], [
-        'field' => [ $rule ],
+        'field' => [ $newRule() ],
     ]);
     expect($validator->passes())->toBeTrue();
     expect(ValidationRuleHelper::$history)->toBe([['field', 123]]);
@@ -41,11 +45,24 @@ test('a ValidationRule rule', function () {
     $validator = Validator::make([
         'field' => 124,
     ], [
-        'field' => [ $rule ],
+        'field' => [ $newRule() ],
     ]);
     expect($validator->passes())->toBeFalse();
     expect($validator->messages()->all())->toBe([
         'Test Message',
     ]);
     expect(ValidationRuleHelper::$history)->toBe([['field', 124]]);
+
+    ValidationRuleHelper::$history = [];
+
+    $validator = Validator::make([
+        'field' => 125,
+    ], [
+        'field' => [ $newRule() ],
+    ]);
+    expect($validator->passes())->toBeFalse();
+    expect($validator->messages()->all())->toBe([
+        'No outcome was derived from rule class `BradieTilley\Rules\Validation\ValidationRule`',
+    ]);
+    expect(ValidationRuleHelper::$history)->toBe([['field', 125]]);
 });
