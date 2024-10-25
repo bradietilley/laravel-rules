@@ -43,7 +43,7 @@ trait CoreRules
      */
     public function acceptedIf(string ...$fieldsAndValues): static
     {
-        return $this->rule('accepted_if'.self::arguments($fieldsAndValues));
+        return $this->rule('accepted_if'.static::arguments($fieldsAndValues));
     }
 
     /**
@@ -59,7 +59,7 @@ trait CoreRules
      */
     public function after(string|DateTimeInterface $date): static
     {
-        return $this->rule('after'.self::arguments($date));
+        return $this->rule('after'.static::arguments($date));
     }
 
     /**
@@ -67,7 +67,7 @@ trait CoreRules
      */
     public function afterOrEqual(string|DateTimeInterface $date): static
     {
-        return $this->rule('after_or_equal'.self::arguments($date));
+        return $this->rule('after_or_equal'.static::arguments($date));
     }
 
     /**
@@ -75,7 +75,7 @@ trait CoreRules
      */
     public function alpha(string $range = null): static
     {
-        return $this->rule('alpha'.self::arguments($range));
+        return $this->rule('alpha'.static::arguments($range));
     }
 
     /**
@@ -83,7 +83,7 @@ trait CoreRules
      */
     public function alphaDash(string $range = null): static
     {
-        return $this->rule('alpha_dash'.self::arguments($range));
+        return $this->rule('alpha_dash'.static::arguments($range));
     }
 
     /**
@@ -91,7 +91,7 @@ trait CoreRules
      */
     public function alphaNumeric(string $range = null): static
     {
-        return $this->rule('alpha_numeric'.self::arguments($range));
+        return $this->rule('alpha_numeric'.static::arguments($range));
     }
 
     /**
@@ -99,7 +99,7 @@ trait CoreRules
      */
     public function array(string ...$keys): static
     {
-        return $this->rule('array'.self::arguments($keys));
+        return $this->rule('array'.static::arguments($keys));
     }
 
     /**
@@ -123,7 +123,7 @@ trait CoreRules
      */
     public function before(string|DateTimeInterface $date): static
     {
-        return $this->rule('before'.self::arguments($date));
+        return $this->rule('before'.static::arguments($date));
     }
 
     /**
@@ -131,7 +131,7 @@ trait CoreRules
      */
     public function beforeOrEqual(string|DateTimeInterface $date): static
     {
-        return $this->rule('before_or_equal'.self::arguments($date));
+        return $this->rule('before_or_equal'.static::arguments($date));
     }
 
     /**
@@ -163,7 +163,7 @@ trait CoreRules
      */
     public function contains(mixed ...$values): static
     {
-        return $this->rule('contains'.self::arguments($values));
+        return $this->rule('contains'.static::arguments($values));
     }
 
     /**
@@ -171,7 +171,7 @@ trait CoreRules
      */
     public function currentPassword(string $guard = null): static
     {
-        return $this->rule('current_password'.self::arguments($guard));
+        return $this->rule('current_password'.static::arguments($guard));
     }
 
     /**
@@ -187,7 +187,7 @@ trait CoreRules
      */
     public function dateEquals(string|DateTimeInterface $date): static
     {
-        return $this->rule('date_equals'.self::arguments($date));
+        return $this->rule('date_equals'.static::arguments($date));
     }
 
     /**
@@ -195,7 +195,7 @@ trait CoreRules
      */
     public function dateFormat(string ...$format): static
     {
-        return $this->rule('date_format'.self::arguments($format));
+        return $this->rule('date_format'.static::arguments($format));
     }
 
     /**
@@ -221,7 +221,7 @@ trait CoreRules
      */
     public function declinedIf(string ...$fieldsAndValues): static
     {
-        return $this->rule('declined_if'.self::arguments($fieldsAndValues));
+        return $this->rule('declined_if'.static::arguments($fieldsAndValues));
     }
 
     /**
@@ -301,7 +301,7 @@ trait CoreRules
      */
     public function distinct(string $mode = null): static
     {
-        return $this->rule('distinct'.self::arguments($mode));
+        return $this->rule('distinct'.static::arguments($mode));
     }
 
     /**
@@ -309,7 +309,7 @@ trait CoreRules
      */
     public function doesntStartWith(string ...$prefixes): static
     {
-        return $this->rule('doesnt_start_with'.self::arguments($prefixes));
+        return $this->rule('doesnt_start_with'.static::arguments($prefixes));
     }
 
     /**
@@ -317,7 +317,7 @@ trait CoreRules
      */
     public function doesntEndWith(string ...$prefixes): static
     {
-        return $this->rule('doesnt_end_with'.self::arguments($prefixes));
+        return $this->rule('doesnt_end_with'.static::arguments($prefixes));
     }
 
     /**
@@ -325,7 +325,7 @@ trait CoreRules
      */
     public function email(string ...$flags): static
     {
-        return $this->rule('email'.self::arguments($flags));
+        return $this->rule('email'.static::arguments($flags));
     }
 
     /**
@@ -333,7 +333,7 @@ trait CoreRules
      */
     public function endsWith(string ...$prefixes): static
     {
-        return $this->rule('ends_with'.self::arguments($prefixes));
+        return $this->rule('ends_with'.static::arguments($prefixes));
     }
 
     /**
@@ -383,7 +383,7 @@ trait CoreRules
             array_unshift($fieldsAndValues, $condition);
         }
 
-        return $this->rule('exclude_unless'.self::arguments($fieldsAndValues));
+        return $this->rule('exclude_unless'.static::arguments($fieldsAndValues));
     }
 
     /**
@@ -419,7 +419,7 @@ trait CoreRules
      */
     public function extensions(string ...$extensions): static
     {
-        return $this->rule('extensions'.self::arguments($extensions));
+        return $this->rule('extensions'.static::arguments($extensions));
     }
 
     /**
@@ -503,7 +503,7 @@ trait CoreRules
      */
     public function in(string ...$values): static
     {
-        return $this->rule('in'.self::arguments($values));
+        return $this->rule('in'.static::arguments($values));
     }
 
     /**
@@ -615,7 +615,7 @@ trait CoreRules
      */
     public function mimeTypes(string ...$types): static
     {
-        return $this->rule('mimetypes'.self::arguments($types));
+        return $this->rule('mimetypes'.static::arguments($types));
     }
 
     /**
@@ -623,7 +623,7 @@ trait CoreRules
      */
     public function mimes(string ...$extensions): static
     {
-        return $this->rule('mimes'.self::arguments($extensions));
+        return $this->rule('mimes'.static::arguments($extensions));
     }
 
     /**
@@ -655,7 +655,7 @@ trait CoreRules
      */
     public function missingIf(string ...$fieldsAndValues): static
     {
-        return $this->rule('missing_if'.self::arguments($fieldsAndValues));
+        return $this->rule('missing_if'.static::arguments($fieldsAndValues));
     }
 
     /**
@@ -663,7 +663,7 @@ trait CoreRules
      */
     public function missingUnless(string ...$fieldsAndValues): static
     {
-        return $this->rule('missing_unless'.self::arguments($fieldsAndValues));
+        return $this->rule('missing_unless'.static::arguments($fieldsAndValues));
     }
 
     /**
@@ -671,7 +671,7 @@ trait CoreRules
      */
     public function missingWith(string ...$fields): static
     {
-        return $this->rule('missing_with'.self::arguments($fields));
+        return $this->rule('missing_with'.static::arguments($fields));
     }
 
     /**
@@ -679,7 +679,7 @@ trait CoreRules
      */
     public function missingWithAll(string ...$fields): static
     {
-        return $this->rule('missing_with_all'.self::arguments($fields));
+        return $this->rule('missing_with_all'.static::arguments($fields));
     }
 
     /**
@@ -695,7 +695,7 @@ trait CoreRules
      */
     public function notIn(string ...$values): static
     {
-        return $this->rule('not_in'.self::arguments($values));
+        return $this->rule('not_in'.static::arguments($values));
     }
 
     /**
@@ -785,7 +785,7 @@ trait CoreRules
      */
     public function presentIf(string ...$fieldsAndValues): static
     {
-        return $this->rule('present_if'.self::arguments($fieldsAndValues));
+        return $this->rule('present_if'.static::arguments($fieldsAndValues));
     }
 
     /**
@@ -793,7 +793,7 @@ trait CoreRules
      */
     public function presentUnless(string ...$fieldsAndValues): static
     {
-        return $this->rule('present_unless'.self::arguments($fieldsAndValues));
+        return $this->rule('present_unless'.static::arguments($fieldsAndValues));
     }
 
     /**
@@ -801,7 +801,7 @@ trait CoreRules
      */
     public function presentWith(string ...$fields): static
     {
-        return $this->rule('present_with'.self::arguments($fields));
+        return $this->rule('present_with'.static::arguments($fields));
     }
 
     /**
@@ -809,7 +809,7 @@ trait CoreRules
      */
     public function presentWithAll(string ...$fields): static
     {
-        return $this->rule('present_with_all'.self::arguments($fields));
+        return $this->rule('present_with_all'.static::arguments($fields));
     }
 
     /**
@@ -839,7 +839,7 @@ trait CoreRules
             array_unshift($fieldsAndValues, $condition);
         }
 
-        return $this->rule('prohibited_if'.self::arguments($fieldsAndValues));
+        return $this->rule('prohibited_if'.static::arguments($fieldsAndValues));
     }
 
     /**
@@ -857,7 +857,7 @@ trait CoreRules
             array_unshift($fieldsAndValues, $condition);
         }
 
-        return $this->rule('prohibited_unless'.self::arguments($fieldsAndValues));
+        return $this->rule('prohibited_unless'.static::arguments($fieldsAndValues));
     }
 
     /**
@@ -865,7 +865,7 @@ trait CoreRules
      */
     public function prohibits(string ...$fields): static
     {
-        return $this->rule('prohibits'.self::arguments($fields));
+        return $this->rule('prohibits'.static::arguments($fields));
     }
 
     /**
@@ -903,7 +903,7 @@ trait CoreRules
             array_unshift($fieldsAndValues, $condition);
         }
 
-        return $this->rule('required_if'.self::arguments($fieldsAndValues));
+        return $this->rule('required_if'.static::arguments($fieldsAndValues));
     }
 
     /**
@@ -911,7 +911,7 @@ trait CoreRules
      */
     public function requiredIfAccepted(string ...$fields): static
     {
-        return $this->rule('required_if_accepted'.self::arguments($fields));
+        return $this->rule('required_if_accepted'.static::arguments($fields));
     }
 
     /**
@@ -919,7 +919,7 @@ trait CoreRules
      */
     public function requiredIfDeclined(string ...$fields): static
     {
-        return $this->rule('required_if_declined'.self::arguments($fields));
+        return $this->rule('required_if_declined'.static::arguments($fields));
     }
 
     /**
@@ -941,7 +941,7 @@ trait CoreRules
             array_unshift($fieldsAndValues, $condition);
         }
 
-        return $this->rule('required_unless'.self::arguments($fieldsAndValues));
+        return $this->rule('required_unless'.static::arguments($fieldsAndValues));
     }
 
     /**
@@ -949,7 +949,7 @@ trait CoreRules
      */
     public function requiredWith(string ...$fields): static
     {
-        return $this->rule('required_with'.self::arguments($fields));
+        return $this->rule('required_with'.static::arguments($fields));
     }
 
     /**
@@ -957,7 +957,7 @@ trait CoreRules
      */
     public function requiredWithAll(string ...$fields): static
     {
-        return $this->rule('required_with_all'.self::arguments($fields));
+        return $this->rule('required_with_all'.static::arguments($fields));
     }
 
     /**
@@ -965,7 +965,7 @@ trait CoreRules
      */
     public function requiredWithout(string ...$fields): static
     {
-        return $this->rule('required_without'.self::arguments($fields));
+        return $this->rule('required_without'.static::arguments($fields));
     }
 
     /**
@@ -973,7 +973,7 @@ trait CoreRules
      */
     public function requiredWithoutAll(string ...$fields): static
     {
-        return $this->rule('required_without_all'.self::arguments($fields));
+        return $this->rule('required_without_all'.static::arguments($fields));
     }
 
     /**
@@ -981,7 +981,7 @@ trait CoreRules
      */
     public function requiredArrayKeys(string ...$keys): static
     {
-        return $this->rule('required_array_keys'.self::arguments($keys));
+        return $this->rule('required_array_keys'.static::arguments($keys));
     }
 
     /**
@@ -1013,7 +1013,7 @@ trait CoreRules
      */
     public function startsWith(string ...$values): static
     {
-        return $this->rule('starts_with'.self::arguments($values));
+        return $this->rule('starts_with'.static::arguments($values));
     }
 
     /**
@@ -1034,7 +1034,7 @@ trait CoreRules
             $country,
         ]);
 
-        return $this->rule('timezone'.self::arguments($arguments));
+        return $this->rule('timezone'.static::arguments($arguments));
     }
 
     /**
