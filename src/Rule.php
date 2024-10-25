@@ -19,10 +19,10 @@ use Iterator;
  */
 class Rule implements Iterator, Arrayable
 {
+    use Concerns\CoreRules;
     /**
      * @use Concerns\CreatesRules<self>
      */
-    use Concerns\CoreRules;
     use Concerns\CreatesRules;
     use Concerns\IteratesRules;
     use Concerns\ConditionalRules;
