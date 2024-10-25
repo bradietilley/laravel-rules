@@ -41,9 +41,16 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-accepted-if
      */
-    public function acceptedIf(string ...$fieldsAndValues): static
+    public function acceptedIf(string|bool|Closure $field, string ...$values): static
     {
-        return $this->rule('accepted_if'.static::arguments($fieldsAndValues));
+        if (!is_string($field)) {
+            return $this->when($field, 'accepted');
+        }
+
+        return $this->rule('accepted_if'.static::arguments([
+            $field,
+            ...$values,
+        ]));
     }
 
     /**
@@ -219,9 +226,16 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-declined-if
      */
-    public function declinedIf(string ...$fieldsAndValues): static
+    public function declinedIf(string|bool|Closure $field, string ...$values): static
     {
-        return $this->rule('declined_if'.static::arguments($fieldsAndValues));
+        if (!is_string($field)) {
+            return $this->when($field, 'declined');
+        }
+
+        return $this->rule('declined_if'.static::arguments([
+            $field,
+            ...$values,
+        ]));
     }
 
     /**
@@ -368,22 +382,17 @@ trait CoreRules
      * @link https://laravel.com/docs/master/validation#rule-exclude-unless
      */
     public function excludeUnless(
-        string|bool|Closure $condition = null,
-        string ...$fieldsAndValues
+        string|bool|Closure $field,
+        string ...$values
     ): static {
-        if ($condition instanceof Closure) {
-            $condition = !! $condition();
+        if (!is_string($field)) {
+            return $this->unless($field, 'exclude');
         }
 
-        if (is_bool($condition)) {
-            return $this->excludeIf(! $condition);
-        }
-
-        if (is_string($condition)) {
-            array_unshift($fieldsAndValues, $condition);
-        }
-
-        return $this->rule('exclude_unless'.static::arguments($fieldsAndValues));
+        return $this->rule('exclude_unless'.static::arguments([
+            $field,
+            ...$values,
+        ]));
     }
 
     /**
@@ -653,17 +662,31 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-missing-if
      */
-    public function missingIf(string ...$fieldsAndValues): static
+    public function missingIf(string|bool|Closure $field, string ...$values): static
     {
-        return $this->rule('missing_if'.static::arguments($fieldsAndValues));
+        if (!is_string($field)) {
+            return $this->when($field, 'missing');
+        }
+
+        return $this->rule('missing_if'.static::arguments([
+            $field,
+            ...$values,
+        ]));
     }
 
     /**
      * @link https://laravel.com/docs/master/validation#rule-missing-unless
      */
-    public function missingUnless(string ...$fieldsAndValues): static
+    public function missingUnless(string|bool|Closure $field, string ...$values): static
     {
-        return $this->rule('missing_unless'.static::arguments($fieldsAndValues));
+        if (!is_string($field)) {
+            return $this->unless($field, 'missing');
+        }
+
+        return $this->rule('missing_unless'.static::arguments([
+            $field,
+            ...$values,
+        ]));
     }
 
     /**
@@ -783,17 +806,31 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-present-if
      */
-    public function presentIf(string ...$fieldsAndValues): static
+    public function presentIf(string|bool|Closure $field, string ...$values): static
     {
-        return $this->rule('present_if'.static::arguments($fieldsAndValues));
+        if (!is_string($field)) {
+            return $this->when($field, 'present');
+        }
+
+        return $this->rule('present_if'.static::arguments([
+            $field,
+            ...$values,
+        ]));
     }
 
     /**
      * @link https://laravel.com/docs/master/validation#rule-present-unless
      */
-    public function presentUnless(string ...$fieldsAndValues): static
+    public function presentUnless(string|bool|Closure $field, string ...$values): static
     {
-        return $this->rule('present_unless'.static::arguments($fieldsAndValues));
+        if (!is_string($field)) {
+            return $this->unless($field, 'present');
+        }
+
+        return $this->rule('present_unless'.static::arguments([
+            $field,
+            ...$values,
+        ]));
     }
 
     /**
@@ -821,43 +858,40 @@ trait CoreRules
     }
 
     /**
+     * If a `boolean` or `ProhibitedIf` or `Closure` is provided, it'll conditionally add
+     * the `required` rule.
+     *
      * @link https://laravel.com/docs/master/validation#rule-prohibited-if
      */
-    public function prohibitedIf(
-        string|bool|ProhibitedIf $condition = null,
-        string ...$fieldsAndValues
-    ): static {
-        if (is_bool($condition)) {
-            $condition = new ProhibitedIf($condition);
+    public function prohibitedIf(string|bool|ProhibitedIf|Closure $field, string ...$values): static
+    {
+        if ($field instanceof ProhibitedIf) {
+            return $this->rule((string) $field);
         }
 
-        if ($condition instanceof ProhibitedIf) {
-            return $this->rule((string) $condition);
+        if (! is_string($field)) {
+            return $this->when($field, 'prohibited');
         }
 
-        if (is_string($condition)) {
-            array_unshift($fieldsAndValues, $condition);
-        }
-
-        return $this->rule('prohibited_if'.static::arguments($fieldsAndValues));
+        return $this->rule('prohibited_if'.static::arguments([
+            $field,
+            ...$values,
+        ]));
     }
 
     /**
      * @link https://laravel.com/docs/master/validation#rule-prohibited-unless
      */
-    public function prohibitedUnless(
-        string|bool $condition = null,
-        string ...$fieldsAndValues
-    ): static {
-        if (is_bool($condition)) {
-            return $this->prohibitedIf(! $condition);
+    public function prohibitedUnless(string|bool|Closure $field, string ...$values): static
+    {
+        if (! is_string($field)) {
+            return $this->unless($field, 'prohibited');
         }
 
-        if (is_string($condition)) {
-            array_unshift($fieldsAndValues, $condition);
-        }
-
-        return $this->rule('prohibited_unless'.static::arguments($fieldsAndValues));
+        return $this->rule('prohibited_unless'.static::arguments([
+            $field,
+            ...$values,
+        ]));
     }
 
     /**
@@ -885,25 +919,25 @@ trait CoreRules
     }
 
     /**
+     * If a `boolean` or `RequiredIf` or `Closure` is provided, it'll conditionally add
+     * the `required` rule.
+     *
      * @link https://laravel.com/docs/master/validation#rule-required-if
      */
-    public function requiredIf(
-        string|bool|RequiredIf|Closure $condition = null,
-        string ...$fieldsAndValues
-    ): static {
-        if (is_bool($condition) || $condition instanceof Closure) {
-            $condition = new RequiredIf($condition);
+    public function requiredIf(string|bool|RequiredIf|Closure $field, string ...$values): static
+    {
+        if ($field instanceof RequiredIf) {
+            return $this->rule((string) $field);
         }
 
-        if ($condition instanceof RequiredIf) {
-            return $this->rule((string) $condition);
+        if (! is_string($field)) {
+            return $this->when($field, 'required');
         }
 
-        if (is_string($condition)) {
-            array_unshift($fieldsAndValues, $condition);
-        }
-
-        return $this->rule('required_if'.static::arguments($fieldsAndValues));
+        return $this->rule('required_if'.static::arguments([
+            $field,
+            ...$values,
+        ]));
     }
 
     /**
@@ -923,25 +957,21 @@ trait CoreRules
     }
 
     /**
+     * If a `boolean` or `RequiredIf` or `Closure` is provided, it'll conditionally add
+     * the `required` rule.
+     *
      * @link https://laravel.com/docs/master/validation#rule-required-unless
      */
-    public function requiredUnless(
-        string|bool|Closure $condition = null,
-        string ...$fieldsAndValues
-    ): static {
-        if ($condition instanceof Closure) {
-            $condition = !! $condition();
+    public function requiredUnless(string|bool|Closure $field, string ...$values): static
+    {
+        if (! is_string($field)) {
+            return $this->unless($field, 'required');
         }
 
-        if (is_bool($condition)) {
-            return $this->requiredIf(! $condition);
-        }
-
-        if (is_string($condition)) {
-            array_unshift($fieldsAndValues, $condition);
-        }
-
-        return $this->rule('required_unless'.static::arguments($fieldsAndValues));
+        return $this->rule('required_unless'.static::arguments([
+            $field,
+            ...$values,
+        ]));
     }
 
     /**

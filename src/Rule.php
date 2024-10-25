@@ -19,6 +19,9 @@ use Iterator;
  */
 class Rule implements Iterator, Arrayable
 {
+    /**
+     * @use Concerns\CreatesRules<self>
+     */
     use Concerns\CoreRules;
     use Concerns\CreatesRules;
     use Concerns\IteratesRules;
@@ -37,7 +40,7 @@ class Rule implements Iterator, Arrayable
      */
     public function rule(string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array|null $rule): static
     {
-        if ($rule === null) {
+        if ($rule === null || $rule === '') {
             return $this;
         }
 

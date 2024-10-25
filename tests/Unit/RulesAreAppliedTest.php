@@ -581,65 +581,61 @@ it('applies the `exclude` rule', function () {
         ]);
 });
 
-it('applies the `exclude_if` rule', function (bool|Closure|ExcludeIf $condition, string $expect) {
+it('applies the `exclude_if` rule', function (bool|Closure|ExcludeIf $condition, array $expect) {
     $rule = Rule::make()->excludeIf($condition);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
-        ->toBe([
-            $expect,
-        ]);
+        ->toBe($expect);
 })->with([
     'false condition' => fn () => [
         false,
-        ''
+        []
     ],
     'true condition' => fn () => [
         true,
-        'exclude'
+        ['exclude']
     ],
     'false callback' => fn () => [
         fn () => false,
-        ''
+        []
     ],
     'true callback' => fn () => [
         fn () => true,
-        'exclude'
+        ['exclude']
     ],
 ]);
 
-it('applies the `exclude_unless` rule', function (array $arguments, string $expect) {
+it('applies the `exclude_unless` rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->excludeUnless(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
-        ->toBe([
-            $expect,
-        ]);
+        ->toBe($expect);
 })->with([
     'boolean = true' => [
         [ true ],
-        '',
+        [],
     ],
     'boolean = false' => [
         [ false ],
-        'exclude',
+        ['exclude'],
     ],
     'closure = true' => [
         [ fn () => true ],
-        '',
+        [],
     ],
     'closure = false' => [
         [ fn () => false ],
-        'exclude',
+        ['exclude'],
     ],
     'single field/value' => [
         [ 'foo', 'bar', ],
-        'exclude_unless:foo,bar',
+        ['exclude_unless:foo,bar'],
     ],
     'multiple fields/values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
-        'exclude_unless:foo,bar,baz,biz',
+        ['exclude_unless:foo,bar,baz,biz'],
     ],
 ]);
 
@@ -1424,54 +1420,52 @@ it('applies the `required` rule', function () {
         ]);
 });
 
-it('applies the `required_if` rule', function (array $arguments, string $expect) {
+it('applies the `required_if` rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->requiredIf(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
-        ->toBe([
-            $expect,
-        ]);
+        ->toBe($expect);
 })->with([
     'boolean = true' => [
         [ true ],
-        'required',
+        ['required'],
     ],
     'boolean = false' => [
         [ false ],
-        '',
+        [],
     ],
     'closure = true' => [
         [ fn () => true ],
-        'required',
+        ['required'],
     ],
     'closure = false' => [
         [ fn () => false ],
-        '',
+        [],
     ],
     'RequiredIf object bool = true' => [
         [ new RequiredIf(true) ],
-        'required',
+        ['required'],
     ],
     'RequiredIf object bool = false' => [
         [ new RequiredIf(false) ],
-        '',
+        [],
     ],
     'RequiredIf object closure = true' => [
         [ new RequiredIf(fn () => true) ],
-        'required',
+        ['required'],
     ],
     'RequiredIf object closure = false' => [
         [ new RequiredIf(fn () => false) ],
-        '',
+        [],
     ],
     'single field/value' => [
         [ 'foo', 'bar', ],
-        'required_if:foo,bar',
+        ['required_if:foo,bar'],
     ],
     'multiple fields/values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
-        'required_if:foo,bar,baz,biz',
+        ['required_if:foo,bar,baz,biz'],
     ],
 ]);
 
@@ -1523,38 +1517,36 @@ it('applies the `required_if_declined` rule', function (array $arguments, string
     ],
 ]);
 
-it('applies the `required_unless` rule', function (array $arguments, string $expect) {
+it('applies the `required_unless` rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->requiredUnless(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
-        ->toBe([
-            $expect,
-        ]);
+        ->toBe($expect);
 })->with([
     'boolean = true' => [
         [ true ],
-        '',
+        [],
     ],
     'boolean = false' => [
         [ false ],
-        'required',
+        ['required'],
     ],
     'closure = true' => [
         [ fn () => true ],
-        '',
+        [],
     ],
     'closure = false' => [
         [ fn () => false ],
-        'required',
+        ['required'],
     ],
     'single field/value' => [
         [ 'foo', 'bar', ],
-        'required_unless:foo,bar',
+        ['required_unless:foo,bar'],
     ],
     'multiple fields/values' => [
         [ 'foo', 'bar', 'baz', 'biz', ],
-        'required_unless:foo,bar,baz,biz',
+        ['required_unless:foo,bar,baz,biz'],
     ],
 ]);
 

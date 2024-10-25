@@ -9,6 +9,7 @@ use Closure;
 use Illuminate\Contracts\Validation\InvokableRule as InvokableRuleContract;
 use Illuminate\Contracts\Validation\Rule as RuleContract;
 use Illuminate\Contracts\Validation\ValidationRule as ValidationRuleContract;
+use Stringable;
 
 /**
  * Easily add conditional rules to the current rule object based
@@ -74,5 +75,19 @@ trait ConditionalRules
         $value = $value instanceof Closure ? $value($this) : $value;
 
         return $this->rule((! $value) ? $rule : $default);
+    }
+
+    /**
+     * @template TConditional of Stringable
+     * @param class-string<TConditional> $rule
+     * @param bool|Closure|TConditional
+     */
+    public function createConditional(string $rule, bool|Closure|Stringable $condition)
+    {
+        if ($condition instanceof Closure || is_bool($condition)) {
+            $condition = new $rule($condition);
+        }
+
+        return $this->rule((string) $condition);
     }
 }
