@@ -371,22 +371,27 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-exclude-if
      */
-    public function excludeIf(callable|bool|ExcludeIf $condition): static
+    public function excludeIf(string|bool|Closure|ExcludeIf $field, string ...$values): static
     {
-        if (! $condition instanceof ExcludeIf) {
-            return $this->when($condition, 'exclude');
+        if ($field instanceof ExcludeIf) {
+            return $this->rule((string) $field);
         }
 
-        return $this->rule((string) $condition);
+        if (!is_string($field)) {
+            return $this->when($field, 'exclude');
+        }
+
+        return $this->rule('exclude_if'.static::arguments([
+            $field,
+            ...$values,
+        ]));
     }
 
     /**
      * @link https://laravel.com/docs/master/validation#rule-exclude-unless
      */
-    public function excludeUnless(
-        string|bool|Closure $field,
-        string ...$values
-    ): static {
+    public function excludeUnless(string|bool|Closure $field, string ...$values): static
+    {
         if (!is_string($field)) {
             return $this->unless($field, 'exclude');
         }

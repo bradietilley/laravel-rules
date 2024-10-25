@@ -649,6 +649,14 @@ it('applies the exclude_if rule', function (array $arguments, array $expect) {
         [ new ExcludeIf(fn () => false) ],
         [],
     ],
+    'field + one value' => [
+        [ 'foo', 'bar', ],
+        ['exclude_if:foo,bar'],
+    ],
+    'field + multiple values' => [
+        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['exclude_if:foo,bar,baz,biz'],
+    ],
 ]);
 
 it('applies the exclude_unless rule', function (array $arguments, array $expect) {
