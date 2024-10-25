@@ -12,6 +12,11 @@ use Illuminate\Contracts\Validation\ValidationRule as ValidationRuleContract;
 use Illuminate\Support\Traits\Macroable;
 use Iterator;
 
+/**
+ * @implements Iterator<int, mixed>
+ * @implements Arrayable<int, mixed>
+ * @template TRule of Rule
+ */
 class Rule implements Iterator, Arrayable
 {
     use Concerns\CoreRules;

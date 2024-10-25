@@ -1,7 +1,0 @@
-parameters:
-  level: max
-  paths:
-    - src/
-
-  ignoreErrors:
-    - '#but does not specify its types:#'

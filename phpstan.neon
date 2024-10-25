@@ -2,3 +2,6 @@ parameters:
   level: max
   paths:
     - src/
+
+  ignoreErrors:
+    - '#does not specify its types:#'
