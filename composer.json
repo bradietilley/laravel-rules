@@ -1,6 +1,6 @@
 {
     "name": "bradietilley/laravel-rules",
-    "description": "Laravel Rules",
+    "description": "Fluent rules for form requests in Laravel",
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -19,18 +19,17 @@
             "homepage": "https://github.com/bradietilley"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "illuminate/support": "^10.0|^11.0",
-        "illuminate/container": "^10.0|^11.0"
+        "illuminate/support": "^11.0",
+        "illuminate/container": "^11.0"
     },
     "require-dev": {
-        "symfony/var-dumper": "^6.1.5|^7.0",
-        "laravel/pint": "^1.10",
+        "laravel/pint": "^1.0",
         "pestphp/pest": "^2.0",
         "phpstan/phpstan": "^1.8",
-        "orchestra/testbench": "^8.5|^9.0"
+        "orchestra/testbench": "^9.0"
     },
     "scripts": {
         "lint": "pint --ansi",

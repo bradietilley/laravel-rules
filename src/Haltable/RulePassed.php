@@ -6,6 +6,9 @@ use Exception;
 
 /**
  * Internally used to return early (pass) when validating a `HaltableRule`
+ *
+ * @deprecated
+ * @see BradieTilley\Rules\Validation\ValidationRule
  */
 class RulePassed extends Exception
 {

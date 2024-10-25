@@ -12,9 +12,17 @@ use Illuminate\Contracts\Validation\ValidationRule as ValidationRuleContract;
 use Illuminate\Support\Traits\Macroable;
 use Iterator;
 
+/**
+ * @implements Iterator<int, mixed>
+ * @implements Arrayable<int, mixed>
+ * @template TRule of Rule
+ */
 class Rule implements Iterator, Arrayable
 {
     use Concerns\CoreRules;
+    /**
+     * @use Concerns\CreatesRules<self>
+     */
     use Concerns\CreatesRules;
     use Concerns\IteratesRules;
     use Concerns\ConditionalRules;
@@ -32,7 +40,7 @@ class Rule implements Iterator, Arrayable
      */
     public function rule(string|InvokableRuleContract|RuleContract|ValidationRuleContract|Rule|array|null $rule): static
     {
-        if ($rule === null) {
+        if ($rule === null || $rule === '') {
             return $this;
         }
 

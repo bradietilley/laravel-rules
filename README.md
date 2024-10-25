@@ -4,6 +4,9 @@ Rules provides an elegant chainable object-oriented approach to defining rules f
 
 ![Static Analysis](https://github.com/bradietilley/laravel-rules/actions/workflows/static.yml/badge.svg)
 ![Tests](https://github.com/bradietilley/laravel-rules/actions/workflows/tests.yml/badge.svg)
+![Laravel Version](https://img.shields.io/badge/Laravel%20Version-11.x-F9322C)
+![PHP Version](https://img.shields.io/badge/PHP%20Version-8.3-4F5B93)
+
 
 ```php
     'email' => Rule::make()
@@ -44,10 +47,14 @@ Grab it via composer
 composer require bradietilley/laravel-rules
 ```
 
+### Versions
+
+- PHP 8.1 and 8.2 @ Laravel 10 → v1.2.0
+- PHP 8.2 and 8.3 @ Laravel 11 → v1.3.0
 
 ## Documentation
 
-Quick example:
+### Rules → A quick overview
 
 ```php
 use BradieTilley\Rules\Rule;
@@ -57,7 +64,7 @@ return [
 ];
 ```
 
-This produces a ruleset of the following (when passed to a `Validator` instance or returned from a your `Request::rules()` method):
+This produces a ruleset of the following (when passed to a `Validator` instance or returned from a your `\Illuminate\Foundation\Http\FormRequest->rules()` method):
 
 ```php
 [
@@ -68,11 +75,11 @@ This produces a ruleset of the following (when passed to a `Validator` instance 
 ]
 ```
 
-### Available Rules
+### Rules → Available rules
 
-Every rule you're familiar with in Laravel will work with this package. Each core rule, such as `required`, `string`, `min`, etc, are available using their respective methods of the same name. Parameters for each rule (such as min `3` and max `4`) in `digitsBetween:3,4` are made available as method arguments, such as: `->digitsBetween(min: 3, max: 4)`.
+Every rule you're familiar with in Laravel will work with this package. Each core rule, such as `required`, `string`, `min`, etc, are also available using their respective methods of the same name in camelCase. Parameters for each rule (such as min `3` and max `4`) in `digitsBetween:3,4` are made available as method arguments, such as: `->digitsBetween(min: 3, max: 4)`.
 
-The `->rule()` method acts as a catch-all to support any rule you need to chuck in there.
+The `->rule()` method acts as a catch-all to support any rule you need to chuck in there, such as in the short interim after new rules are added and support is added to this package.
 
 For example:
 
@@ -84,7 +91,7 @@ Rule::make()
     ->required()
 
     /**
-     * You can pass in any raw string rule as per "default Laravel"
+     * You can pass in any raw string rule as per default in Laravel
      */
     ->rule('min:2')
 
@@ -96,14 +103,14 @@ Rule::make()
     /**
      * You can pass in a `\Illuminate\Contracts\Validation\Rule` object
      *
-     * Note: This Laravel interface is deprecated and will be dropped in 11.x
+     * Note: This Laravel interface is deprecated and will be dropped in future versions of Laravel. It is recommended to not use this interface.
      */
     ->rule(new RuleThatImplementsRule())
 
     /**
      * You can pass in a `\Illuminate\Contracts\Validation\InvokableRule` object
      *
-     * Note: This Laravel interface is deprecated and will be dropped in 11.x
+     * Note: This Laravel interface is deprecated and will be dropped in future versions of Laravel. It is recommended to not use this interface.
      */
     ->rule(new RuleThatImplementsInvokableRule())
 
@@ -117,12 +124,15 @@ Rule::make()
      * above rule types: strings, Rule objects, ValidationRule instances, etc
      */
     ->rule([
-        'max:2',
+        Rule::make()->rule([
+            'min:1',
+        ]),
+        'max:25',
         new Unique('table', 'column'),
     ]);
 ```
 
-### Conditional Rules
+### Rules → Conditional rules
 
 You may specify rules that are conditionally defined. For example, you may wish to make a field `required` on create, and `sometimes` on update. In this case you may define something like:
 
@@ -138,7 +148,7 @@ public function rules(): array
     ];
 }
 
-// or 
+// or just chuck in the rules as string literals if you feel that's cleaner
 
 public function rules(): array
 {
@@ -152,9 +162,9 @@ public function rules(): array
 }
 ```
 
-The conditional rules that you provide (in the example above: required and sometimes) may be of any variable type that is supported by the `->rule()` method ([as documented here](#available-rules)).
+The conditional rules that you provide (in the example above: `required` and `sometimes`) may be of any variable type that is supported by the `->rule()` method ([as documented here](#rules--available-rules)).
 
-### Reusable Rules
+### Rules → Reusable rules
 
 The `->with(...)` method in a rule offers you the flexibility you need to specify rule logic that can be re-used wherever you need it.
 
@@ -179,7 +189,7 @@ public function rules(): array
 /**
  * Example using a first class callable
  */
-function integerRule()
+function integerRule(Rule $rule)
 {
     $rule->integer()->max(100);
 }
@@ -230,11 +240,11 @@ The `->with(...)` method accepts any form of `callable`, such as
 - Invokable classes (e.g. a class with the `__invoke` magic method)
 - Whatever else PHP defines as `callable`.
 
-### Macros
+### Customisation → Macros
 
-This package allows you to define "macros" which can serve as a fluent to configure common rules.
+This package allows you to define "macros" which can serve as a fluent way to configure common rules.
 
-For example, the following code adds a `australianPhoneNumber` method to the `Rule` class:
+For example, the following code adds an `australianPhoneNumber` method to the `Rule` class:
 
 ```php
 Rule::macro('australianPhoneNumber', function () {
@@ -261,7 +271,44 @@ return [
 ]
 ```
 
-### Benefits
+The downside to using Macros is the lack of auto-completion and intellisense. Macros are not for everyone.
+
+### Customisation → Custom `Rule` class
+
+You may wish to use your own `Rule` class to provide your own customisation. This can be achieved by registering your Rule class via your `AppServiceProvider` or a similar place.
+
+```php
+\BradieTilley\Rules\Rule::using(\App\Rules\CustomRule::class);
+
+// via ::make()
+\BradieTilley\Rules\Rule::make(); // instanceof App\Rules\CustomRule
+
+// via the helper function
+rule(); // instanceof App\Rules\CustomRule
+```
+
+This allows you to customise any aspect you wish:
+
+```php
+    public function email(string ...$flags): static
+    {
+        return parent::email(...$flags)->min(5)->max(255);
+    }
+```
+
+```php
+    CustomRule::make()->required()->email();
+
+    // result:
+    [
+        'required',
+        'email',
+        'min:5',
+        'max:255',
+    ],
+```
+
+### About → Benefits
 
 **Better syntax**
 
@@ -269,7 +316,7 @@ Similar to chaining DB column schema definitions in migrations, this package aim
 
 **Parameter Insights**
 
-When dealing with string-based validation rules such as `decimal`, remembering what the available parameters can become a nuisance. As methods, you can get autocompletion and greater insights into the parameters available, along with a quick `@link` to the validation rule.
+When dealing with string-based validation rules such as `decimal`, remembering what the available parameters can become a nuisance. As methods, you can get autocompletion and greater insights into the parameters available, along with a quick `@link` to the validation rule documentation, to better understand how the validation rule works.
 
 **Variable Injection**
 
@@ -277,31 +324,33 @@ Instead of concatenating variables in an awkward manner like `'min:'.getMinValue
 
 **Conditional Logic**
 
-Easily add validation rules based on conditions, using the `->when()` and `->unless()` methods. 
+Easily add validation rules based on conditions, using the `->when()` and `->unless()` methods, as well as by passing in conditional states into methods such as `->requiredIf($this->method() === 'POST')`.
 
 **Wide Support of Rules**
 
 Not only does it support all core-Laravel rules, but it also supports any custom rule classes that you define.
 
-**Full Customisable**
+**Fully Customisable**
 
-Full customisation using [macros](#macros), [conditional rules](#conditional-rules) and [reusable rules](#reusable-rules).
+Full customisation using [macros](#customisation--macros), [conditional rules](#rules--conditional-rules), [reusable rules](#rules--reusable-rules) and [custom rule classes](#customisation--custom-rule-class)
 
 
-### Performance
+### About → Performance
 
 The performance of this packages varies as does natural PHP execution time. A single validator test that tests a string and integer with varying validity (based on min/max rules) results in a range of -20 microseconds to 20 microseconds difference, with an average of a 14 microsecond delay.
 
 The more the package is utilised in a single request, the less relative overhead is seen. For example, running the same validation rules with 20 varying strings and integers can result in an average of 9 microseconds or even less.
 
-The overhead here is no more a concern than using Laravel itself. If you're itching for those few microseconds worth of savings then you're probably better off running a custom lightweight framework -- not Laravel.
+The overhead here is considered negligible.
 
 
-### Haltable Rules
+### Side Feature → The `ValidationRule` class
 
-An optional, different approach to the `ValidationRule` which removes the horrible signature of the `Closure $fail` argument. To implement Haltable rules, simply add the `BradieTilley\Rules\Haltable\HaltableRule` trait to your `ValidationRule` class and replace your `validate` method with the `run` method.
+An **optional**, different approach to a typical implementation of the `ValidationRule` interface is the `BradieTilley\Rules\Validation\ValidationRule` class which hanldes the horrible signature of the `Closure $fail` argument and *forced* `void` return type inside the abstract class, allowing your rule classes to ship with cleaner syntax.
 
-Instead of this:
+To get started, simply extend the `BradieTilley\Rules\Validation\ValidationRule` class in your custom rule class. And instead of defining a `validate` method, define the `run` method.
+
+So instead of this:
 
 ```php
 public function validate(string $attribute, mixed $value, Closure $fail): void
@@ -313,36 +362,87 @@ public function validate(string $attribute, mixed $value, Closure $fail): void
     if ($this->otherCondition) {
         $fail('Some error message');
 
-        return;
+        return; // you can't return anything so you can't join the $fail and return lines together
     }
-
-    // ...
 }
 ```
 
-You would instead do:
-
+You would have this:
 
 ```php
-public function run(string $attribute, mixed $value): void
+public function run(string $attribute, mixed $value): static
 {
     if ($this->someCondition) {
-        $this->passed();
+        return $this->pass();
     }
 
     if ($this->otherCondition) {
-        $this->failed('Some error message');
+        return $this->fail('Some error message');
     }
 
-    // ...
+    return $this->pass();
 }
 ```
 
-The `passed` and `failed` methods throw internal exceptions that are caught and halt the validation of the rule without having to `return`.
+#### Why
 
-If you're confident in the type of `$value` then you can type hint it as the primitive type that you expect it to be.
+**Single line failures**
 
+Because of the `void` return type of the `validate` method, you cannot `return $fail('Some error message');` in a single line, and if you adhere to any of the common code styles out there you also have to have an empty line before a `return;` statement (unless it's the first line in a body). This cleans things up a bit by allowing that clean single line return:
 
+```diff
+-$fail('Some error message')
+-
+-return;
++return $this->fail('Some error message');
+```
+
+**Readability**
+
+By enforcing a return type (`static` in this case), this forces you to specify at least some form of a response rather than ambiguous empty `return;` statements that get used for pass and failure results. Although you could `return $this;`, it obviously encourages you to do the right thing and return a result. This improves readability by forcing you to explain the exit result:
+
+```diff
+-if ($this->someCondition) {
+-    return;
+-}
++if ($this->someCondition) {
++    return $this->pass();
++}
+```
+
+**Failure syntax**
+
+Invoking a method is always visually cleaner than invoking a `Closure` variable. This provides a cleaner syntax:
+
+```diff
+-$fail('Some error message')
++$this->fail('Some error message');
+```
+
+**Method signature**
+
+The `$fail` parameter of the `validate` method is messy. It's a `Closure` that requires importing at the top, and if you enforce generics in your project, the `$fail` parameter requires a type hint that explains any arguments and return types. Removing this type hint means the docblock is purely to say _"Run the validation rule."_ which is superfluous and can be removed too.
+
+```diff
+-use Closure;
+
+// ...
+
+-    /**
+-     * Run the validation rule.
+-     *
+-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+-     */
+-    public function validate(string $attribute, mixed $value, Closure $fail): void
++    public function run(string $attribute, mixed $value): static
+    {
+        // ...
+    }
+```
+
+## Issues
+
+If you spot any issues please feel free to open an Issue and/or PR and I'll address the issues.
 
 ## Author
 

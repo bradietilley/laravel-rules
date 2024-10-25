@@ -4,4 +4,4 @@ parameters:
     - src/
 
   ignoreErrors:
-    - '#but does not specify its types:#'
+    - '#does not specify its types:#'
