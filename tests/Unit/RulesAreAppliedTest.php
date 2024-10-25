@@ -610,28 +610,44 @@ it('applies the exclude rule', function () {
         ]);
 });
 
-it('applies the exclude_if rule', function (bool|Closure|ExcludeIf $condition, array $expect) {
-    $rule = Rule::make()->excludeIf($condition);
+it('applies the exclude_if rule', function (array $arguments, array $expect) {
+    $rule = Rule::make()->excludeIf(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
         ->toBe($expect);
 })->with([
     'false condition' => fn () => [
-        false,
+        [false],
         []
     ],
     'true condition' => fn () => [
-        true,
+        [true],
         ['exclude']
     ],
     'false callback' => fn () => [
-        fn () => false,
+        [fn () => false],
         []
     ],
     'true callback' => fn () => [
-        fn () => true,
+        [fn () => true],
         ['exclude']
+    ],
+    'ExcludeIf object bool = true' => [
+        [ new ExcludeIf(true) ],
+        ['exclude'],
+    ],
+    'ExcludeIf object bool = false' => [
+        [ new ExcludeIf(false) ],
+        [],
+    ],
+    'ExcludeIf object closure = true' => [
+        [ new ExcludeIf(fn () => true) ],
+        ['exclude'],
+    ],
+    'ExcludeIf object closure = false' => [
+        [ new ExcludeIf(fn () => false) ],
+        [],
     ],
 ]);
 

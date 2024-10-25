@@ -373,9 +373,11 @@ trait CoreRules
      */
     public function excludeIf(callable|bool|ExcludeIf $condition): static
     {
-        $excludeIf = $condition instanceof ExcludeIf ? $condition : RuleClass::excludeIf($condition);
+        if (! $condition instanceof ExcludeIf) {
+            return $this->when($condition, 'exclude');
+        }
 
-        return $this->rule((string) $excludeIf);
+        return $this->rule((string) $condition);
     }
 
     /**
