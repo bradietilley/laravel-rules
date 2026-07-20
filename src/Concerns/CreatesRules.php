@@ -42,8 +42,9 @@ trait CreatesRules
     public static function make(?string $field = null): Rule
     {
         $class = self::$using;
-        $instance = new $class($field);
+
         /** @var Rule $instance */
+        $instance = new $class();
 
         return $instance;
     }

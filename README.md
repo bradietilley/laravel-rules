@@ -4,11 +4,14 @@ Rules provides an elegant chainable object-oriented approach to defining rules f
 
 ![Static Analysis](https://github.com/bradietilley/laravel-rules/actions/workflows/static.yml/badge.svg)
 ![Tests](https://github.com/bradietilley/laravel-rules/actions/workflows/tests.yml/badge.svg)
-![Laravel Version](https://img.shields.io/badge/Laravel%20Version-11.x-F9322C)
-![PHP Version](https://img.shields.io/badge/PHP%20Version-8.3-4F5B93)
+![Laravel Version](https://img.shields.io/badge/Laravel%20Version-12.x-F9322C)
+![PHP Version](https://img.shields.io/badge/PHP%20Version-8.2%2B-4F5B93)
 
 
 ```php
+use Illuminate\Validation\Rules\Password;
+use BradieTilley\Rules\Rule;
+
     'email' => Rule::make()
         ->bail()
         ->when(
@@ -32,9 +35,7 @@ Rules provides an elegant chainable object-oriented approach to defining rules f
         )
         ->string()
         ->password(
-            min: 8,
-            letters: true,
-            numbers: true,
+            Password::min(8)->letters()->numbers(),
         ),
 ```
 
@@ -49,8 +50,13 @@ composer require bradietilley/laravel-rules
 
 ### Versions
 
-- PHP 8.1 and 8.2 @ Laravel 10 → v1.2.0
-- PHP 8.2 and 8.3 @ Laravel 11 → v1.3.0
+| Package | PHP | Laravel |
+| --- | --- | --- |
+| v1.2.x | 8.1 – 8.2 | 10 |
+| v1.3.x | 8.2 – 8.3 | 11 |
+| v2.x | 8.2+ | 12 |
+
+Laravel 11 and earlier are no longer supported on the current major version. See the [changelog](CHANGELOG.md) for the full list of changes and breaking changes.
 
 ## Documentation
 
@@ -78,6 +84,8 @@ This produces a ruleset of the following (when passed to a `Validator` instance 
 ### Rules → Available rules
 
 Every rule you're familiar with in Laravel will work with this package. Each core rule, such as `required`, `string`, `min`, etc, are also available using their respective methods of the same name in camelCase. Parameters for each rule (such as min `3` and max `4`) in `digitsBetween:3,4` are made available as method arguments, such as: `->digitsBetween(min: 3, max: 4)`.
+
+Laravel 12 additions such as `anyOf`, `doesntContain`, `encoding`, `inArrayKeys`, `prohibitedIfAccepted`, and `prohibitedIfDeclined` are supported, along with newer rule options like `->integer(strict: true)`, `->numeric(strict: true)`, `->url('http', 'https')`, `->uuid(4)`, and `->confirmed('repeat_username')`.
 
 The `->rule()` method acts as a catch-all to support any rule you need to chuck in there, such as in the short interim after new rules are added and support is added to this package.
 
@@ -320,7 +328,7 @@ When dealing with string-based validation rules such as `decimal`, remembering w
 
 **Variable Injection**
 
-Instead of concatenating variables in an awkward manner like `'min:'.getMinValue()` you can clearnly inject variables as method arguments like `->min(getMinValue())`
+Instead of concatenating variables in an awkward manner like `'min:'.getMinValue()` you can cleanly inject variables as method arguments like `->min(getMinValue())`
 
 **Conditional Logic**
 
@@ -346,7 +354,7 @@ The overhead here is considered negligible.
 
 ### Side Feature → The `ValidationRule` class
 
-An **optional**, different approach to a typical implementation of the `ValidationRule` interface is the `BradieTilley\Rules\Validation\ValidationRule` class which hanldes the horrible signature of the `Closure $fail` argument and *forced* `void` return type inside the abstract class, allowing your rule classes to ship with cleaner syntax.
+An **optional**, different approach to a typical implementation of the `ValidationRule` interface is the `BradieTilley\Rules\Validation\ValidationRule` class which handles the horrible signature of the `Closure $fail` argument and *forced* `void` return type inside the abstract class, allowing your rule classes to ship with cleaner syntax.
 
 To get started, simply extend the `BradieTilley\Rules\Validation\ValidationRule` class in your custom rule class. And instead of defining a `validate` method, define the `run` method.
 

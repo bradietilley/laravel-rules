@@ -47,7 +47,7 @@ trait CoreRules
             return $this->when($field, 'accepted');
         }
 
-        return $this->rule('accepted_if'.static::arguments([
+        return $this->rule('accepted_if' . static::arguments([
             $field,
             ...$values,
         ]));
@@ -66,7 +66,7 @@ trait CoreRules
      */
     public function after(string|DateTimeInterface $date): static
     {
-        return $this->rule('after'.static::arguments($date));
+        return $this->rule('after' . static::arguments($date));
     }
 
     /**
@@ -74,31 +74,41 @@ trait CoreRules
      */
     public function afterOrEqual(string|DateTimeInterface $date): static
     {
-        return $this->rule('after_or_equal'.static::arguments($date));
+        return $this->rule('after_or_equal' . static::arguments($date));
+    }
+
+    /**
+     * @param  array<int, mixed>  $rules
+     *
+     * @link https://laravel.com/docs/12.x/validation#rule-anyof
+     */
+    public function anyOf(array $rules): static
+    {
+        return $this->rule(RuleClass::anyOf($rules));
     }
 
     /**
      * @link https://laravel.com/docs/master/validation#rule-alpha
      */
-    public function alpha(string $range = null): static
+    public function alpha(?string $range = null): static
     {
-        return $this->rule('alpha'.static::arguments($range));
+        return $this->rule('alpha' . static::arguments($range));
     }
 
     /**
      * @link https://laravel.com/docs/master/validation#rule-alpha-dash
      */
-    public function alphaDash(string $range = null): static
+    public function alphaDash(?string $range = null): static
     {
-        return $this->rule('alpha_dash'.static::arguments($range));
+        return $this->rule('alpha_dash' . static::arguments($range));
     }
 
     /**
      * @link https://laravel.com/docs/master/validation#rule-alpha-numeric
      */
-    public function alphaNumeric(string $range = null): static
+    public function alphaNumeric(?string $range = null): static
     {
-        return $this->rule('alpha_numeric'.static::arguments($range));
+        return $this->rule('alpha_num' . static::arguments($range));
     }
 
     /**
@@ -106,7 +116,7 @@ trait CoreRules
      */
     public function array(string ...$keys): static
     {
-        return $this->rule('array'.static::arguments($keys));
+        return $this->rule('array' . static::arguments($keys));
     }
 
     /**
@@ -130,7 +140,7 @@ trait CoreRules
      */
     public function before(string|DateTimeInterface $date): static
     {
-        return $this->rule('before'.static::arguments($date));
+        return $this->rule('before' . static::arguments($date));
     }
 
     /**
@@ -138,7 +148,7 @@ trait CoreRules
      */
     public function beforeOrEqual(string|DateTimeInterface $date): static
     {
-        return $this->rule('before_or_equal'.static::arguments($date));
+        return $this->rule('before_or_equal' . static::arguments($date));
     }
 
     /**
@@ -146,7 +156,7 @@ trait CoreRules
      */
     public function between(int $min, int $max): static
     {
-        return $this->rule('between:'.$min.','.$max);
+        return $this->rule('between:' . $min . ',' . $max);
     }
 
     /**
@@ -160,9 +170,9 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-confirmed
      */
-    public function confirmed(): static
+    public function confirmed(?string $field = null): static
     {
-        return $this->rule('confirmed');
+        return $this->rule('confirmed' . static::arguments($field));
     }
 
     /**
@@ -170,15 +180,23 @@ trait CoreRules
      */
     public function contains(mixed ...$values): static
     {
-        return $this->rule('contains'.static::arguments($values));
+        return $this->rule((string) RuleClass::contains($values));
+    }
+
+    /**
+     * @link https://laravel.com/docs/12.x/validation#rule-doesnt-contain
+     */
+    public function doesntContain(string ...$values): static
+    {
+        return $this->rule((string) RuleClass::doesntContain($values));
     }
 
     /**
      * @link https://laravel.com/docs/master/validation#rule-current-password
      */
-    public function currentPassword(string $guard = null): static
+    public function currentPassword(?string $guard = null): static
     {
-        return $this->rule('current_password'.static::arguments($guard));
+        return $this->rule('current_password' . static::arguments($guard));
     }
 
     /**
@@ -194,7 +212,7 @@ trait CoreRules
      */
     public function dateEquals(string|DateTimeInterface $date): static
     {
-        return $this->rule('date_equals'.static::arguments($date));
+        return $this->rule('date_equals' . static::arguments($date));
     }
 
     /**
@@ -202,17 +220,17 @@ trait CoreRules
      */
     public function dateFormat(string ...$format): static
     {
-        return $this->rule('date_format'.static::arguments($format));
+        return $this->rule('date_format' . static::arguments($format));
     }
 
     /**
      * @link https://laravel.com/docs/master/validation#rule-decimal
      */
-    public function decimal(int $min, int $max = null): static
+    public function decimal(int $min, ?int $max = null): static
     {
         $max ??= $min;
 
-        return $this->rule('decimal:'.$min.','.$max);
+        return $this->rule('decimal:' . $min . ',' . $max);
     }
 
     /**
@@ -232,7 +250,7 @@ trait CoreRules
             return $this->when($field, 'declined');
         }
 
-        return $this->rule('declined_if'.static::arguments([
+        return $this->rule('declined_if' . static::arguments([
             $field,
             ...$values,
         ]));
@@ -243,7 +261,7 @@ trait CoreRules
      */
     public function different(string $field): static
     {
-        return $this->rule('different:'.$field);
+        return $this->rule('different:' . $field);
     }
 
     /**
@@ -251,7 +269,7 @@ trait CoreRules
      */
     public function digits(int $value): static
     {
-        return $this->rule('digits:'.$value);
+        return $this->rule('digits:' . $value);
     }
 
     /**
@@ -259,21 +277,21 @@ trait CoreRules
      */
     public function digitsBetween(int $min, int $max): static
     {
-        return $this->rule('digits_between:'.$min.','.$max);
+        return $this->rule('digits_between:' . $min . ',' . $max);
     }
 
     /**
      * @link https://laravel.com/docs/master/validation#rule-dimensions
      */
     public function dimensions(
-        string|Dimensions $dimensions = null,
-        int $width = null,
-        int $height = null,
-        int $minWidth = null,
-        int $minHeight = null,
-        int $maxWidth = null,
-        int $maxHeight = null,
-        int $ratio = null,
+        string|Dimensions|null $dimensions = null,
+        ?int $width = null,
+        ?int $height = null,
+        ?int $minWidth = null,
+        ?int $minHeight = null,
+        ?int $maxWidth = null,
+        ?int $maxHeight = null,
+        ?int $ratio = null,
     ): static {
         if ($dimensions === null) {
             $dimensions = RuleClass::dimensions();
@@ -313,9 +331,9 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-distinct
      */
-    public function distinct(string $mode = null): static
+    public function distinct(?string $mode = null): static
     {
-        return $this->rule('distinct'.static::arguments($mode));
+        return $this->rule('distinct' . static::arguments($mode));
     }
 
     /**
@@ -323,7 +341,7 @@ trait CoreRules
      */
     public function doesntStartWith(string ...$prefixes): static
     {
-        return $this->rule('doesnt_start_with'.static::arguments($prefixes));
+        return $this->rule('doesnt_start_with' . static::arguments($prefixes));
     }
 
     /**
@@ -331,7 +349,7 @@ trait CoreRules
      */
     public function doesntEndWith(string ...$prefixes): static
     {
-        return $this->rule('doesnt_end_with'.static::arguments($prefixes));
+        return $this->rule('doesnt_end_with' . static::arguments($prefixes));
     }
 
     /**
@@ -339,7 +357,15 @@ trait CoreRules
      */
     public function email(string ...$flags): static
     {
-        return $this->rule('email'.static::arguments($flags));
+        return $this->rule('email' . static::arguments($flags));
+    }
+
+    /**
+     * @link https://laravel.com/docs/12.x/validation#rule-encoding
+     */
+    public function encoding(string $encoding): static
+    {
+        return $this->rule('encoding' . static::arguments($encoding));
     }
 
     /**
@@ -347,7 +373,7 @@ trait CoreRules
      */
     public function endsWith(string ...$prefixes): static
     {
-        return $this->rule('ends_with'.static::arguments($prefixes));
+        return $this->rule('ends_with' . static::arguments($prefixes));
     }
 
     /**
@@ -381,7 +407,7 @@ trait CoreRules
             return $this->when($field, 'exclude');
         }
 
-        return $this->rule('exclude_if'.static::arguments([
+        return $this->rule('exclude_if' . static::arguments([
             $field,
             ...$values,
         ]));
@@ -396,7 +422,7 @@ trait CoreRules
             return $this->unless($field, 'exclude');
         }
 
-        return $this->rule('exclude_unless'.static::arguments([
+        return $this->rule('exclude_unless' . static::arguments([
             $field,
             ...$values,
         ]));
@@ -407,7 +433,7 @@ trait CoreRules
      */
     public function excludeWith(string $field): static
     {
-        return $this->rule('exclude_with:'.$field);
+        return $this->rule('exclude_with:' . $field);
     }
 
     /**
@@ -415,13 +441,13 @@ trait CoreRules
      */
     public function excludeWithout(string $field): static
     {
-        return $this->rule('exclude_without:'.$field);
+        return $this->rule('exclude_without:' . $field);
     }
 
     /**
      * @link https://laravel.com/docs/master/validation#rule-exists
      */
-    public function exists(string|Exists $table, string $column = null): static
+    public function exists(string|Exists $table, ?string $column = null): static
     {
         if (is_string($table)) {
             $table = RuleClass::exists($table, $column ?? 'NULL');
@@ -435,7 +461,7 @@ trait CoreRules
      */
     public function extensions(string ...$extensions): static
     {
-        return $this->rule('extensions'.static::arguments($extensions));
+        return $this->rule('extensions' . static::arguments($extensions));
     }
 
     /**
@@ -446,8 +472,8 @@ trait CoreRules
     public function file(
         ?File $file = null,
         array $allowedMimetypes = [],
-        int $minKilobytes = null,
-        int $maxKilobytes = null,
+        ?int $minKilobytes = null,
+        ?int $maxKilobytes = null,
         string|array $customRules = [],
     ): static {
         if ($file === null) {
@@ -461,11 +487,11 @@ trait CoreRules
                 $file->max($maxKilobytes);
             }
 
-            if ($customRules !== null) {
+            if ($customRules !== [] && $customRules !== '') {
                 $file->rules($customRules);
             }
 
-            if (!empty($allowedMimetypes)) {
+            if (! empty($allowedMimetypes)) {
                 $reflection = new ReflectionProperty($file, 'allowedMimetypes');
                 $reflection->setValue($file, $allowedMimetypes);
             }
@@ -487,7 +513,7 @@ trait CoreRules
      */
     public function gt(string $field): static
     {
-        return $this->rule('gt:'.$field);
+        return $this->rule('gt:' . $field);
     }
 
     /**
@@ -495,7 +521,7 @@ trait CoreRules
      */
     public function gte(string $field): static
     {
-        return $this->rule('gte:'.$field);
+        return $this->rule('gte:' . $field);
     }
 
     /**
@@ -509,7 +535,7 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-image
      */
-    public function image(ImageFile $image = null): static
+    public function image(?ImageFile $image = null): static
     {
         return $this->rule($image ?? 'image');
     }
@@ -519,7 +545,7 @@ trait CoreRules
      */
     public function in(string ...$values): static
     {
-        return $this->rule('in'.static::arguments($values));
+        return $this->rule((string) RuleClass::in($values));
     }
 
     /**
@@ -527,15 +553,23 @@ trait CoreRules
      */
     public function inArray(string $field): static
     {
-        return $this->rule('in_array:'.$field);
+        return $this->rule('in_array:' . $field);
+    }
+
+    /**
+     * @link https://laravel.com/docs/12.x/validation#rule-in-array-keys
+     */
+    public function inArrayKeys(string ...$keys): static
+    {
+        return $this->rule('in_array_keys' . static::arguments($keys));
     }
 
     /**
      * @link https://laravel.com/docs/master/validation#rule-integer
      */
-    public function integer(): static
+    public function integer(bool $strict = false): static
     {
-        return $this->rule('integer');
+        return $this->rule('integer' . ($strict ? ':strict' : ''));
     }
 
     /**
@@ -575,7 +609,7 @@ trait CoreRules
      */
     public function lt(string $field): static
     {
-        return $this->rule('lt:'.$field);
+        return $this->rule('lt:' . $field);
     }
 
     /**
@@ -583,7 +617,7 @@ trait CoreRules
      */
     public function lte(string $field): static
     {
-        return $this->rule('lte:'.$field);
+        return $this->rule('lte:' . $field);
     }
 
     /**
@@ -615,7 +649,7 @@ trait CoreRules
      */
     public function max(int $value): static
     {
-        return $this->rule('max:'.$value);
+        return $this->rule('max:' . $value);
     }
 
     /**
@@ -623,7 +657,7 @@ trait CoreRules
      */
     public function maxDigits(int $digits): static
     {
-        return $this->rule('max_digits:'.$digits);
+        return $this->rule('max_digits:' . $digits);
     }
 
     /**
@@ -631,7 +665,7 @@ trait CoreRules
      */
     public function mimeTypes(string ...$types): static
     {
-        return $this->rule('mimetypes'.static::arguments($types));
+        return $this->rule('mimetypes' . static::arguments($types));
     }
 
     /**
@@ -639,7 +673,7 @@ trait CoreRules
      */
     public function mimes(string ...$extensions): static
     {
-        return $this->rule('mimes'.static::arguments($extensions));
+        return $this->rule('mimes' . static::arguments($extensions));
     }
 
     /**
@@ -647,7 +681,7 @@ trait CoreRules
      */
     public function min(int $value): static
     {
-        return $this->rule('min:'.$value);
+        return $this->rule('min:' . $value);
     }
 
     /**
@@ -655,7 +689,7 @@ trait CoreRules
      */
     public function minDigits(int $value): static
     {
-        return $this->rule('min_digits:'.$value);
+        return $this->rule('min_digits:' . $value);
     }
 
     /**
@@ -675,7 +709,7 @@ trait CoreRules
             return $this->when($field, 'missing');
         }
 
-        return $this->rule('missing_if'.static::arguments([
+        return $this->rule('missing_if' . static::arguments([
             $field,
             ...$values,
         ]));
@@ -690,7 +724,7 @@ trait CoreRules
             return $this->unless($field, 'missing');
         }
 
-        return $this->rule('missing_unless'.static::arguments([
+        return $this->rule('missing_unless' . static::arguments([
             $field,
             ...$values,
         ]));
@@ -701,7 +735,7 @@ trait CoreRules
      */
     public function missingWith(string ...$fields): static
     {
-        return $this->rule('missing_with'.static::arguments($fields));
+        return $this->rule('missing_with' . static::arguments($fields));
     }
 
     /**
@@ -709,7 +743,7 @@ trait CoreRules
      */
     public function missingWithAll(string ...$fields): static
     {
-        return $this->rule('missing_with_all'.static::arguments($fields));
+        return $this->rule('missing_with_all' . static::arguments($fields));
     }
 
     /**
@@ -717,7 +751,7 @@ trait CoreRules
      */
     public function multipleOf(int $value): static
     {
-        return $this->rule('multiple_of:'.$value);
+        return $this->rule('multiple_of:' . $value);
     }
 
     /**
@@ -725,7 +759,7 @@ trait CoreRules
      */
     public function notIn(string ...$values): static
     {
-        return $this->rule('not_in'.static::arguments($values));
+        return $this->rule('not_in' . static::arguments($values));
     }
 
     /**
@@ -733,7 +767,7 @@ trait CoreRules
      */
     public function notRegex(string $regex): static
     {
-        return $this->rule('not_regex:'.$regex);
+        return $this->rule('not_regex:' . $regex);
     }
 
     /**
@@ -747,9 +781,9 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-numeric
      */
-    public function numeric(): static
+    public function numeric(bool $strict = false): static
     {
-        return $this->rule('numeric');
+        return $this->rule('numeric' . ($strict ? ':strict' : ''));
     }
 
     /**
@@ -779,7 +813,7 @@ trait CoreRules
             return $this->when($field, 'present');
         }
 
-        return $this->rule('present_if'.static::arguments([
+        return $this->rule('present_if' . static::arguments([
             $field,
             ...$values,
         ]));
@@ -794,7 +828,7 @@ trait CoreRules
             return $this->unless($field, 'present');
         }
 
-        return $this->rule('present_unless'.static::arguments([
+        return $this->rule('present_unless' . static::arguments([
             $field,
             ...$values,
         ]));
@@ -805,7 +839,7 @@ trait CoreRules
      */
     public function presentWith(string ...$fields): static
     {
-        return $this->rule('present_with'.static::arguments($fields));
+        return $this->rule('present_with' . static::arguments($fields));
     }
 
     /**
@@ -813,7 +847,7 @@ trait CoreRules
      */
     public function presentWithAll(string ...$fields): static
     {
-        return $this->rule('present_with_all'.static::arguments($fields));
+        return $this->rule('present_with_all' . static::arguments($fields));
     }
 
     /**
@@ -840,10 +874,26 @@ trait CoreRules
             return $this->when($field, 'prohibited');
         }
 
-        return $this->rule('prohibited_if'.static::arguments([
+        return $this->rule('prohibited_if' . static::arguments([
             $field,
             ...$values,
         ]));
+    }
+
+    /**
+     * @link https://laravel.com/docs/12.x/validation#rule-prohibited-if-accepted
+     */
+    public function prohibitedIfAccepted(string ...$fields): static
+    {
+        return $this->rule('prohibited_if_accepted' . static::arguments($fields));
+    }
+
+    /**
+     * @link https://laravel.com/docs/12.x/validation#rule-prohibited-if-declined
+     */
+    public function prohibitedIfDeclined(string ...$fields): static
+    {
+        return $this->rule('prohibited_if_declined' . static::arguments($fields));
     }
 
     /**
@@ -855,7 +905,7 @@ trait CoreRules
             return $this->unless($field, 'prohibited');
         }
 
-        return $this->rule('prohibited_unless'.static::arguments([
+        return $this->rule('prohibited_unless' . static::arguments([
             $field,
             ...$values,
         ]));
@@ -866,7 +916,7 @@ trait CoreRules
      */
     public function prohibits(string ...$fields): static
     {
-        return $this->rule('prohibits'.static::arguments($fields));
+        return $this->rule('prohibits' . static::arguments($fields));
     }
 
     /**
@@ -874,7 +924,7 @@ trait CoreRules
      */
     public function regex(string $pattern): static
     {
-        return $this->rule('regex:'.$pattern);
+        return $this->rule('regex:' . $pattern);
     }
 
     /**
@@ -901,7 +951,7 @@ trait CoreRules
             return $this->when($field, 'required');
         }
 
-        return $this->rule('required_if'.static::arguments([
+        return $this->rule('required_if' . static::arguments([
             $field,
             ...$values,
         ]));
@@ -912,7 +962,7 @@ trait CoreRules
      */
     public function requiredIfAccepted(string ...$fields): static
     {
-        return $this->rule('required_if_accepted'.static::arguments($fields));
+        return $this->rule('required_if_accepted' . static::arguments($fields));
     }
 
     /**
@@ -920,7 +970,7 @@ trait CoreRules
      */
     public function requiredIfDeclined(string ...$fields): static
     {
-        return $this->rule('required_if_declined'.static::arguments($fields));
+        return $this->rule('required_if_declined' . static::arguments($fields));
     }
 
     /**
@@ -935,7 +985,7 @@ trait CoreRules
             return $this->unless($field, 'required');
         }
 
-        return $this->rule('required_unless'.static::arguments([
+        return $this->rule('required_unless' . static::arguments([
             $field,
             ...$values,
         ]));
@@ -946,7 +996,7 @@ trait CoreRules
      */
     public function requiredWith(string ...$fields): static
     {
-        return $this->rule('required_with'.static::arguments($fields));
+        return $this->rule('required_with' . static::arguments($fields));
     }
 
     /**
@@ -954,7 +1004,7 @@ trait CoreRules
      */
     public function requiredWithAll(string ...$fields): static
     {
-        return $this->rule('required_with_all'.static::arguments($fields));
+        return $this->rule('required_with_all' . static::arguments($fields));
     }
 
     /**
@@ -962,7 +1012,7 @@ trait CoreRules
      */
     public function requiredWithout(string ...$fields): static
     {
-        return $this->rule('required_without'.static::arguments($fields));
+        return $this->rule('required_without' . static::arguments($fields));
     }
 
     /**
@@ -970,7 +1020,7 @@ trait CoreRules
      */
     public function requiredWithoutAll(string ...$fields): static
     {
-        return $this->rule('required_without_all'.static::arguments($fields));
+        return $this->rule('required_without_all' . static::arguments($fields));
     }
 
     /**
@@ -978,7 +1028,7 @@ trait CoreRules
      */
     public function requiredArrayKeys(string ...$keys): static
     {
-        return $this->rule('required_array_keys'.static::arguments($keys));
+        return $this->rule('required_array_keys' . static::arguments($keys));
     }
 
     /**
@@ -986,7 +1036,7 @@ trait CoreRules
      */
     public function same(string $field): static
     {
-        return $this->rule('same:'.$field);
+        return $this->rule('same:' . $field);
     }
 
     /**
@@ -994,7 +1044,7 @@ trait CoreRules
      */
     public function size(string|int $value): static
     {
-        return $this->rule('size:'.$value);
+        return $this->rule('size:' . $value);
     }
 
     /**
@@ -1010,7 +1060,7 @@ trait CoreRules
      */
     public function startsWith(string ...$values): static
     {
-        return $this->rule('starts_with'.static::arguments($values));
+        return $this->rule('starts_with' . static::arguments($values));
     }
 
     /**
@@ -1031,13 +1081,13 @@ trait CoreRules
             $country,
         ]);
 
-        return $this->rule('timezone'.static::arguments($arguments));
+        return $this->rule('timezone' . static::arguments($arguments));
     }
 
     /**
      * @link https://laravel.com/docs/master/validation#rule-unique
      */
-    public function unique(string|Unique $table, string $column = null, mixed $ignore = null): static
+    public function unique(string|Unique $table, ?string $column = null, mixed $ignore = null): static
     {
         if (is_string($table)) {
             $table = (new Unique($table, $column ?? 'NULL'))->ignore($ignore);
@@ -1057,9 +1107,9 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-url
      */
-    public function url(): static
+    public function url(string ...$protocols): static
     {
-        return $this->rule('url');
+        return $this->rule('url' . static::arguments($protocols));
     }
 
     /**
@@ -1073,8 +1123,8 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-uuid
      */
-    public function uuid(): static
+    public function uuid(string|int|null $version = null): static
     {
-        return $this->rule('uuid');
+        return $this->rule('uuid' . static::arguments($version !== null ? (string) $version : null));
     }
 }

@@ -5,3 +5,4 @@ parameters:
 
   ignoreErrors:
     - '#does not specify its types:#'
+    - identifier: trait.unused

@@ -107,6 +107,19 @@ it('applies the after_or_equal rule', function (string|Carbon $date, string $exp
     ],
 ]);
 
+it('applies the any_of rule', function () {
+    $rule = Rule::make()->anyOf([
+        ['string', 'email'],
+        ['string', 'alpha_dash', 'min:6'],
+    ]);
+
+    expect($rule)->toBeInstanceOf(Rule::class);
+
+    $rules = $rule->toArray();
+    expect($rules)->toHaveCount(1);
+    expect($rules[0])->toBeInstanceOf(\Illuminate\Validation\Rules\AnyOf::class);
+});
+
 it('applies the alpha rule', function (?string $range, string $expect) {
     $rule = Rule::make()->alpha($range);
     expect($rule)
@@ -156,11 +169,11 @@ it('applies the alpha_numeric rule', function (?string $range, string $expect) {
 })->with([
     'no range' => [
         null,
-        'alpha_numeric',
+        'alpha_num',
     ],
     'ascii range' => [
         'ascii',
-        'alpha_numeric:ascii',
+        'alpha_num:ascii',
     ],
 ]);
 
@@ -265,15 +278,24 @@ it('applies the boolean rule', function () {
         ]);
 });
 
-it('applies the confirmed rule', function () {
-    $rule = Rule::make()->confirmed();
+it('applies the confirmed rule', function (?string $field, string $expect) {
+    $rule = Rule::make()->confirmed($field);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
         ->toBe([
-            'confirmed',
+            $expect,
         ]);
-});
+})->with([
+    'default confirmation field' => [
+        null,
+        'confirmed',
+    ],
+    'custom confirmation field' => [
+        'repeat_username',
+        'confirmed:repeat_username',
+    ],
+]);
 
 it('applies the contains rule', function () {
     $rule = Rule::make()->contains('foo', 'bar');
@@ -281,7 +303,17 @@ it('applies the contains rule', function () {
         ->toBeInstanceOf(Rule::class)
         ->toArray()
         ->toBe([
-            'contains:foo,bar',
+            'contains:"foo","bar"',
+        ]);
+});
+
+it('applies the doesnt_contain rule', function () {
+    $rule = Rule::make()->doesntContain('foo', 'bar');
+    expect($rule)
+        ->toBeInstanceOf(Rule::class)
+        ->toArray()
+        ->toBe([
+            'doesnt_contain:"foo","bar"',
         ]);
 });
 
@@ -560,6 +592,16 @@ it('applies the email rule', function (array $arguments, string $expect) {
         'email:rfc,strict,dns,spoof,filter,filter_unicode',
     ],
 ]);
+
+it('applies the encoding rule', function () {
+    $rule = Rule::make()->encoding('utf-8');
+    expect($rule)
+        ->toBeInstanceOf(Rule::class)
+        ->toArray()
+        ->toBe([
+            'encoding:utf-8',
+        ]);
+});
 
 it('applies the ends_with rule', function (array $arguments, string $expect) {
     $rule = Rule::make()->endsWith(...$arguments);
@@ -847,11 +889,11 @@ it('applies the in rule', function (array $arguments, string $expect) {
 })->with([
     'one value' => [
         [ 'foo', ],
-        'in:foo',
+        'in:"foo"',
     ],
     'two values' => [
         [ 'foo', 'bar', ],
-        'in:foo,bar',
+        'in:"foo","bar"',
     ],
 ]);
 
@@ -865,15 +907,34 @@ it('applies the in_array rule', function () {
         ]);
 });
 
-it('applies the integer rule', function () {
-    $rule = Rule::make()->integer();
+it('applies the in_array_keys rule', function () {
+    $rule = Rule::make()->inArrayKeys('timezone', 'locale');
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
         ->toBe([
-            'integer',
+            'in_array_keys:timezone,locale',
         ]);
 });
+
+it('applies the integer rule', function (bool $strict, string $expect) {
+    $rule = Rule::make()->integer($strict);
+    expect($rule)
+        ->toBeInstanceOf(Rule::class)
+        ->toArray()
+        ->toBe([
+            $expect,
+        ]);
+})->with([
+    'default' => [
+        false,
+        'integer',
+    ],
+    'strict' => [
+        true,
+        'integer:strict',
+    ],
+]);
 
 it('applies the ip rule', function () {
     $rule = Rule::make()->ip();
@@ -1178,11 +1239,11 @@ it('applies the not_in rule', function (array $arguments, string $expect) {
 })->with([
     'one argument' => [
         [ 'foo', ],
-        'not_in:foo',
+        'not_in:"foo"',
     ],
     'two arguments' => [
         [ 'foo', 'bar', ],
-        'not_in:foo,bar',
+        'not_in:"foo","bar"',
     ],
 ]);
 
@@ -1206,15 +1267,24 @@ it('applies the nullable rule', function () {
         ]);
 });
 
-it('applies the numeric rule', function () {
-    $rule = Rule::make()->numeric();
+it('applies the numeric rule', function (bool $strict, string $expect) {
+    $rule = Rule::make()->numeric($strict);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
         ->toBe([
-            'numeric',
+            $expect,
         ]);
-});
+})->with([
+    'default' => [
+        false,
+        'numeric',
+    ],
+    'strict' => [
+        true,
+        'numeric:strict',
+    ],
+]);
 
 it('applies the password rule', function () {
     Password::defaults(function () {
@@ -1469,6 +1539,26 @@ it('applies the prohibited_if rule', function (array $arguments, array $expect) 
         ['prohibited_if:foo,bar,baz,biz'],
     ],
 ]);
+
+it('applies the prohibited_if_accepted rule', function () {
+    $rule = Rule::make()->prohibitedIfAccepted('terms', 'newsletter');
+    expect($rule)
+        ->toBeInstanceOf(Rule::class)
+        ->toArray()
+        ->toBe([
+            'prohibited_if_accepted:terms,newsletter',
+        ]);
+});
+
+it('applies the prohibited_if_declined rule', function () {
+    $rule = Rule::make()->prohibitedIfDeclined('terms', 'newsletter');
+    expect($rule)
+        ->toBeInstanceOf(Rule::class)
+        ->toArray()
+        ->toBe([
+            'prohibited_if_declined:terms,newsletter',
+        ]);
+});
 
 it('applies the prohibited_unless rule', function (array $arguments, array $expect) {
     $rule = Rule::make()->prohibitedUnless(...$arguments);
@@ -1904,15 +1994,24 @@ it('applies the uppercase rule', function () {
         ]);
 });
 
-it('applies the url rule', function () {
-    $rule = Rule::make()->url();
+it('applies the url rule', function (array $arguments, string $expect) {
+    $rule = Rule::make()->url(...$arguments);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
         ->toBe([
-            'url',
+            $expect,
         ]);
-});
+})->with([
+    'no protocols' => [
+        [],
+        'url',
+    ],
+    'http and https' => [
+        [ 'http', 'https' ],
+        'url:http,https',
+    ],
+]);
 
 it('applies the ulid rule', function () {
     $rule = Rule::make()->ulid();
@@ -1924,12 +2023,21 @@ it('applies the ulid rule', function () {
         ]);
 });
 
-it('applies the uuid rule', function () {
-    $rule = Rule::make()->uuid();
+it('applies the uuid rule', function (string|int|null $version, string $expect) {
+    $rule = Rule::make()->uuid($version);
     expect($rule)
         ->toBeInstanceOf(Rule::class)
         ->toArray()
         ->toBe([
-            'uuid',
+            $expect,
         ]);
-});
+})->with([
+    'no version' => [
+        null,
+        'uuid',
+    ],
+    'version 4' => [
+        4,
+        'uuid:4',
+    ],
+]);

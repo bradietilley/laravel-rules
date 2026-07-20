@@ -64,13 +64,17 @@ class Rule implements Iterator, Arrayable
     /**
      * Standardise the value for string concatenation.
      */
-    protected static function standardise(int|string|DateTimeInterface $date): string
+    protected static function standardise(mixed $date): string
     {
         if ($date instanceof DateTimeInterface) {
             return $date->format('Y-m-d');
         }
 
-        return (string) $date;
+        if (is_string($date) || is_int($date) || is_float($date)) {
+            return (string) $date;
+        }
+
+        return '';
     }
 
     /**

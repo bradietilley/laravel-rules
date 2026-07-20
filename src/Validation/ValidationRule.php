@@ -9,7 +9,7 @@ use RuntimeException;
 
 /**
  * A clean base implementation of the `ValidationRule` interface, providing
- * a simple signature for running the valdiation rule as well as enforcing
+ * a simple signature for running the validation rule as well as enforcing
  * either a success or failure result for increased readability and integrity.
  */
 abstract class ValidationRule implements ValidationRuleContract
@@ -39,7 +39,9 @@ abstract class ValidationRule implements ValidationRuleContract
         }
 
         if ($this->success === false) {
-            $fail($this->failureMessage ?? static::UNKNOWN_ERROR);
+            $message = $this->failureMessage ?? self::UNKNOWN_ERROR;
+
+            $fail($message);
         }
     }
 
