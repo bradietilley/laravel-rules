@@ -34,27 +34,27 @@ it('applies the accepted_if rule', function (array $arguments, array $expect) {
         ->toBe($expect);
 })->with([
     'boolean = true' => [
-        [ true ],
+        [true],
         ['accepted'],
     ],
     'boolean = false' => [
-        [ false ],
+        [false],
         [],
     ],
     'closure = true' => [
-        [ fn () => true ],
+        [fn () => true],
         ['accepted'],
     ],
     'closure = false' => [
-        [ fn () => false ],
+        [fn () => false],
         [],
     ],
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         ['accepted_if:foo,bar'],
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         ['accepted_if:foo,bar,baz,biz'],
     ],
 ]);
@@ -191,11 +191,11 @@ it('applies the array rule', function (array $arguments, string $expect) {
         'array',
     ],
     'one key' => [
-        [ 'foo' ],
+        ['foo'],
         'array:foo',
     ],
     'two keys' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         'array:foo,bar',
     ],
 ]);
@@ -375,11 +375,11 @@ it('applies the date_format rule', function (array $arguments, string $expect) {
         ]);
 })->with([
     'one format' => [
-        [ 'Y-m-d' ],
+        ['Y-m-d'],
         'date_format:Y-m-d',
     ],
     'two formats' => [
-        [ 'Y-m-d', 'Ymd' ],
+        ['Y-m-d', 'Ymd'],
         'date_format:Y-m-d,Ymd',
     ],
 ]);
@@ -394,11 +394,11 @@ it('applies the decimal rule', function (array $arguments, string $expect) {
         ]);
 })->with([
     'min only' => [
-        [ 12 ],
+        [12],
         'decimal:12,12',
     ],
     'min + max' => [
-        [ 12, 24 ],
+        [12, 24],
         'decimal:12,24',
     ],
 ]);
@@ -421,27 +421,27 @@ it('applies the declined_if rule', function (array $arguments, array $expect) {
         ->toBe($expect);
 })->with([
     'boolean = true' => [
-        [ true ],
+        [true],
         ['declined'],
     ],
     'boolean = false' => [
-        [ false ],
+        [false],
         [],
     ],
     'closure = true' => [
-        [ fn () => true ],
+        [fn () => true],
         ['declined'],
     ],
     'closure = false' => [
-        [ fn () => false ],
+        [fn () => false],
         [],
     ],
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         ['declined_if:foo,bar'],
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         ['declined_if:foo,bar,baz,biz'],
     ],
 ]);
@@ -542,11 +542,11 @@ it('applies the doesnt_start_with rule', function (array $arguments, string $exp
         ]);
 })->with([
     'one key' => [
-        [ 'foo', ],
+        ['foo',],
         'doesnt_start_with:foo',
     ],
     'two keys' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         'doesnt_start_with:foo,bar',
     ],
 ]);
@@ -561,11 +561,11 @@ it('applies the doesnt_end_with rule', function (array $arguments, string $expec
         ]);
 })->with([
     'one key' => [
-        [ 'foo', ],
+        ['foo',],
         'doesnt_end_with:foo',
     ],
     'two keys' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         'doesnt_end_with:foo,bar',
     ],
 ]);
@@ -584,11 +584,11 @@ it('applies the email rule', function (array $arguments, string $expect) {
         'email',
     ],
     'one argument' => [
-        [ 'rfc' ],
+        ['rfc'],
         'email:rfc',
     ],
     'all arguments' => [
-        [ 'rfc', 'strict', 'dns', 'spoof', 'filter', 'filter_unicode' ],
+        ['rfc', 'strict', 'dns', 'spoof', 'filter', 'filter_unicode'],
         'email:rfc,strict,dns,spoof,filter,filter_unicode',
     ],
 ]);
@@ -613,11 +613,11 @@ it('applies the ends_with rule', function (array $arguments, string $expect) {
         ]);
 })->with([
     'one argument' => [
-        [ 'foo' ],
+        ['foo'],
         'ends_with:foo',
     ],
     'two arguments' => [
-        [ 'foo', 'bar' ],
+        ['foo', 'bar'],
         'ends_with:foo,bar',
     ],
 ]);
@@ -676,27 +676,27 @@ it('applies the exclude_if rule', function (array $arguments, array $expect) {
         ['exclude']
     ],
     'ExcludeIf object bool = true' => [
-        [ new ExcludeIf(true) ],
+        [new ExcludeIf(true)],
         ['exclude'],
     ],
     'ExcludeIf object bool = false' => [
-        [ new ExcludeIf(false) ],
+        [new ExcludeIf(false)],
         [],
     ],
     'ExcludeIf object closure = true' => [
-        [ new ExcludeIf(fn () => true) ],
+        [new ExcludeIf(fn () => true)],
         ['exclude'],
     ],
     'ExcludeIf object closure = false' => [
-        [ new ExcludeIf(fn () => false) ],
+        [new ExcludeIf(fn () => false)],
         [],
     ],
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         ['exclude_if:foo,bar'],
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         ['exclude_if:foo,bar,baz,biz'],
     ],
 ]);
@@ -709,27 +709,27 @@ it('applies the exclude_unless rule', function (array $arguments, array $expect)
         ->toBe($expect);
 })->with([
     'boolean = true' => [
-        [ true ],
+        [true],
         [],
     ],
     'boolean = false' => [
-        [ false ],
+        [false],
         ['exclude'],
     ],
     'closure = true' => [
-        [ fn () => true ],
+        [fn () => true],
         [],
     ],
     'closure = false' => [
-        [ fn () => false ],
+        [fn () => false],
         ['exclude'],
     ],
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         ['exclude_unless:foo,bar'],
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         ['exclude_unless:foo,bar,baz,biz'],
     ],
 ]);
@@ -764,15 +764,15 @@ it('applies the exists rule', function (array $arguments, string $expect) {
         ]);
 })->with([
     'table only' => [
-        [ 'products' ],
+        ['products'],
         'exists:products,NULL',
     ],
     'table and column' => [
-        [ 'users', 'email', ],
+        ['users', 'email',],
         'exists:users,email',
     ],
     'exists object' => fn () => [
-        [ $object = (new Exists('settings', 'id'))->withoutTrashed(), ],
+        [$object = (new Exists('settings', 'id'))->withoutTrashed(),],
         (string) $object,
     ],
 ]);
@@ -806,16 +806,16 @@ it('applies the file rule', function (array $arguments, array $expect) {
     expect($properties)->toBe($expect);
 })->with([
     'allowed mimetypes only' => [
-        [ null, ['image/png', 'image/jpeg'], ],
-        [ 'allowedMimetypes' => ['image/png', 'image/jpeg'], 'minimumFileSize' => null, 'maximumFileSize' => null, 'customRules' => [], ],
+        [null, ['image/png', 'image/jpeg'],],
+        ['allowedMimetypes' => ['image/png', 'image/jpeg'], 'minimumFileSize' => null, 'maximumFileSize' => null, 'customRules' => [],],
     ],
     'all file arguments' => [
-        [ null, ['image/webp', 'image/jpeg'], 10, 100, [ 'ABC',] ],
-        [ 'allowedMimetypes' => ['image/webp', 'image/jpeg'], 'minimumFileSize' => 10, 'maximumFileSize' => 100, 'customRules' => [ 'ABC', ] ],
+        [null, ['image/webp', 'image/jpeg'], 10, 100, ['ABC',]],
+        ['allowedMimetypes' => ['image/webp', 'image/jpeg'], 'minimumFileSize' => 10, 'maximumFileSize' => 100, 'customRules' => ['ABC',]],
     ],
     'file argument' => [
-        [ File::types(['application/pdf'])->min(43)->max(74), ],
-        [ 'allowedMimetypes' => ['application/pdf'], 'minimumFileSize' => 43, 'maximumFileSize' => 74, 'customRules' => [] ],
+        [File::types(['application/pdf'])->min(43)->max(74),],
+        ['allowedMimetypes' => ['application/pdf'], 'minimumFileSize' => 43, 'maximumFileSize' => 74, 'customRules' => []],
     ],
 ]);
 
@@ -888,11 +888,11 @@ it('applies the in rule', function (array $arguments, string $expect) {
         ]);
 })->with([
     'one value' => [
-        [ 'foo', ],
+        ['foo',],
         'in:"foo"',
     ],
     'two values' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         'in:"foo","bar"',
     ],
 ]);
@@ -1056,11 +1056,11 @@ it('applies the mime_types rule', function (array $arguments, string $expect) {
         ]);
 })->with([
     'single mime type' => [
-        [ 'image/jpeg' ],
+        ['image/jpeg'],
         'mimetypes:image/jpeg'
     ],
     'mulitple mime types' => [
-        [ 'image/jpeg', 'image/png' ],
+        ['image/jpeg', 'image/png'],
         'mimetypes:image/jpeg,image/png'
     ]
 ]);
@@ -1075,11 +1075,11 @@ it('applies the mimes rule', function (array $arguments, string $expect) {
         ]);
 })->with([
     'single mime type' => [
-        [ 'jpeg' ],
+        ['jpeg'],
         'mimes:jpeg'
     ],
     'mulitple mime types' => [
-        [ 'jpeg', 'png' ],
+        ['jpeg', 'png'],
         'mimes:jpeg,png'
     ]
 ]);
@@ -1122,27 +1122,27 @@ it('applies the missing_if rule', function (array $arguments, array $expect) {
         ->toBe($expect);
 })->with([
     'boolean = true' => [
-        [ true ],
+        [true],
         ['missing'],
     ],
     'boolean = false' => [
-        [ false ],
+        [false],
         [],
     ],
     'closure = true' => [
-        [ fn () => true ],
+        [fn () => true],
         ['missing'],
     ],
     'closure = false' => [
-        [ fn () => false ],
+        [fn () => false],
         [],
     ],
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         ['missing_if:foo,bar'],
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         ['missing_if:foo,bar,baz,biz'],
     ],
 ]);
@@ -1155,27 +1155,27 @@ it('applies the missing_unless rule', function (array $arguments, array $expect)
         ->toBe($expect);
 })->with([
     'boolean = true' => [
-        [ true ],
+        [true],
         [],
     ],
     'boolean = false' => [
-        [ false ],
+        [false],
         ['missing'],
     ],
     'closure = true' => [
-        [ fn () => true ],
+        [fn () => true],
         [],
     ],
     'closure = false' => [
-        [ fn () => false ],
+        [fn () => false],
         ['missing'],
     ],
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         ['missing_unless:foo,bar'],
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         ['missing_unless:foo,bar,baz,biz'],
     ],
 ]);
@@ -1190,11 +1190,11 @@ it('applies the missing_with rule', function (array $arguments, string $expect) 
         ]);
 })->with([
     'one argument' => [
-        [ 'foo', ],
+        ['foo',],
         'missing_with:foo',
     ],
     'two arguments' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         'missing_with:foo,bar',
     ],
 ]);
@@ -1209,11 +1209,11 @@ it('applies the missing_with_all rule', function (array $arguments, string $expe
         ]);
 })->with([
     'one argument' => [
-        [ 'foo', ],
+        ['foo',],
         'missing_with_all:foo',
     ],
     'two arguments' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         'missing_with_all:foo,bar',
     ],
 ]);
@@ -1238,11 +1238,11 @@ it('applies the not_in rule', function (array $arguments, string $expect) {
         ]);
 })->with([
     'one argument' => [
-        [ 'foo', ],
+        ['foo',],
         'not_in:"foo"',
     ],
     'two arguments' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         'not_in:"foo","bar"',
     ],
 ]);
@@ -1385,27 +1385,27 @@ it('applies the present_if rule', function (array $arguments, array $expect) {
         ->toBe($expect);
 })->with([
     'boolean = true' => [
-        [ true ],
+        [true],
         ['present'],
     ],
     'boolean = false' => [
-        [ false ],
+        [false],
         [],
     ],
     'closure = true' => [
-        [ fn () => true ],
+        [fn () => true],
         ['present'],
     ],
     'closure = false' => [
-        [ fn () => false ],
+        [fn () => false],
         [],
     ],
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         ['present_if:foo,bar'],
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         ['present_if:foo,bar,baz,biz'],
     ],
 ]);
@@ -1418,27 +1418,27 @@ it('applies the present_unless rule', function (array $arguments, array $expect)
         ->toBe($expect);
 })->with([
     'boolean = true' => [
-        [ true ],
+        [true],
         [],
     ],
     'boolean = false' => [
-        [ false ],
+        [false],
         ['present'],
     ],
     'closure = true' => [
-        [ fn () => true ],
+        [fn () => true],
         [],
     ],
     'closure = false' => [
-        [ fn () => false ],
+        [fn () => false],
         ['present'],
     ],
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         ['present_unless:foo,bar'],
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         ['present_unless:foo,bar,baz,biz'],
     ],
 ]);
@@ -1453,11 +1453,11 @@ it('applies the present_with rule', function (array $arguments, string $expect) 
         ]);
 })->with([
     'single field' => [
-        [ 'foo', ],
+        ['foo',],
         'present_with:foo',
     ],
     'multiple fields' => [
-        [ 'foo', 'bar', 'baz', ],
+        ['foo', 'bar', 'baz',],
         'present_with:foo,bar,baz',
     ],
 ]);
@@ -1472,11 +1472,11 @@ it('applies the present_with_all rule', function (array $arguments, string $expe
         ]);
 })->with([
     'single field' => [
-        [ 'foo', ],
+        ['foo',],
         'present_with_all:foo',
     ],
     'multiple fields' => [
-        [ 'foo', 'bar', 'baz', ],
+        ['foo', 'bar', 'baz',],
         'present_with_all:foo,bar,baz',
     ],
 ]);
@@ -1499,43 +1499,43 @@ it('applies the prohibited_if rule', function (array $arguments, array $expect) 
         ->toBe($expect);
 })->with([
     'boolean = true' => [
-        [ true ],
+        [true],
         ['prohibited'],
     ],
     'boolean = false' => [
-        [ false ],
+        [false],
         [],
     ],
     'closure = true' => [
-        [ fn () => true ],
+        [fn () => true],
         ['prohibited'],
     ],
     'closure = false' => [
-        [ fn () => false ],
+        [fn () => false],
         [],
     ],
     'ProhibitedIf object bool = true' => [
-        [ new ProhibitedIf(true) ],
+        [new ProhibitedIf(true)],
         ['prohibited'],
     ],
     'ProhibitedIf object bool = false' => [
-        [ new ProhibitedIf(false) ],
+        [new ProhibitedIf(false)],
         [],
     ],
     'ProhibitedIf object closure = true' => [
-        [ new ProhibitedIf(fn () => true) ],
+        [new ProhibitedIf(fn () => true)],
         ['prohibited'],
     ],
     'ProhibitedIf object closure = false' => [
-        [ new ProhibitedIf(fn () => false) ],
+        [new ProhibitedIf(fn () => false)],
         [],
     ],
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         ['prohibited_if:foo,bar'],
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         ['prohibited_if:foo,bar,baz,biz'],
     ],
 ]);
@@ -1568,27 +1568,27 @@ it('applies the prohibited_unless rule', function (array $arguments, array $expe
         ->toBe($expect);
 })->with([
     'boolean = true' => [
-        [ true ],
+        [true],
         [],
     ],
     'boolean = false' => [
-        [ false ],
+        [false],
         ['prohibited'],
     ],
     'closure = true' => [
-        [ fn () => true ],
+        [fn () => true],
         [],
     ],
     'closure = false' => [
-        [ fn () => false ],
+        [fn () => false],
         ['prohibited'],
     ],
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         ['prohibited_unless:foo,bar'],
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         ['prohibited_unless:foo,bar,baz,biz'],
     ],
 ]);
@@ -1603,11 +1603,11 @@ it('applies the prohibits rule', function (array $arguments, string $expect) {
         ]);
 })->with([
     'one argument' => [
-        [ 'foo', ],
+        ['foo',],
         'prohibits:foo',
     ],
     'two arguments' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         'prohibits:foo,bar',
     ],
 ]);
@@ -1640,43 +1640,43 @@ it('applies the required_if rule', function (array $arguments, array $expect) {
         ->toBe($expect);
 })->with([
     'boolean = true' => [
-        [ true ],
+        [true],
         ['required'],
     ],
     'boolean = false' => [
-        [ false ],
+        [false],
         [],
     ],
     'closure = true' => [
-        [ fn () => true ],
+        [fn () => true],
         ['required'],
     ],
     'closure = false' => [
-        [ fn () => false ],
+        [fn () => false],
         [],
     ],
     'RequiredIf object bool = true' => [
-        [ new RequiredIf(true) ],
+        [new RequiredIf(true)],
         ['required'],
     ],
     'RequiredIf object bool = false' => [
-        [ new RequiredIf(false) ],
+        [new RequiredIf(false)],
         [],
     ],
     'RequiredIf object closure = true' => [
-        [ new RequiredIf(fn () => true) ],
+        [new RequiredIf(fn () => true)],
         ['required'],
     ],
     'RequiredIf object closure = false' => [
-        [ new RequiredIf(fn () => false) ],
+        [new RequiredIf(fn () => false)],
         [],
     ],
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         ['required_if:foo,bar'],
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         ['required_if:foo,bar,baz,biz'],
     ],
 ]);
@@ -1737,27 +1737,27 @@ it('applies the required_unless rule', function (array $arguments, array $expect
         ->toBe($expect);
 })->with([
     'boolean = true' => [
-        [ true ],
+        [true],
         [],
     ],
     'boolean = false' => [
-        [ false ],
+        [false],
         ['required'],
     ],
     'closure = true' => [
-        [ fn () => true ],
+        [fn () => true],
         [],
     ],
     'closure = false' => [
-        [ fn () => false ],
+        [fn () => false],
         ['required'],
     ],
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         ['required_unless:foo,bar'],
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         ['required_unless:foo,bar,baz,biz'],
     ],
 ]);
@@ -1772,11 +1772,11 @@ it('applies the required_with rule', function (array $arguments, string $expect)
         ]);
 })->with([
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         'required_with:foo,bar',
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         'required_with:foo,bar,baz,biz',
     ],
 ]);
@@ -1791,11 +1791,11 @@ it('applies the required_with_all rule', function (array $arguments, string $exp
         ]);
 })->with([
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         'required_with_all:foo,bar',
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         'required_with_all:foo,bar,baz,biz',
     ],
 ]);
@@ -1810,11 +1810,11 @@ it('applies the required_without rule', function (array $arguments, string $expe
         ]);
 })->with([
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         'required_without:foo,bar',
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         'required_without:foo,bar,baz,biz',
     ],
 ]);
@@ -1829,11 +1829,11 @@ it('applies the required_without_all rule', function (array $arguments, string $
         ]);
 })->with([
     'field + one value' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         'required_without_all:foo,bar',
     ],
     'field + multiple values' => [
-        [ 'foo', 'bar', 'baz', 'biz', ],
+        ['foo', 'bar', 'baz', 'biz',],
         'required_without_all:foo,bar,baz,biz',
     ],
 ]);
@@ -1848,11 +1848,11 @@ it('applies the required_array_keys rule', function (array $arguments, string $e
         ]);
 })->with([
     'one key' => [
-        [ 'foo' ],
+        ['foo'],
         'required_array_keys:foo',
     ],
     'two keys' => [
-        [ 'foo', 'bar', ],
+        ['foo', 'bar',],
         'required_array_keys:foo,bar',
     ],
 ]);
@@ -1906,11 +1906,11 @@ it('applies the starts_with rule', function (array $arguments, string $expect) {
         ]);
 })->with([
     'single argument' => [
-        [ 'foo' ],
+        ['foo'],
         'starts_with:foo'
     ],
     'mulitple argument' => [
-        [ 'foo', 'bar' ],
+        ['foo', 'bar'],
         'starts_with:foo,bar'
     ]
 ]);
@@ -1939,11 +1939,11 @@ it('applies the timezone rule', function () {
         'timezone',
     ],
     'group argument' => [
-        [ 'PACIFIC' ],
+        ['PACIFIC'],
         'timezone:PACIFIC',
     ],
     'group + country arguments' => [
-        [ 'PER_COUNTRY', 'NZ', ],
+        ['PER_COUNTRY', 'NZ',],
         'timezone:PACIFIC,NZ',
     ],
 ]);
@@ -1958,7 +1958,7 @@ it('applies the unique rule', function (array $arguments, string $expect) {
         ]);
 })->with([
     'Unique object' => [
-        [ new Unique('users', 'email'), ],
+        [new Unique('users', 'email'),],
         'unique:users,email,NULL,id',
     ],
     'table parameter' => [
@@ -2008,7 +2008,7 @@ it('applies the url rule', function (array $arguments, string $expect) {
         'url',
     ],
     'http and https' => [
-        [ 'http', 'https' ],
+        ['http', 'https'],
         'url:http,https',
     ],
 ]);

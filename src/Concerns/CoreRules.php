@@ -19,6 +19,7 @@ use Illuminate\Validation\Rules\ProhibitedIf;
 use Illuminate\Validation\Rules\RequiredIf;
 use Illuminate\Validation\Rules\Unique;
 use ReflectionProperty;
+use UnitEnum;
 
 /**
  * This trait represents every core validation rule found within
@@ -543,9 +544,9 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-in
      */
-    public function in(string ...$values): static
+    public function in(string|UnitEnum ...$values): static
     {
-        return $this->rule('in' . static::arguments($values));
+        return $this->rule((string) RuleClass::in($values));
     }
 
     /**
@@ -757,9 +758,9 @@ trait CoreRules
     /**
      * @link https://laravel.com/docs/master/validation#rule-not-in
      */
-    public function notIn(string ...$values): static
+    public function notIn(string|UnitEnum ...$values): static
     {
-        return $this->rule('not_in' . static::arguments($values));
+        return $this->rule((string) RuleClass::notIn($values));
     }
 
     /**
