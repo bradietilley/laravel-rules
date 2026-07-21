@@ -545,7 +545,7 @@ trait CoreRules
      */
     public function in(string ...$values): static
     {
-        return $this->rule((string) RuleClass::in($values));
+        return $this->rule('in' . static::arguments($values));
     }
 
     /**
