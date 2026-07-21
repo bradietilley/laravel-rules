@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.4.0] - 2026-07-21
 
 ### Changed
 
@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Strict mode for numeric rules: `integer(bool $strict = false)`, `numeric(bool $strict = false)`
 - URL protocol restriction: `url(string ...$protocols)`
 - UUID version restriction: `uuid(string|int|null $version = null)`
+- `UnitEnum` support for `in()` and `notIn()`
 
 ### Fixed
 
@@ -41,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Change | Migration |
 | --- | --- |
-| Laravel 11 (and earlier) dropped | Upgrade the application to Laravel 12, then install this major version |
+| Laravel 11 (and earlier) dropped | Upgrade the application to Laravel 12, then install this version |
 | PHP &lt; 8.2 dropped | Run on PHP 8.2 or higher |
 | `illuminate/container` no longer required directly | No action for normal Laravel apps; `illuminate/validation` is required instead |
 | `alphaNumeric()` rule string corrected to `alpha_num` | Update any assertions or custom code that expected `alpha_numeric` |
